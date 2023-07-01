@@ -7,7 +7,7 @@ import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma) as Adapter,
+  adapter: PrismaAdapter(prisma) as Adapter | undefined,
   providers: [
     // OAuth authentication providers...
     Auth0Provider({
