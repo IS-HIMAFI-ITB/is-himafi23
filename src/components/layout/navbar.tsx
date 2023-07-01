@@ -1,3 +1,5 @@
+"use client"
+
 import Image, { ImageProps } from "next/image";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,7 +29,7 @@ interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
     const { scrolled } = useNavbar()
-    return <div className={cn("sticky backdrop-blur bg-background/30 top-0 w-full transition ease-in", scrolled && 'shadow-lg border-b', className)} {...props}>{children}</div>
+    return <div className={cn("sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in", scrolled && 'shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100', className)} {...props}>{children}</div>
 }
 
 const NavbarContent = ({ className, children, ...props }: NavbarProps) => {
@@ -72,7 +74,7 @@ const NavbarDropdown = ({ trigger, children }: NavbarDropdownProps) => {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="bg-transparent">
                         {trigger}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>

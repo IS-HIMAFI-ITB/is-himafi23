@@ -31,7 +31,7 @@ export default function UserAction({ className, loginText = undefined, ...props 
                 <NavigationMenu>
                     <NavigationMenuList>
                         <NavigationMenuItem>
-                            <NavigationMenuTrigger>
+                            <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
                                 <Avatar className={cn(className)} {...props}>
                                     <AvatarImage src={data.user?.image ?? undefined} />
                                     <AvatarFallback>{data.user?.name?.[0] ?? "?"}</AvatarFallback>
