@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('ADMIN', 'MENTOR', 'STUDENT');
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'STUDENT', 'MENTOR', 'GUEST');
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -33,11 +33,11 @@ CREATE TABLE "Session" (
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT,
+    "nim" TEXT,
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
-    "nim" TEXT,
+    "role" "Role" NOT NULL DEFAULT 'GUEST',
     "image" TEXT,
-    "role" "Role" NOT NULL DEFAULT 'STUDENT',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -50,22 +50,13 @@ CREATE TABLE "VerificationToken" (
 );
 
 -- CreateIndex
-CREATE INDEX "Account_userId_idx" ON "Account"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
-CREATE INDEX "Session_userId_idx" ON "Session"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_nim_key" ON "User"("nim");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");
