@@ -7,7 +7,7 @@ import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma) as Adapter,
+  adapter: PrismaAdapter(prisma) as Adapter<boolean>,
   providers: [
     // OAuth authentication providers...
     Auth0Provider({
@@ -21,6 +21,14 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+  callbacks: {
+    session({ session, user }) {
+      session.user.role = user.role;
+      session.user.nim = user.nim;
+      return session;
+    },
   },
 };
