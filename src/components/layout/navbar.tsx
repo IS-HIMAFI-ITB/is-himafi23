@@ -41,7 +41,7 @@ interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
     const { scrolled } = useNavbar()
-    return <div className={cn("sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in", scrolled && 'shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100', className)} {...props}>{children}</div>
+    return <div className={cn("sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in z-50", scrolled && 'shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100', className)} {...props}>{children}</div>
 }
 
 const NavbarContent = ({ className, children, ...props }: NavbarProps) => {
@@ -51,15 +51,10 @@ const NavbarContent = ({ className, children, ...props }: NavbarProps) => {
 interface NavbarBrandProps extends ImageProps { }
 const NavbarBrand = ({ className, children = null, alt, ...props }: NavbarBrandProps) => {
     return (
-        <>
-            {children &&
-                <span className="flex flex-row gap-4 items-center">
-                    <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />
-                    {children}
-                </span>}
-
-            {!children && <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />}
-        </>
+        <span className="flex flex-row gap-4 md:w-1/4 items-center">
+            <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />
+            {children}
+        </span>
     )
 }
 
@@ -113,12 +108,12 @@ const NavbarDropdownLink = ({ className, children, ...props }: NavbarDropdownLin
 }
 
 const NavbarSideMenu = ({ className, children, ...props }: NavbarProps) => {
-    return <div className={cn("flex flex-row gap-4 items-center", className)} {...props}>{children}</div>
+    return <div className={cn("flex flex-row gap-4 justify-end items-center md:w-1/4", className)} {...props}>{children}</div>
 }
 
 export default function Navbar() {
     const { width } = useWindowDimensions()
-    const isMobile = width <= 768
+    const isMobile = width <= 900
 
     return (
         <NavbarContainer>
