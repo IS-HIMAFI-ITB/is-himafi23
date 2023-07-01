@@ -1,12 +1,15 @@
 import NextAuth from "next-auth";
+import { Adapter } from "next-auth/adapters";
 import Auth0Provider from "next-auth/providers/auth0";
 import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "@/prisma";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+
+//import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter<boolean>,
   providers: [
     // OAuth authentication providers...
     Auth0Provider({
@@ -20,7 +23,15 @@ const handler = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+  callbacks: {
+    session({ session, user }) {
+      session.user.role = user.role;
+      session.user.nim = user.nim;
+      return session;
+    },
   },
 });
 
