@@ -1,5 +1,6 @@
 "use client"
 
+import { MenuIcon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,9 +18,20 @@ import {
     navigationMenuTriggerStyle,
     NavigationMenuViewport
 } from "@/components/ui/navigation-menu";
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger
+} from "@/components/ui/sheet";
 import { useNavbar } from "@/hooks/useNavbar";
+import { useWindowDimensions } from "@/hooks/useWindowDimensions";
 import { cn } from "@/lib/utils";
-import { NavigationMenuLinkProps } from "@radix-ui/react-navigation-menu";
+import {
+    NavigationMenuLinkProps,
+    NavigationMenuProps
+} from "@radix-ui/react-navigation-menu";
 
 import ThemeSwitch from "../theme-switch";
 import { Button, ButtonProps } from "../ui/button";
@@ -33,15 +45,20 @@ const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
 }
 
 const NavbarContent = ({ className, children, ...props }: NavbarProps) => {
-    return <div className={cn("container py-4 flex flex-row items-center justify-evenly", className)} {...props}>{children}</div>
+    return <div className={cn("container py-4 flex flex-row items-center justify-between", className)} {...props}>{children}</div>
 }
 
 interface NavbarBrandProps extends ImageProps { }
 const NavbarBrand = ({ className, children = null, alt, ...props }: NavbarBrandProps) => {
     return (
         <>
-            <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />
-            {children}
+            {children &&
+                <span className="flex flex-row gap-4 items-center">
+                    <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />
+                    {children}
+                </span>}
+
+            {!children && <Image {...props} alt={alt} className={cn("hover:cursor-pointer", className)} />}
         </>
     )
 }
@@ -68,10 +85,10 @@ const NavbarLink = ({ className, children, href, ...props }: NavbarLinkProps) =>
     )
 }
 
-interface NavbarDropdownProps { children: React.ReactNode, trigger: React.ReactNode }
-const NavbarDropdown = ({ trigger, children }: NavbarDropdownProps) => {
+interface NavbarDropdownProps extends NavigationMenuProps { children: React.ReactNode, trigger: React.ReactNode }
+const NavbarDropdown = ({ trigger, children, ...props }: NavbarDropdownProps) => {
     return (
-        <NavigationMenu>
+        <NavigationMenu {...props}>
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger className="bg-transparent">
@@ -100,24 +117,73 @@ const NavbarSideMenu = ({ className, children, ...props }: NavbarProps) => {
 }
 
 export default function Navbar() {
+    const { width } = useWindowDimensions()
+    const isMobile = width <= 768
+
     return (
         <NavbarContainer>
             <NavbarContent>
-                <NavbarBrand src={logo} alt="logo" width={32} height={32} />
-                <NavbarItems>
-                    <NavbarLink href="/">Home</NavbarLink>
-                    <NavbarLink href="/materi">Materi</NavbarLink>
-                    <NavbarDropdown trigger="Tentang Kami">
-                        <NavbarDropdownLink href="/#latar-belakang">Latar Belakang</NavbarDropdownLink>
-                        <NavbarDropdownLink href="/#visi-misi">Visi dan Misi</NavbarDropdownLink>
-                        <NavbarDropdownLink href="/#organogram">Organogram</NavbarDropdownLink>
-                    </NavbarDropdown>
-                    <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
-                </NavbarItems>
-                <NavbarSideMenu>
-                    <ThemeSwitch />
-                    <UserAction loginText="Sign In" />
-                </NavbarSideMenu>
+
+                {/* Desktop Navbar */}
+
+                {!isMobile
+                    &&
+                    <>
+                        <NavbarBrand src={logo} alt="logo" width={32} height={32} />
+                        <NavbarItems>
+                            <NavbarLink href="/">Home</NavbarLink>
+                            <NavbarLink href="/materi">Materi</NavbarLink>
+                            <NavbarDropdown trigger="Tentang Kami">
+                                <NavbarDropdownLink href="/#latar-belakang">Latar Belakang</NavbarDropdownLink>
+                                <NavbarDropdownLink href="/#visi-misi">Visi dan Misi</NavbarDropdownLink>
+                                <NavbarDropdownLink href="/#organogram">Organogram</NavbarDropdownLink>
+                            </NavbarDropdown>
+                            <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
+                        </NavbarItems>
+                        <NavbarSideMenu>
+                            <ThemeSwitch />
+                            <UserAction loginText="Sign In" />
+                        </NavbarSideMenu>
+                    </>
+                }
+
+                {/* Mobile Navbar */}
+
+                {isMobile
+                    &&
+                    <>
+                        <Sheet>
+                            <SheetTrigger><MenuIcon /></SheetTrigger>
+                            <SheetContent side={"left"}>
+                                <SheetHeader>
+                                    <SheetTitle>
+                                        <NavbarBrand src={logo} alt="logo" width={32} height={32}>
+                                            <p className="text-base text-left">Intellektuelle Schulle</p>
+                                        </NavbarBrand>
+                                    </SheetTitle>
+                                </SheetHeader>
+                                <NavbarContent className="flex-col gap-4 px-0 items-start">
+                                    <NavbarLink href="/">Home</NavbarLink>
+                                    <NavbarLink href="/materi">Materi</NavbarLink>
+                                    <NavbarDropdown
+                                        tabIndex={0}
+                                        orientation="vertical"
+                                        trigger="Tentang Kami">
+                                        <NavbarDropdownLink href="/#latar-belakang">Latar Belakang</NavbarDropdownLink>
+                                        <NavbarDropdownLink href="/#visi-misi">Visi dan Misi</NavbarDropdownLink>
+                                        <NavbarDropdownLink href="/#organogram">Organogram</NavbarDropdownLink>
+                                    </NavbarDropdown>
+                                    <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
+                                </NavbarContent>
+                            </SheetContent>
+                        </Sheet>
+                        <NavbarSideMenu>
+                            <ThemeSwitch />
+                            <UserAction loginText="Sign In" />
+                        </NavbarSideMenu>
+                    </>
+                }
+
             </NavbarContent>
         </NavbarContainer>
     )
