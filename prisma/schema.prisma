@@ -1,21 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   directUrl         = env("DIRECT_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/d/migrate-shadow
 }
 
-enum Role {
-  ADMIN
-  MENTOR
-  STUDENT
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Account {
@@ -35,7 +26,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@index([userId])
 }
 
 model Session {
@@ -44,18 +34,23 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-  @@index([userId])
+enum Role {
+  ADMIN
+  STUDENT
+  MENTOR
+  GUEST
 }
 
 model User {
   id            String    @id @default(cuid())
   name          String?
+  nim           String?
   email         String?   @unique
   emailVerified DateTime?
-  nim           String?   @unique
+  role          Role      @default(GUEST)
   image         String?
-  role          Role      @default(STUDENT)
   accounts      Account[]
   sessions      Session[]
 }
