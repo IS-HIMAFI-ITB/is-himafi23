@@ -1,13 +1,12 @@
 import NextAuth from "next-auth";
-import { Adapter } from "next-auth/adapters";
 import Auth0Provider from "next-auth/providers/auth0";
 import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "@/prisma";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma) as Adapter | undefined,
+  adapter: PrismaAdapter(prisma),
   providers: [
     // OAuth authentication providers...
     Auth0Provider({
