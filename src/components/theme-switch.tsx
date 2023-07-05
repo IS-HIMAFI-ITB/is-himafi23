@@ -22,11 +22,28 @@ const ThemeSwitch = ({ className, ...props }: ThemeSwitchProps) => {
     }
 
     return (
-        <>
-            {(theme === "dark") ? <Moon {...props} className={cn('hover:cursor-pointer w-6 h-6', className)} onClick={() => setTheme("light")} />
-                : <Sun {...props} className={cn('hover:cursor-pointer w-6 h-6', className)} onClick={() => setTheme("dark")} />}
-        </>
-    )
+      <>
+        {theme === "dark" ? (
+          <Moon
+            {...props}
+            className={cn(
+              "hover:cursor-pointer w-6 h-6 hover:fill-foreground",
+              className
+            )}
+            onClick={() => setTheme("light")}
+          />
+        ) : (
+          <Sun
+            {...props}
+            className={cn(
+              "hover:cursor-pointer w-6 h-6 hover:fill-foreground",
+              className
+            )}
+            onClick={() => setTheme("dark")}
+          />
+        )}
+      </>
+    );
 }
 
 export default ThemeSwitch
