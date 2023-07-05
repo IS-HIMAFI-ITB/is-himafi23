@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { MenuIcon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
