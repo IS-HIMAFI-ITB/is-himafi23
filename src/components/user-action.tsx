@@ -54,6 +54,18 @@ export default function UserAction({
                     Profile
                   </NavigationMenuLink>
                 </Link>
+                {data.user.role === "ADMIN" && (
+                  <Link href={"/dashboard"} passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "w-full justify-start whitespace-nowrap"
+                      )}
+                    >
+                      Dashboard
+                    </NavigationMenuLink>
+                  </Link>
+                )}
                 <Link href={""} onClick={() => signOut()}>
                   <NavigationMenuLink
                     className={cn(
