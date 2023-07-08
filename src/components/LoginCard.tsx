@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { twMerge } from "tailwind-merge";
 import GoogleImage from "./GoogleIcon";
 import Logo from "./Logo";
+import ThemeSwitch from "./theme-switch";
 
 interface LoginCardProps {
   className?: string;
@@ -25,6 +26,7 @@ const LoginCard: React.FC<LoginCardProps> = ({
     return ( 
         <Card className={twMerge('flex-col', className)}>
   <CardHeader>
+    <ThemeSwitch/>
     <div className="flex justify-center items-center"><Logo/></div>
     <CardTitle>Log in</CardTitle>
     <CardDescription>Log in with your account</CardDescription>
