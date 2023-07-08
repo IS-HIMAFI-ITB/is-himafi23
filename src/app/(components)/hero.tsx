@@ -4,6 +4,7 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 import { H1, P } from "@/components/typography";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Contents } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -29,6 +30,18 @@ export default function HeroSection({
   const heroParagraph = data.find(
     (content) => content.name === "hero-paragraph"
   );
+
+  if (isLoading) {
+    return (
+      <section id="hero" className="relative w-full h-full py-12">
+        <Container className="flex flex-col px-24 justify-start items-center h-full">
+          <Skeleton className="w-full h-12" />
+        </Container>
+      </section>
+    );
+  }
+
+  if (isError) return null;
 
   return (
     <section id="hero" className="relative w-full h-full py-12">
