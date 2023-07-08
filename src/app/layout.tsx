@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={font.className}>
+      <body className={`${font.className} overflow-hidden`}>
         <NextAuthProvider>
           <QueryProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
