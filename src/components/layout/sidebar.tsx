@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon } from "lucide-react";
+import { BookOpen, LayoutDashboardIcon, User2Icon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -20,15 +20,15 @@ type SidebarBrandProps = SidebarProps & ImageProps;
 
 const SidebarContainer = ({ children, className, ...props }: SidebarProps) => {
   return (
-    <aside
+    <div
       className={cn(
-        "flex flex-col py-6 px-2 h-full bg-foreground/10 shadow",
+        "flex flex-col py-6 px-2 h-full overflow-y-auto overflow-x-hidden w-fit bg-foreground/10 shadow",
         className
       )}
       {...props}
     >
       {children}
-    </aside>
+    </div>
   );
 };
 
@@ -36,7 +36,7 @@ const SidebarContent = ({ children, className, ...props }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col mt-9 pb-4 justify-start items-start",
+        "flex flex-col gap-4 mt-9 pb-4 justify-start items-center",
         className
       )}
       {...props}
@@ -66,7 +66,7 @@ const SidebarLinks = ({
       <Button
         variant={"link"}
         className={cn(
-          "flex flex-row items-center gap-2 [&>svg]:hover:fill-foreground",
+          "flex flex-row items-center gap-2 [&>svg]:hover:fill-foreground/20",
           className
         )}
         {...props}
@@ -97,6 +97,8 @@ export default function Sidebar() {
       />
       <SidebarContent>
         <SidebarLinks href="/dashboard" icon={<LayoutDashboardIcon />} />
+        <SidebarLinks href="/dashboard/users" icon={<User2Icon />} />
+        <SidebarLinks href="/dashboard/contents" icon={<BookOpen />} />
       </SidebarContent>
     </SidebarContainer>
   );
