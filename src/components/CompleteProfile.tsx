@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { twMerge } from "tailwind-merge";
 import Logo from "./Logo";
 import ThemeSwitch from "./theme-switch";
+import Link from "next/link";
 
 interface CompleteProfileProps {
   className?: string;
@@ -42,10 +43,6 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({
               <Input id="name" placeholder="Masukkan NIM" />
         </div>
         <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Email</Label>
-              <Input id="name" placeholder="Masukkan email" />
-        </div>
-        <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Nomor HP</Label>
               <Input id="name" placeholder="Masukkan nomor HP yang dapat dihubungi" />
         </div>
@@ -55,7 +52,9 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({
   </CardContent>
   <CardFooter>
     <Button>Continue</Button>
-    <Button className="ml-2 bg-slate-400 hover:bg-red-300">Back</Button>
+    <Button asChild className="ml-2 bg-slate-400 hover:bg-red-300">
+      <Link href={'/login'}>Back</Link>
+    </Button>
   </CardFooter>
 </Card>
      );

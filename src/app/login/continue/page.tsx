@@ -5,7 +5,7 @@ import ThemeSwitch from "@/components/theme-switch";
 
 export default function Home() {
   return (
-    <body className="bg-slate-600 h-full w-full bg-contain">    
+    <section className="bg-slate-600 h-full w-full bg-contain">    
         {/* Desktop Navigation */}
             <div className="hidden h-screen md:flex flex-col justify-center items-end order-last">
                 <CompleteProfile className="w-[600px] h-screen"/>
@@ -16,6 +16,6 @@ export default function Home() {
                  <CompleteProfile className="shrink"/>
             </div>
       
-    </body>
+    </section>
   )
 }

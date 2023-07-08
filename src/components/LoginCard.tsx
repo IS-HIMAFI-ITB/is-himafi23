@@ -15,6 +15,7 @@ import { twMerge } from "tailwind-merge";
 import GoogleImage from "./GoogleIcon";
 import Logo from "./Logo";
 import ThemeSwitch from "./theme-switch";
+import Link from "next/link";
 
 interface LoginCardProps {
   className?: string;
@@ -42,7 +43,7 @@ const LoginCard: React.FC<LoginCardProps> = ({
               <Label htmlFor="name">Password</Label>
               <Input id="name" placeholder="Enter your password" />
         </div>
-        
+        <Link href={''} className="text-xs -mt-3 -mb-5 justify-self-end hover:text-slate-400 transition">Forgot Password</Link>
       </div>
     </form>
   </CardContent>
@@ -50,7 +51,7 @@ const LoginCard: React.FC<LoginCardProps> = ({
     <Button>Log in</Button>
     <Button className='ml-4 bg-slate-300 text-black hover:bg-slate-200'>
       <GoogleImage/>
-      <div>Log in with Google</div>
+      <div>Register with Google</div>
     </Button>
   </CardFooter>
 </Card>
