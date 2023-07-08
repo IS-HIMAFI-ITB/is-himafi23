@@ -11,7 +11,13 @@ type NavbarProps = React.HTMLAttributes<HTMLDivElement>;
 
 const NavbarContainer = ({ children, className, ...props }: NavbarProps) => {
   return (
-    <nav className={cn("w-full bg-foreground/5", className)} {...props}>
+    <nav
+      className={cn(
+        "sticky top-0 z-50 w-full bg-foreground/5 backdrop-blur shadow border-b",
+        className
+      )}
+      {...props}
+    >
       {children}
     </nav>
   );
