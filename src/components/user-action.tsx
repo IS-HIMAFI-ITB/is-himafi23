@@ -94,9 +94,9 @@ export default function UserAction({
           className={cn("space-x-2", className)}
           onClick={() => signIn()}
           {...props}
-        >
-          <LogInIcon />
-          <span>{loginText}</span>
+        >        
+            <LogInIcon />
+            <span>{loginText}</span>
         </Button>
       );
 
