@@ -1,9 +1,19 @@
 "use client";
 import { set } from "date-fns";
+import { PencilIcon } from "lucide-react";
 import React, { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast/useToast";
 import { getContentById, getQueryClient, updateContentById } from "@/lib/utils";
 import { Contents } from "@prisma/client";
@@ -57,9 +67,7 @@ export default function ContentItem({ content }: { content: Contents }) {
 
   const queryClient = getQueryClient();
   const [updatedContent, setUpdatedContent] = React.useState(data.content);
-  const [contentValue, setContentValue] = React.useState(
-    updatedContent === data.content ? data.content : updatedContent
-  );
+  const [contentValue, setContentValue] = React.useState(updatedContent);
   const [edit, setEdit] = React.useState(false);
 
   const handleCancel = () => {
@@ -68,17 +76,29 @@ export default function ContentItem({ content }: { content: Contents }) {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <h1 className="font-bold">{data.name}</h1>
+    <Card className="hover:bg-foreground/5">
+      <CardHeader>
+        <CardTitle>{content.name}</CardTitle>
+        {!edit && (
+          <CardDescription className="max-w-2xl">
+            {updatedContent}
+          </CardDescription>
+        )}
+        {edit && (
+          <>
+            <CardDescription className="max-w-2xl">
+              <Textarea
+                defaultValue={updatedContent}
+                onChange={(e) => setContentValue(e.target.value)}
+              />
+            </CardDescription>
+          </>
+        )}
+      </CardHeader>
+
       {edit && (
         <>
-          <Input
-            type="text"
-            placeholder={updatedContent}
-            defaultValue={updatedContent}
-            onChange={(e) => setContentValue(e.target.value)}
-          />
-          <div className="flex flex-row gap-2">
+          <CardFooter className="space-x-3">
             <Button
               variant={"outline"}
               className="w-max"
@@ -89,17 +109,23 @@ export default function ContentItem({ content }: { content: Contents }) {
             <Button className="w-max" onClick={() => mutation.mutate()}>
               Save
             </Button>
-          </div>
+          </CardFooter>
         </>
       )}
+
       {!edit && (
         <>
-          <p>{updatedContent}</p>
-          <Button className="w-max" onClick={() => setEdit(true)}>
-            Edit
-          </Button>
+          <CardFooter>
+            <Button
+              variant={"outline"}
+              className="w-max"
+              onClick={() => setEdit(true)}
+            >
+              Edit content
+            </Button>
+          </CardFooter>
         </>
       )}
-    </div>
+    </Card>
   );
 }
