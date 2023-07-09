@@ -113,6 +113,12 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
+    accessorKey: "phoneNumber",
+    header: ({ column }) => {
+      return <span className="w-max whitespace-nowrap">Phone Number</span>;
+    },
+  },
+  {
     accessorKey: "email",
     header: "Email",
   },
@@ -147,6 +153,7 @@ export const columns: ColumnDef<User>[] = [
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => console.log(user.nim)}>

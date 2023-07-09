@@ -29,6 +29,7 @@ model User {
   name          String
   nim           String?
   role          Role      @default(GUEST)
+  phoneNumber   String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
