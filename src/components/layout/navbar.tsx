@@ -235,7 +235,7 @@ export default function Navbar() {
       return (
         <NavbarContainer>
           <NavbarContent>
-            <NavbarBrand src={logo} alt="logo" width={32} height={32} />
+            <NavbarBrand src={logo} alt="logo" width={40} height={40} />
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
               <NavbarLink href="/materi">Materi</NavbarLink>

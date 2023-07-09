@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import { Toaster } from "@/components/ui/toast/toaster";
 import { NextAuthProvider } from "@/context/auth-provider";
+import { QueryProvider } from "@/context/query-provider";
 import { ThemeProvider } from "@/context/theme-provider";
 
 const font = Inter({ subsets: ["latin"] });
@@ -20,12 +21,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={font.className}>
+      <body className={`${font.className} overflow-hidden`}>
         <NextAuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-            <Toaster />
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </QueryProvider>
         </NextAuthProvider>
       </body>
     </html>

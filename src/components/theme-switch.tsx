@@ -26,13 +26,19 @@ const ThemeSwitch = ({ className, ...props }: ThemeSwitchProps) => {
       {theme === "dark" ? (
         <Moon
           {...props}
-          className={cn("hover:cursor-pointer w-6 h-6", className)}
+          className={cn(
+            "hover:cursor-pointer w-6 h-6 hover:fill-foreground",
+            className
+          )}
           onClick={() => setTheme("light")}
         />
       ) : (
         <Sun
           {...props}
-          className={cn("hover:cursor-pointer w-6 h-6", className)}
+          className={cn(
+            "hover:cursor-pointer w-6 h-6 hover:fill-foreground",
+            className
+          )}
           onClick={() => setTheme("dark")}
         />
       )}
