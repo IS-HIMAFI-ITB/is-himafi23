@@ -1,5 +1,3 @@
-import { prisma } from "@/prisma";
-
 // CLIENT SIDE METHODS
 
 export async function getUser(nim?: number, take?: number) {
