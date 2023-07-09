@@ -67,17 +67,20 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex sm:flex-row flex-col-reverse gap-2 justify-between items-start sm:items-center py-4">
+        {/* Search Input */}
         <Input
           placeholder="Cari berdasarkan NIM"
           value={(table.getColumn("nim")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("nim")?.setFilterValue(event.target.value)
           }
-          className="max-w-max"
+          className="w-full sm:max-w-max"
         />
+
+        {/* Filter Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="max-w-max">
+            <Button variant="outline" className="w-full sm:max-w-max">
               Filter <FilterIcon className="ml-2" size={16} />
             </Button>
           </DropdownMenuTrigger>
@@ -102,8 +105,11 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      {/* Bagian Tabel */}
       <div className="rounded-md border">
         <Table>
+          {/* Table Header */}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -122,6 +128,8 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
+
+          {/* Table Body */}
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -152,11 +160,16 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
+      {/* Bagian bawah tabel */}
       <div className="flex flex-row items-center flex-wrap-reverse justify-between">
+        {/* Bagian row x/x selected */}
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
+
+        {/* Bagian pagination */}
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
             variant="outline"
