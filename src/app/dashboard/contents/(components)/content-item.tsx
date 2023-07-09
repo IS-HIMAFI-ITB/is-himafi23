@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast/useToast";
-import { getContentById, getQueryClient, updateContentById } from "@/lib/utils";
+import { getContentById, updateContentById } from "@/lib/client-fetch";
+import { getQueryClient } from "@/lib/utils";
 import { Contents } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 

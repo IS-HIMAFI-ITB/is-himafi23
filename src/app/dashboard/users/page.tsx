@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getUser } from "@/lib/utils";
+import { getUser } from "@/lib/client-fetch";
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
