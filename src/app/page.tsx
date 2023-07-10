@@ -36,9 +36,6 @@ export default function Home() {
             voluptatibus, exercitationem aliquid? Id eos omnis aspernatur
             tenetur aut cupiditate ipsa velit.
           </P>
-          <div className="my-5">
-            <Slider />
-          </div>
         </Container>
       </section>
     </>
