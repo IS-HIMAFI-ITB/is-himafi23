@@ -5,13 +5,9 @@ import React from "react";
 import Container from "@/components/layout/container";
 import { H1, P } from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getContents } from "@/lib/client-fetch";
 import { Contents } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-
-async function getContents() {
-  const res = await fetch("/api/contents").then((res) => res.json());
-  return res;
-}
 
 export default function HeroSection({
   contents,
