@@ -30,6 +30,7 @@ export default function DashboardLayout({
     <div className="h-screen overflow-hidden">
       <div className="flex h-full">
         <Sidebar />
+
         <div className="w-full overflow-y-auto">
           <DashboardNavbar />
           <Container className="py-12">{children}</Container>
