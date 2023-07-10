@@ -1,3 +1,5 @@
+"use client";
+
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import { generateComponents } from "@uploadthing/react";
 

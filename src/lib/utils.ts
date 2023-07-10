@@ -1,3 +1,5 @@
+"use client";
+
 import { ClassValue, clsx } from "clsx";
 import { cache } from "react";
 import { twMerge } from "tailwind-merge";
