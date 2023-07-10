@@ -7,7 +7,6 @@ import Container from "@/components/layout/container";
 import Sidebar from "@/components/layout/sidebar";
 import Loading from "@/components/template/loading";
 import Unauthenticated from "@/components/template/unauthenticated";
-import { H1 } from "@/components/typography";
 
 import DashboardNavbar from "./(components)/dashboard-navbar";
 
@@ -22,11 +21,7 @@ export default function DashboardLayout({
     case "authenticated":
       break;
     case "loading":
-      return (
-        <div className="flex flex-col items-center justify-center w-full h-screen">
-          <H1 className="text-center">Loading...</H1>
-        </div>
-      );
+      return <Loading />;
     case "unauthenticated":
       return <Unauthenticated />;
   }
