@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Slider from "@/components/home-slider";
 import hero from "@/../public/images/hero.png";
 import Container from "@/components/layout/container";
 import Navbar from "@/components/layout/navbar";
@@ -36,6 +36,9 @@ export default function Home() {
             voluptatibus, exercitationem aliquid? Id eos omnis aspernatur
             tenetur aut cupiditate ipsa velit.
           </P>
+          <div className="my-5">
+            <Slider />
+          </div>
         </Container>
       </section>
     </>
