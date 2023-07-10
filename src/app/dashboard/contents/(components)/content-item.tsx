@@ -1,18 +1,14 @@
 "use client";
-import { set } from "date-fns";
-import { PencilIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast/useToast";
 import { getContentById, updateContentById } from "@/lib/client-fetch";
@@ -25,6 +21,7 @@ export default function ContentItem({ content }: { content: Contents }) {
     queryKey: ["content", content.id],
     queryFn: () => getContentById(content.id),
     initialData: content,
+    refetchInterval: 1000 * 60 * 60, // 1 hour
   });
 
   const mutation = useMutation({

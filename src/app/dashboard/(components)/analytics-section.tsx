@@ -40,6 +40,7 @@ export default function AnalyticsSection({
       userCount: initialUserCount,
       postCount: initialPostCount,
     },
+    refetchInterval: 1000 * 60 * 60, // 1 hour
   });
 
   const { data: latestUsers, isLoading: latestUsersIsLoading } = useQuery<
@@ -49,6 +50,7 @@ export default function AnalyticsSection({
     queryKey: ["users", { limit: 5 }],
     queryFn: () => getUser(undefined, 5),
     initialData: initialLatestUsers,
+    refetchInterval: 1000 * 60 * 60, // 1 hour
   });
 
   return (
