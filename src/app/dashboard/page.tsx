@@ -3,7 +3,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 
-import { H1, P } from "@/components/typography";
+import { H1 } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -15,26 +15,14 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getAnalytics, getUser } from "@/lib/server-fetch";
 
-function Greetings() {
-  const time = new Date().getHours();
-
-  if (time <= 12 && time > 6) return "Selamat Pagii!🌞";
-  else if (time > 12 && time < 15) return "Selamat Siang!🌤️";
-  else if (time < 18 && time > 15) return "Selamat Soree!🌤️";
-  else return "Selamat Malam!🌙";
-}
+import GreetingsSection from "./(components)/greetings";
 
 export default async function Dashboard() {
   const { userCount, postCount } = await getAnalytics();
   const latestUsers = await getUser(5);
   return (
     <>
-      <div className="flex flex-col">
-        <H1>{Greetings()}</H1>
-        <P>
-          Kamu bisa mengatur isi konten, akun peserta dan sebagainya di sini.
-        </P>
-      </div>
+      <GreetingsSection />
       <Separator className="my-6" />
       <div className="flex flex-col gap-6">
         <div className="flex sm:flex-row flex-col w-full gap-6">
