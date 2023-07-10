@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Slider from "@/components/home-slider";
 import hero from "@/../public/images/hero.png";
 import Navbar from "@/components/layout/navbar";
 import { prisma } from "@/prisma";
