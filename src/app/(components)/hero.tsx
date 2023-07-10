@@ -30,8 +30,9 @@ export default function HeroSection({
   if (isLoading) {
     return (
       <section id="hero" className="relative w-full h-full py-12">
-        <Container className="flex flex-col px-24 justify-start items-center h-full">
-          <Skeleton className="w-full h-12" />
+        <Container className="flex flex-col gap-6 px-24 justify-start items-center h-full">
+          <Skeleton className="w-3/4 h-16" />
+          <Skeleton className="w-1/2 h-16" />
         </Container>
       </section>
     );
