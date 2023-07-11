@@ -42,10 +42,16 @@ interface LoginCardProps {
 }
 
 const loginSchema = z.object({
-  nim: z.coerce
-    .number()
-    .gte(10221000, "NIM must be in range of 10221000-10222120")
-    .lte(10222120, "NIM must be in range of 10221000-10222120"),
+  nim: z.union([
+    z.coerce
+      .number()
+      .gte(10221000, "Format NIM salah")
+      .lte(10222120, "Format NIM salah"),
+    z.coerce
+      .number()
+      .gte(16022001, "Format NIM salah")
+      .lte(16022999, "Format NIM salah"),
+  ]),
   password: z.string().nonempty("Password must not be empty"),
 });
 
