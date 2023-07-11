@@ -21,6 +21,12 @@ interface Analytics {
   postCount: string | number;
 }
 
+/**
+ *
+ * @param initialUserCount Jumlah user yang terdaftar di aplikasi, diambil dari server side props.
+ * @param initialPostCount Jumlah konten yang ada di halaman depan, diambil dari server side props.
+ * @param initialLatestUsers Data user terbaru yang terdaftar di aplikasi, diambil dari server side props.
+ */
 export default function AnalyticsSection({
   initialUserCount,
   initialPostCount,
@@ -30,6 +36,12 @@ export default function AnalyticsSection({
   initialPostCount: string | number;
   initialLatestUsers: User[];
 }) {
+  /**
+   * @description Mengambil data analytics dari database. Data analytics berisi jumlah user dan jumlah konten yang ada di halaman depan.
+   * @returns {userCount: number, postCount: number}
+   * @returns Jika error, {error: "Error message"}
+   * @example {userCount: 10, postCount: 5}
+   */
   const { data: analytics, isLoading: analyticsIsLoading } = useQuery<
     Analytics,
     Error
@@ -43,6 +55,11 @@ export default function AnalyticsSection({
     refetchInterval: 1000 * 60 * 60, // 1 hour
   });
 
+  /**
+   * @description Mengambil data user terbaru yang terdaftar di aplikasi. Data user terbaru diambil dari database, kemudian diurutkan berdasarkan tanggal dibuatnya akun, kemudian diambil 5 data teratas.
+   * @returns data: User[]
+   * @returns Jika error, {error: "Error message"}
+   */
   const { data: latestUsers, isLoading: latestUsersIsLoading } = useQuery<
     User[],
     Error

@@ -33,28 +33,41 @@ export const authOptions: AuthOptions = {
         nim: { label: "NIM", type: "text", placeholder: "NIM" },
         password: { label: "Password", type: "password" },
       },
+      /**
+       * @description Authorize user
+       * @param credentials as {nim: string, password: string}
+       * @returns user as {nim: string, email: string, role: Role, image: string, name: string}
+       */
       async authorize(credentials) {
+        /** Set credential menjadi {nim: string, password: string} */
         const { nim, password } = credentials as {
           nim: string;
           password: string;
         };
 
+        /** Jika tidak ada input NIM atau password dari user, throw error */
         if (!nim || !password) throw new Error("Please enter all fields");
 
+        /** Cari user di database dengan NIM dari input user, jika tidak ada akan mengembalikan nilai null. */
         const user = await prisma.user
           .findUnique({
             where: { nim: nim },
           })
           .catch(() => null);
 
+        /** Jika user tidak ditemukan, throw error */
         if (!user) throw new Error(`We cant find user with nim ${nim}`);
+
+        /** Jika user tidak memiliki password, throw error */
         if (!user.passwordHash) throw new Error("User has no password");
 
-        // validate password
+        /** Di sini kita akan membandingkan password yang diinput user dengan hash password yang ada di database. */
         const isMatch = await bcrypt.compare(password, user.passwordHash);
 
+        /** Jika password tidak cocok, throw error */
         if (!isMatch) throw new Error("Invalid credentials");
 
+        /** Di sini harus pake as any karena ada masalah sama next-auth, solusi alternatifnya disable react strict mode tapi mending pake as any. */
         return user as any;
       },
     }),

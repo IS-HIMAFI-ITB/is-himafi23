@@ -4,6 +4,12 @@ import React from "react";
 
 import { H1, P } from "@/components/typography";
 
+/**
+ * @name Greetings
+ * @description Fungsi untuk menampilkan ucapan selamat pagi, siang, sore, atau malam berdasarkan waktu saat ini.
+ * @returns Ucapan selamat pagi, siang, sore, atau malam.
+ * @example "Selamat Pagi!"
+ */
 function Greetings() {
   const time = new Date().getHours();
 

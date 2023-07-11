@@ -16,9 +16,12 @@ import ContentItem from "./content-item";
 
 export default function ContentSearch({ contents }: { contents: Contents[] }) {
   const [search, setSearch] = React.useState("");
+
+  /** Ini untuk melakukan searching konten, kondisi awal parameter search tidak ada, sehingga seluruh konten ditampilkan */
   const [filteredContents, setFilteredContents] =
     React.useState<Contents[]>(contents);
 
+  /** Kapanpun contents dan search berubah, filteredContents akan diganti dengan nama konten yang mengandung parameter search, kemudian data yang ditampilkan diurut berdasarkan abjad pada judul konten. */
   useEffect(() => {
     setFilteredContents(
       contents
@@ -46,6 +49,7 @@ export default function ContentSearch({ contents }: { contents: Contents[] }) {
         />
       </div>
 
+      {/** Jika tidak ada konten, maka tampilkan Card yang menyatakan tidak ada data yang ditemkan */}
       {filteredContents.length === 0 && (
         <Card>
           <CardHeader>
@@ -57,6 +61,7 @@ export default function ContentSearch({ contents }: { contents: Contents[] }) {
         </Card>
       )}
 
+      {/** Jika ada konten, maka tampilkan konten */}
       {filteredContents.map((content) => {
         return <ContentItem key={content.id} content={content} />;
       })}

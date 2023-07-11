@@ -18,6 +18,7 @@ import GreetingsSection from "./(components)/greetings";
 
 export default async function Dashboard() {
   const { userCount, postCount } = await getAnalytics();
+  /** Ambil 5 user yang terakhir terdaftar. */
   const latestUsers = await getUser(5);
   return (
     <>

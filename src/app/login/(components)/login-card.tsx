@@ -41,6 +41,11 @@ interface LoginCardProps {
   className?: string;
 }
 
+/**
+ * @name loginSchema
+ * @description Schema untuk validasi form login. NIM harus mengikuti format NIM jurusan (10221xxx - 10222120) atau NIM TPB (16022001 - 16022999). Password tidak boleh kosong.
+ * @example {nim: 10221001, password: "password"}
+ */
 const loginSchema = z.object({
   nim: z.union([
     z.coerce
@@ -59,20 +64,35 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
   const router = useRouter();
   const { status } = useSession();
   const [loading, setLoading] = useState(false);
+
+  /** Inisialisasi useForm dengan resolver zodResolver, menggunakan schema loginSchema. */
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
 
   const { toast } = useToast();
 
+  /**
+   * @name onSubmit
+   * @description Saat tombol login ditekan oleh user, langsung lakukan prosedur login dengan provider "credentials", menggunakan data dari form.
+   * @param data Data yang dikirim dari form login, atau user input.
+   * @returns Tidak ada, hanya mengubah status loading.
+   * @see https://next-auth.js.org/getting-started/client#signin
+   */
   async function onSubmit(data: z.infer<typeof loginSchema>) {
+    /**
+     * Set status loading menjadi true, untuk menunjukkan bahwa proses login sedang berlangsung.
+     */
     setLoading(true);
+
+    /** Tunggu hasil dari signIn. Jika berhasil maka akan dilakukan redirect ke halaman awal, sebaliknya jika ada error maka user tidak akan redirect kemanapun. */
     const res = await signIn("credentials", {
       redirect: false,
       callbackUrl: "/",
       ...data,
     });
 
+    /** Jika terdapat error dari sign in, maka status loading menjadi false, dan toast akan ditampilkan. User akan tetap berada di halaman login. */
     if (res?.error) {
       setLoading(false);
       toast({
@@ -83,8 +103,13 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     }
   }
 
+  /** Jika loading tampilkan komponen loading (spinner) */
   if (status === "loading") return <Loading />;
 
+  /**
+   * Cek status session, jika "authenticated" maka redirect ke halaman utama.
+   * @see https://next-auth.js.org/getting-started/client#session
+   */
   if (status === "authenticated") {
     router.replace("/");
     return (
@@ -97,6 +122,9 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     );
   }
 
+  /**
+   * Jika session tidak ada atau "unauthenticated", maka tampilkan halaman login.
+   */
   return (
     <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
       <CardHeader>

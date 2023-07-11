@@ -10,6 +10,11 @@ import Unauthenticated from "@/components/template/unauthenticated";
 
 import DashboardNavbar from "./(components)/dashboard-navbar";
 
+/**
+ * @name DashboardLayout
+ * @description Layout untuk dashboard. Layout ini akan menampilkan sidebar dan navbar di setiap halaman dashboard.
+ * @example <DashboardLayout>...</DashboardLayout>
+ */
 export default function DashboardLayout({
   children,
 }: {

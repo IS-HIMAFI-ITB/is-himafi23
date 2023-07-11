@@ -1,6 +1,4 @@
 "use client";
-
-import { useSession } from "next-auth/react";
 import React from "react";
 
 import ThemeSwitch from "@/components/theme-switch";
@@ -9,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 type NavbarProps = React.HTMLAttributes<HTMLDivElement>;
 
+/** Bagian belakang navbar yang memanjang sampai ujung layar. Ini tidak mempengaruhi posisi konten dalam navbar. */
 const NavbarContainer = ({ children, className, ...props }: NavbarProps) => {
   return (
     <nav
@@ -23,6 +22,7 @@ const NavbarContainer = ({ children, className, ...props }: NavbarProps) => {
   );
 };
 
+/** Ini div yang mengatur posisi konten pada navbar */
 const NavbarContent = ({ children, className, ...props }: NavbarProps) => {
   return (
     <div
@@ -37,6 +37,7 @@ const NavbarContent = ({ children, className, ...props }: NavbarProps) => {
   );
 };
 
+/** Ini bagian tombol navbar di sebelah kanan */
 const NavbarAction = ({ children, className, ...props }: NavbarProps) => {
   return (
     <div
@@ -52,7 +53,6 @@ const NavbarAction = ({ children, className, ...props }: NavbarProps) => {
 };
 
 export default function DashboardNavbar() {
-  const { data: session } = useSession();
   return (
     <NavbarContainer>
       <NavbarContent>
