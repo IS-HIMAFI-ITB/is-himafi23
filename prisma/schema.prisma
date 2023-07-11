@@ -27,8 +27,9 @@ model Contents {
 model User {
   id            String    @id @default(uuid())
   name          String
-  nim           String?
+  nim           String?   @unique
   role          Role      @default(GUEST)
+  passwordHash  String?
   phoneNumber   String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
