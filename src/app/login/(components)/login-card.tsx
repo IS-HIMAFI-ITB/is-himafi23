@@ -1,9 +1,10 @@
 "use client";
 
+import { Loader2Icon } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
@@ -12,7 +13,7 @@ import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
 import Loading from "@/components/template/loading";
 import ThemeSwitch from "@/components/theme-switch";
-import { H1 } from "@/components/typography";
+import { H1, P } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -51,19 +52,29 @@ const loginSchema = z.object({
 const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
   const router = useRouter();
   const { status } = useSession();
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
 
   const { toast } = useToast();
 
-  function onSubmit(data: z.infer<typeof loginSchema>) {
-    toast({
-      title: "Logging in...",
-      description:
-        "Tahukah kamu bahwa Prof. Ir. R.O Kosasih adalah rektor pertama ITB? Beliau merupakan guru besar Teknik Elektro.",
+  async function onSubmit(data: z.infer<typeof loginSchema>) {
+    setLoading(true);
+    const res = await signIn("credentials", {
+      redirect: false,
+      callbackUrl: "/",
+      ...data,
     });
-    signIn("credentials", { callbackUrl: "/", ...data });
+
+    if (res?.error) {
+      setLoading(false);
+      toast({
+        title: "Failed to login",
+        description: res.error,
+        variant: "destructive",
+      });
+    }
   }
 
   if (status === "loading") return <Loading />;
@@ -74,6 +85,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
       <Container>
         <div className="flex flex-col justify-center items-center h-screen">
           <H1>You are already logged in</H1>
+          <P>Please wait, we are redirecting you</P>
         </div>
       </Container>
     );
@@ -131,7 +143,9 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
             </Button>
           </CardContent>
           <CardFooter>
-            <Button type="submit">Log in</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? <Loader2Icon className="animate-spin" /> : "Log in"}
+            </Button>
             <Button variant={"secondary"} className="ml-4">
               <GoogleImage height={20} width={20} />
               <span>Register with Google</span>
