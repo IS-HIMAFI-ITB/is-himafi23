@@ -6,7 +6,7 @@ import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import logo from "@/../public/logo.svg";
+import logo from "@/../public/logo-bulet.svg";
 import {
   NavigationMenu,
   NavigationMenuContent,

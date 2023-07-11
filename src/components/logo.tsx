@@ -1,7 +1,10 @@
+"use client";
+
+import { useTheme } from "next-themes";
 import Image from "next/image";
 
-import logo from "@/../public/logo.svg";
-import { cn } from "@/lib/utils";
+import logo from "@/../public/logo-bulet.svg";
+import logoDark from "@/../public/logo.svg";
 
 interface LogoProps {
   width: number;
@@ -9,29 +12,13 @@ interface LogoProps {
   src?: string;
   alt?: string;
   className?: string;
-  withBackground?: boolean;
 }
-const Logo = ({
-  width,
-  height,
-  src = logo,
-  className,
-  alt = "logo",
-  withBackground = false,
-  ...props
-}: LogoProps) => {
-  if (withBackground) {
-    return (
-      <div className={cn(`rounded-full dark:bg-foreground p-3`, className)}>
-        <Image src={src} alt={alt} width={width} height={height} />
-      </div>
-    );
-  }
-
+const Logo = ({ width, height, src, className, alt = "logo" }: LogoProps) => {
+  const { theme } = useTheme();
   return (
     <Image
       className={className}
-      src={src}
+      src={src ? src : theme === "dark" ? logoDark : logo}
       alt={alt}
       width={width}
       height={height}
