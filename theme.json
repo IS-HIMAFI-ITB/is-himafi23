@@ -940,16 +940,16 @@
       },
       "value": "#fadb62",
       "light": {
-        "color": "#705d00",
-        "onColor": "#ffffff",
-        "colorContainer": "#ffe16f",
-        "onColorContainer": "#221b00"
+        "color": "hsl(49.8, 100%, 22%)",
+        "onColor": "hsl(0, 0%, 100%)",
+        "colorContainer": "hsl(47.5, 100%, 71.8%)",
+        "onColorContainer": "hsl(47.6, 100%, 6.7%)"
       },
       "dark": {
-        "color": "#e3c54a",
-        "onColor": "#3a3000",
-        "colorContainer": "#544600",
-        "onColorContainer": "#ffe16f"
+        "color": "hsl(48.2, 73.2%, 59%)",
+        "onColor": "hsl(49.7, 100%, 11.4%)",
+        "colorContainer": "hsl(50, 100%, 16.5%)",
+        "onColorContainer": "hsl(47.5, 100%, 71.8%)"
       },
       "palettes": {
         "primary": {
@@ -1083,16 +1083,16 @@
       },
       "value": "#fe995a",
       "light": {
-        "color": "#97480d",
-        "onColor": "#ffffff",
-        "colorContainer": "#ffdbc9",
-        "onColorContainer": "#321200"
+        "color": "hsl(25.7, 84.1%, 32.2%)",
+        "onColor": "hsl(0, 0%, 100%)",
+        "colorContainer": "hsl(20, 100%, 89.4%)",
+        "onColorContainer": "hsl(21.6, 100%, 9.8%)"
       },
       "dark": {
-        "color": "#ffb68c",
-        "onColor": "#532200",
-        "colorContainer": "#753400",
-        "onColorContainer": "#ffdbc9"
+        "color": "hsl(21.9, 100%, 77.5%)",
+        "onColor": "hsl(24.6, 100%, 16.3%)",
+        "colorContainer": "hsl(26.7, 100%, 22.9%)",
+        "onColorContainer": "hsl(20, 100%, 89.4%)"
       },
       "palettes": {
         "primary": {
