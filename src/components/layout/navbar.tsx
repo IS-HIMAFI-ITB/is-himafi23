@@ -111,8 +111,8 @@ const NavbarLink = ({
   return (
     <Button
       {...props}
-      variant={"link"}
-      className={cn("hover:cursor-pointer", active && "underline", className)}
+      variant={"ghost"}
+      className={cn("hover:cursor-pointer", active && "shadow-md", className)}
       asChild
     >
       <Link href={href}>{children}</Link>
@@ -235,7 +235,15 @@ export default function Navbar() {
       return (
         <NavbarContainer>
           <NavbarContent>
-            <NavbarBrand src={logo} alt="logo" width={40} height={40} />
+            <NavbarBrand src={logo} alt="logo" width={40} height={40}>
+              {/* <p className="font-bold leading-tight tracking-wider">
+                IS HIMAFI 23
+                <br />
+                <span className="text-xs font-light tracking-normal">
+                  Intellektuelle Schulle
+                </span>
+              </p> */}
+            </NavbarBrand>
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
               <NavbarLink href="/materi">Materi</NavbarLink>

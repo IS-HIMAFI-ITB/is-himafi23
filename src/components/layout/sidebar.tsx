@@ -3,7 +3,7 @@ import Image, { ImageProps } from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import logo from "@/../public/logo.svg";
+import logo from "@/../public/logo-bulet.svg";
 import { cn } from "@/lib/utils";
 
 import { Button, ButtonProps } from "../ui/button";
@@ -22,7 +22,7 @@ const SidebarContainer = ({ children, className, ...props }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "flex flex-col py-6 px-2 h-full overflow-y-auto overflow-x-hidden w-fit bg-foreground/10 shadow",
+        "flex flex-col py-6 px-2 h-full overflow-y-auto overflow-x-hidden w-fit bg-card border-r shadow",
         className
       )}
       {...props}
@@ -66,7 +66,7 @@ const SidebarLinks = ({
       <Button
         variant={"link"}
         className={cn(
-          "flex flex-row items-center gap-2 [&>svg]:hover:fill-foreground/20",
+          "flex flex-row items-center gap-2 [&>svg]:hover:scale-110 transition ease-out",
           className
         )}
         {...props}
