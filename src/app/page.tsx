@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Slider from "@/components/home-slider";
+
 import hero from "@/../public/images/hero.png";
+import Slider from "@/components/home-slider";
 import Navbar from "@/components/layout/navbar";
 import { prisma } from "@/prisma";
 import { Contents } from "@prisma/client";
@@ -23,12 +24,12 @@ export default async function Home() {
           src={hero}
           alt="hero"
           fill
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover", filter: "brightness(0.5)" }}
           className="relative"
         />
-        <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
+        {/* <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" /> */}
         <div className="absolute w-full h-full bg-gradient-to-b from-background/30 to-transparent" />
-        <div className="absolute dark w-full h-full bg-background/5" />
+        {/* <div className="absolute dark w-full h-full bg-background/5" /> */}
       </section>
       <HeroSection contents={contents} />
     </>
