@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UploadDropzone, UploadButton } from "@/components/upload-button";
+import { UploadDropzone } from "@/components/upload-button";
 import Logo from "@/components/logo";
 import ThemeSwitch from "@/components/theme-switch";
 import { twMerge } from "tailwind-merge";
@@ -17,14 +17,15 @@ import "@uploadthing/react/styles.css";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import UserAction from "@/components/user-action";
-import Loading from "@/components/template/loading";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/toast/useToast";
 
 interface DropFileProps {
   className?: string;
 }
 
 const DropFile: React.FC<DropFileProps> = ({ className }) => {
+  const { toast } = useToast();
   const { status } = useSession();
 
   if (status == "loading") {
@@ -63,7 +64,24 @@ const DropFile: React.FC<DropFileProps> = ({ className }) => {
         <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5 border-dashed border-2 p-4 pt-2 rounded-md border-primary/20">
-              <UploadDropzone endpoint="fileUploader" />
+              <UploadDropzone
+                endpoint="fileUploader"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  toast({
+                    title: "Upload Successful",
+                    description: "Your files have been uploaded",
+                  });
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  toast({
+                    title: "Upload failed",
+                    description: "There was a problem with your upload",
+                    variant: "destructive",
+                  });
+                }}
+              />
             </div>
           </div>
           <CardDescription className="text-xs mt-2">
