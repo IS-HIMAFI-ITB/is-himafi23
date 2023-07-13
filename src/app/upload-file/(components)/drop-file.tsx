@@ -7,11 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UploadDropzone } from "@/components/upload-button";
+import { UploadDropzone, UploadButton } from "@/components/upload-button";
 import Logo from "@/components/logo";
 import ThemeSwitch from "@/components/theme-switch";
 import { twMerge } from "tailwind-merge";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
+import "@uploadthing/react/styles.css";
+import Link from "next/link";
 
 interface DropFileProps {
   className?: string;
@@ -29,17 +30,19 @@ const DropFile: React.FC<DropFileProps> = ({ className }) => {
         <CardDescription>Upload and attach your files here</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <UploadDropzone endpoint="fileUploader" />
-            </div>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5 border-dashed border-2 p-4 pt-2 rounded-md border-primary/20">
+            <UploadDropzone endpoint="fileUploader" />
           </div>
-        </form>
+        </div>
+        <CardDescription className="text-xs mt-2">
+          Format nama: NIM_Nama_Jenis tugas.pdf
+        </CardDescription>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Submit</Button>
+        <Button asChild variant="outline">
+          <Link href={"/"}>Back</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

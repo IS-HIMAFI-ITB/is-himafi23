@@ -21,7 +21,7 @@ const Page = () => {
         <div className="absolute dark w-full h-full bg-background/5" />
       </section>
       <div className="flex items-center justify-center h-screen">
-        <DropFile className="md:w-[450px]" />
+        <DropFile className="md:w-[550px]" />
       </div>
     </>
   );
