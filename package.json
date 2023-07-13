@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "prisma generate && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -47,6 +47,7 @@
     "@typescript-eslint/typescript-estree": "^5.61.0",
     "@uploadthing/react": "^5.1.0",
     "autoprefixer": "10.4.14",
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
@@ -78,6 +79,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.3.0"
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "tailwindcss-bg-patterns": "^0.2.0"
   }
 }

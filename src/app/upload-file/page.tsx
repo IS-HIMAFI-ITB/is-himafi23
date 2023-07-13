@@ -1,10 +1,10 @@
-import CompleteProfile from "./(components)/complete-profile";
-import Image from "next/image";
+import DropFile from "./(components)/drop-file";
 import hero from "@/../public/images/hero.png";
+import Image from "next/image";
 
-export default function Home() {
+const Page = () => {
   return (
-    <section className="h-full w-full bg-contain">
+    <>
       <section
         id="hero-background"
         className="absolute w-full left-0 top-0 p-0 h-screen -z-50"
@@ -20,9 +20,11 @@ export default function Home() {
         <div className="absolute w-full h-full bg-gradient-to-b from-background/30 to-transparent" />
         <div className="absolute dark w-full h-full bg-background/5" />
       </section>
-      <div className="h-screen flex flex-col justify-center items-center md:items-end">
-        <CompleteProfile className="shrink md:shrink-0 md:w-[600px] md:h-screen" />
+      <div className="flex items-center justify-center h-screen">
+        <DropFile className="md:w-[550px]" />
       </div>
-    </section>
+    </>
   );
-}
+};
+
+export default Page;
