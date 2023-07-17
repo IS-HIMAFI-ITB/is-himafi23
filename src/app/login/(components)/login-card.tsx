@@ -8,10 +8,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
-import Loading from "@/components/template/loading";
 import ThemeSwitch from "@/components/theme-switch";
 import { H1, P } from "@/components/typography";
 import { Button } from "@/components/ui/button";
@@ -103,8 +102,31 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     }
   }
 
-  /** Jika loading tampilkan komponen loading (spinner) */
-  if (status === "loading") return <Loading />;
+  /** Jika loading tampilkan skeleton*/
+  if (status === "loading")
+    return (
+      <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
+        <CardHeader>
+          <ThemeSwitch />
+          <div className="flex justify-center items-center">
+            <Logo className="mb-12" width={100} height={100} />
+          </div>
+          <Skeleton className="w-[80px] h-[30px]" />
+          <Skeleton className="w-[150px] h-[20px]" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="w-[75px] h-[20px] mt-1 mb-2" />
+          <Skeleton className="w-full h-[35px] mb-2" />
+          <Skeleton className="w-[75px] h-[20px] mb-2" />
+          <Skeleton className="w-full h-[35px] mb-3" />
+          <Skeleton className="w-[75px] h-[15px] mb-2" />
+        </CardContent>
+        <CardFooter>
+          <Skeleton className="w-[75px] h-[35px] mr-4" />
+          <Skeleton className="w-[150px] h-[35px]" />
+        </CardFooter>
+      </Card>
+    );
 
   /**
    * Cek status session, jika "authenticated" maka redirect ke halaman utama.
