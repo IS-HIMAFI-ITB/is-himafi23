@@ -73,8 +73,6 @@ model User {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   submisiTugas  Submission[]
-
-  @@map("users")
 }
 
 // UNNEDED MODELS TO BE DELETED
