@@ -113,7 +113,7 @@ export default function AnalyticsSection({
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="space-y-4">
           {latestUsersIsLoading ? (
             <Skeleton className="h-20 w-full" />
           ) : (
@@ -127,7 +127,7 @@ export default function AnalyticsSection({
                   <div className="flex flex-col gap-px">
                     <p className="font-bold">{user.name}</p>
                     <p className="text-sm">
-                      {user.email}
+                      {user.nim}
                       <span className="mx-2">&middot;</span>
                       <span className="text-xs">
                         {moment(user.createdAt).format("LLL")}

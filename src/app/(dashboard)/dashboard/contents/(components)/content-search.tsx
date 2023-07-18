@@ -38,6 +38,8 @@ export default function ContentSearch({ contents }: { contents: Contents[] }) {
     );
   }, [search, contents]);
 
+  if (contents.length === 0) return <div>No content!</div>;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row gap-2 items-center">
