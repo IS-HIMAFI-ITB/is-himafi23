@@ -58,11 +58,9 @@ export const authOptions: AuthOptions = {
         /** Jika user tidak ditemukan, throw error */
         if (!user) throw new Error(`We cant find user with nim ${nim}`);
 
-        /** Jika user tidak memiliki password, throw error */
-        if (!user.passwordHash) throw new Error("User has no password");
-
         /** Di sini kita akan membandingkan password yang diinput user dengan hash password yang ada di database. */
-        const isMatch = await bcrypt.compare(password, user.passwordHash);
+        // const isMatch = await bcrypt.compare(password, user.passwordHash);
+        const isMatch = password === user.password;
 
         /** Jika password tidak cocok, throw error */
         if (!isMatch) throw new Error("Invalid credentials");
