@@ -57,7 +57,7 @@ export default function DashboardNavbar() {
     <NavbarContainer>
       <NavbarContent>
         <NavbarAction>
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
           <UserAction loginText="Sign In" />
         </NavbarAction>
       </NavbarContent>

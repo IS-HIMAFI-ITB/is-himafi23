@@ -41,10 +41,12 @@ interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
   const { scrolled } = useNavbar();
+  const isHome = usePathname() === "/";
   return (
-    <div
+    <nav
       className={cn(
-        "sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in z-50",
+        !isHome &&
+          "sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in z-50",
         scrolled &&
           "shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100",
         className
@@ -52,7 +54,7 @@ const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
       {...props}
     >
       {children}
-    </div>
+    </nav>
   );
 };
 
@@ -224,7 +226,7 @@ export default function Navbar() {
               </SheetContent>
             </Sheet>
             <NavbarSideMenu>
-              <ThemeSwitch />
+              {/* <ThemeSwitch /> */}
               <UserAction loginText="Sign In" />
             </NavbarSideMenu>
           </NavbarContent>
@@ -261,7 +263,7 @@ export default function Navbar() {
               <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
             </NavbarItems>
             <NavbarSideMenu>
-              <ThemeSwitch />
+              {/* <ThemeSwitch /> */}
               <UserAction loginText="Sign In" />
             </NavbarSideMenu>
           </NavbarContent>
