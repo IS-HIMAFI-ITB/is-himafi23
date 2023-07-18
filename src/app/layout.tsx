@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { Inter } from "next/font/google";
 
+import Navbar from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/toast/toaster";
 import { NextAuthProvider } from "@/context/auth-provider";
 import { QueryProvider } from "@/context/query-provider";
@@ -21,10 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={`${font.className} overflow-hidden`}>
+      <body
+        className={`${font.className} dark overflow-y-auto min-h-screen h-full`}
+      >
         <NextAuthProvider>
           <QueryProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider attribute="class" defaultTheme="dark">
               {children}
               <Toaster />
             </ThemeProvider>

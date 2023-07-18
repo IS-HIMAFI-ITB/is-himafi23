@@ -24,7 +24,7 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
   return (
     <Card className={twMerge("flex-col p-6", className)}>
       <CardHeader>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <div className="flex justify-center items-center">
           <Logo className="mb-12" width={100} height={100} />
         </div>

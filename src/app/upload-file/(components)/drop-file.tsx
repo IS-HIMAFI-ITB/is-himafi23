@@ -1,5 +1,13 @@
 "use client";
 
+import "@uploadthing/react/styles.css";
+
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { twMerge } from "tailwind-merge";
+
+import Logo from "@/components/logo";
+import ThemeSwitch from "@/components/theme-switch";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,16 +17,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UploadDropzone } from "@/components/upload-button";
-import Logo from "@/components/logo";
-import ThemeSwitch from "@/components/theme-switch";
-import { twMerge } from "tailwind-merge";
-import "@uploadthing/react/styles.css";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import UserAction from "@/components/user-action";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast/useToast";
+import { UploadDropzone } from "@/components/upload-button";
+import UserAction from "@/components/user-action";
 
 interface DropFileProps {
   className?: string;
@@ -32,7 +34,7 @@ const DropFile: React.FC<DropFileProps> = ({ className }) => {
     return (
       <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
         <CardHeader>
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
           <div className="flex justify-center items-center">
             <Logo width={50} height={50} className="mb-2" />
           </div>
@@ -54,7 +56,7 @@ const DropFile: React.FC<DropFileProps> = ({ className }) => {
     return (
       <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
         <CardHeader>
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
           <div className="flex justify-center items-center">
             <Logo width={50} height={50} className="mb-2" />
           </div>
@@ -99,7 +101,7 @@ const DropFile: React.FC<DropFileProps> = ({ className }) => {
   return (
     <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
       <CardHeader>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <div className="flex justify-center items-center">
           <Logo width={50} height={50} className="mb-2" />
         </div>

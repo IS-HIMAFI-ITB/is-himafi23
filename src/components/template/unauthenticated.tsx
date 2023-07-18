@@ -23,7 +23,7 @@ export default function Unauthenticated() {
       </Button>
 
       <Logo width={50} height={50} className="absolute top-0 right-0 m-12" />
-      <ThemeSwitch className="absolute bottom-0 right-0 m-12" />
+      {/* <ThemeSwitch className="absolute bottom-0 right-0 m-12" /> */}
 
       <div className="flex flex-col items-center justify-center h-screen">
         <H1 className="text-destructive">Access not allowed!</H1>

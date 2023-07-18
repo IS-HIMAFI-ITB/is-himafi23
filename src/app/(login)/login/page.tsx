@@ -1,6 +1,8 @@
-import LoginCard from "./(components)/login-card";
 import Image from "next/image";
-import hero from "@/../public/images/hero.png";
+
+import hero from "@/../public/images/cityscape.png";
+
+import LoginCard from "./(components)/login-card";
 
 export default function Home() {
   return (
@@ -16,9 +18,6 @@ export default function Home() {
           style={{ objectFit: "cover" }}
           className="relative"
         />
-        <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
-        <div className="absolute w-full h-full bg-gradient-to-b from-background/30 to-transparent" />
-        <div className="absolute dark w-full h-full bg-background/5" />
       </section>
       <div className="h-screen flex flex-col justify-center items-center md:items-end">
         <LoginCard className="shrink md:shrink-0 md:w-[600px] md:h-screen" />

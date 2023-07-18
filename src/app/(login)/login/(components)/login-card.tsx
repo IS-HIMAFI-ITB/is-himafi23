@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
 import ThemeSwitch from "@/components/theme-switch";
@@ -31,6 +31,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -107,7 +108,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     return (
       <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
         <CardHeader>
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
           <div className="flex justify-center items-center">
             <Logo className="mb-12" width={100} height={100} />
           </div>
@@ -150,7 +151,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
   return (
     <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
       <CardHeader>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <div className="flex justify-center items-center">
           <Logo className="mb-12" width={100} height={100} />
         </div>
@@ -159,7 +160,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardContent>
+          <CardContent className="space-y-3">
             <FormField
               control={form.control}
               name="nim"
