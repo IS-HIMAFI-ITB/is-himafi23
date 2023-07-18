@@ -12,7 +12,7 @@ export default function HomepageLayout({
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="bg-skyBackground">{children}</main>
     </>
   );
 }

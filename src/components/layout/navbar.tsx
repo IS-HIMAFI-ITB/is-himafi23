@@ -47,9 +47,10 @@ const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
     <nav
       className={cn(
         !isHome &&
-          "sticky backdrop-blur-2xl bg-background/10 backdrop-contrast-75 backdrop-brightness-150 top-0 w-full transition ease-in z-50",
+          "sticky backdrop-blur-2xl backdrop-contrast-75 backdrop-brightness-150 top-0 w-full z-50",
         scrolled &&
           "shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100",
+        !scrolled && "bg-skyBackground",
         className
       )}
       {...props}
@@ -207,14 +208,7 @@ export default function Navbar() {
                 </SheetHeader>
                 <NavbarContent className="flex-col gap-4 px-0 items-start">
                   <NavbarLink href="/">Home</NavbarLink>
-                  <NavbarLink
-                    onClick={() => {
-                      toast({ title: "Coming Soon" });
-                    }}
-                    href=""
-                  >
-                    Materi
-                  </NavbarLink>
+                  <NavbarLink href="/tugas">Tugas</NavbarLink>
                   <NavbarDropdown
                     tabIndex={0}
                     orientation="vertical"
@@ -279,14 +273,7 @@ export default function Navbar() {
             </NavbarBrand>
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
-              <NavbarLink
-                onClick={() => {
-                  toast({ title: "Coming Soon" });
-                }}
-                href=""
-              >
-                Materi
-              </NavbarLink>
+              <NavbarLink href="/tugas">Tugas</NavbarLink>
               <NavbarDropdown trigger="Tentang Kami">
                 <NavbarDropdownLink
                   onClick={() => {
