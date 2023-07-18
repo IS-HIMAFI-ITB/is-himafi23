@@ -12,7 +12,7 @@ export default function HeroSection() {
   return (
     <Container
       id="hero"
-      className="min-h-[calc(100vh-77px)] h-max flex justify-center w-max"
+      className="min-h-[calc(100dvh-72.6px)] h-full flex justify-center w-max"
     >
       <div className="flex flex-col justify-center gap-2">
         <div className="hidden md:flex flex-row w-full items-center">
