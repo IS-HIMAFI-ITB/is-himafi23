@@ -20,6 +20,7 @@ import {
   navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from "./ui/navigation-menu";
+import { useToast } from "./ui/toast/useToast";
 
 interface UserActionProps extends ButtonProps {
   loginText?: string;
@@ -30,6 +31,7 @@ export default function UserAction({
   ...props
 }: UserActionProps) {
   const { data, status } = useSession();
+  const { toast } = useToast();
 
   switch (status) {
     case "authenticated":
@@ -44,8 +46,11 @@ export default function UserAction({
                 </Avatar>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <Link href={"/profile"} passHref>
+                <Link href={"/#profile"} passHref>
                   <NavigationMenuLink
+                    onClick={() => {
+                      toast({ title: "Coming Soon" });
+                    }}
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "w-full justify-start whitespace-nowrap"

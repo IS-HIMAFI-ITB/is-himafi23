@@ -35,6 +35,7 @@ import {
 
 import ThemeSwitch from "../theme-switch";
 import { Button, ButtonProps } from "../ui/button";
+import { useToast } from "../ui/toast/useToast";
 import UserAction from "../user-action";
 
 interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -183,6 +184,7 @@ const NavbarSideMenu = ({ className, children, ...props }: NavbarProps) => {
 export default function Navbar() {
   const { width } = useWindowDimensions();
   const isMobile = width! <= 900 ?? undefined;
+  const { toast } = useToast();
 
   switch (isMobile) {
     case true:
@@ -205,23 +207,52 @@ export default function Navbar() {
                 </SheetHeader>
                 <NavbarContent className="flex-col gap-4 px-0 items-start">
                   <NavbarLink href="/">Home</NavbarLink>
-                  <NavbarLink href="/materi">Materi</NavbarLink>
+                  <NavbarLink
+                    onClick={() => {
+                      toast({ title: "Coming Soon" });
+                    }}
+                    href=""
+                  >
+                    Materi
+                  </NavbarLink>
                   <NavbarDropdown
                     tabIndex={0}
                     orientation="vertical"
                     trigger="Tentang Kami"
                   >
-                    <NavbarDropdownLink href="/#latar-belakang">
+                    <NavbarDropdownLink
+                      onClick={() => {
+                        toast({ title: "Coming Soon" });
+                      }}
+                      href="/#latar-belakang"
+                    >
                       Latar Belakang
                     </NavbarDropdownLink>
-                    <NavbarDropdownLink href="/#visi-misi">
+                    <NavbarDropdownLink
+                      onClick={() => {
+                        toast({ title: "Coming Soon" });
+                      }}
+                      href="/#visi-misi"
+                    >
                       Visi dan Misi
                     </NavbarDropdownLink>
-                    <NavbarDropdownLink href="/#organogram">
+                    <NavbarDropdownLink
+                      onClick={() => {
+                        toast({ title: "Coming Soon" });
+                      }}
+                      href="/#organogram"
+                    >
                       Organogram
                     </NavbarDropdownLink>
                   </NavbarDropdown>
-                  <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
+                  <NavbarLink
+                    onClick={() => {
+                      toast({ title: "Coming Soon" });
+                    }}
+                    href=""
+                  >
+                    Leaderboard
+                  </NavbarLink>
                 </NavbarContent>
               </SheetContent>
             </Sheet>
@@ -248,19 +279,48 @@ export default function Navbar() {
             </NavbarBrand>
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
-              <NavbarLink href="/materi">Materi</NavbarLink>
+              <NavbarLink
+                onClick={() => {
+                  toast({ title: "Coming Soon" });
+                }}
+                href=""
+              >
+                Materi
+              </NavbarLink>
               <NavbarDropdown trigger="Tentang Kami">
-                <NavbarDropdownLink href="/#latar-belakang">
+                <NavbarDropdownLink
+                  onClick={() => {
+                    toast({ title: "Coming Soon" });
+                  }}
+                  href="/#latar-belakang"
+                >
                   Latar Belakang
                 </NavbarDropdownLink>
-                <NavbarDropdownLink href="/#visi-misi">
+                <NavbarDropdownLink
+                  onClick={() => {
+                    toast({ title: "Coming Soon" });
+                  }}
+                  href="/#visi-misi"
+                >
                   Visi dan Misi
                 </NavbarDropdownLink>
-                <NavbarDropdownLink href="/#organogram">
+                <NavbarDropdownLink
+                  onClick={() => {
+                    toast({ title: "Coming Soon" });
+                  }}
+                  href="/#organogram"
+                >
                   Organogram
                 </NavbarDropdownLink>
               </NavbarDropdown>
-              <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
+              <NavbarLink
+                onClick={() => {
+                  toast({ title: "Coming Soon" });
+                }}
+                href=""
+              >
+                Leaderboard
+              </NavbarLink>
             </NavbarItems>
             <NavbarSideMenu>
               {/* <ThemeSwitch /> */}

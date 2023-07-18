@@ -5,8 +5,10 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast/useToast";
 
 export default function HeroSection() {
+  const { toast } = useToast();
   return (
     <Container
       id="hero"
@@ -43,9 +45,12 @@ export default function HeroSection() {
 
         <Button
           className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-[98%] transition-transform"
+          onClick={() => {
+            toast({ title: "Coming Soon" });
+          }}
           asChild
         >
-          <Link href="/tugas">Pengumpulan kontrak belajar</Link>
+          <Link href="/#tugas">Pengumpulan kontrak belajar</Link>
         </Button>
       </div>
     </Container>
