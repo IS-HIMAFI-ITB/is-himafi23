@@ -59,7 +59,7 @@ export default function UserAction({
                     Profile
                   </NavigationMenuLink>
                 </Link>
-                {data.user.role === "ADMIN" && (
+                {data.user.role === "IT" && (
                   <Link href={"/dashboard"} passHref>
                     <NavigationMenuLink
                       className={cn(
