@@ -30,9 +30,11 @@ export default function TugasCard({
             {title}
           </H3>
 
-          <div className="flex flex-row items-center gap-2">
-            <CalendarIcon size={16} />
-            <p>{dueDateTime}</p>
+          <div className="flex flex-row flex-wrap items-center gap-2">
+            <div className="flex flex-row gap-2 items-center">
+              <CalendarIcon className="shrink-0" size={16} />
+              <p>{dueDateTime}</p>
+            </div>
             <Badge variant={mockTelat ? "destructive" : "default"}>
               {mockTelat ? "Telat 2 hari" : "2 hari lagi"}
             </Badge>

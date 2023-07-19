@@ -19,8 +19,8 @@ export default function KelasPage() {
   const session = useSession();
   return (
     <Container className="py-12">
-      <section className="flex flex-row flex-wrap gap-y-8 gap-x-12 justify-between items-start mb-12">
-        <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
+      <section className="flex flex-col flex-wrap md:flex-row gap-y-8 gap-x-12 justify-between items-start mb-12">
+        <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-[2.7rem] leading-[1] xs:text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
           Ruang Kelas
         </p>
 
@@ -97,16 +97,16 @@ export default function KelasPage() {
         <Tabs defaultValue="assigned" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="assigned">
-              Ditugaskan{" "}
-              <span className="xs:inline hidden">
-                🕒 <b>(2/10)</b>
+              🕒 Ditugaskan
+              <span className="ml-1 xs:inline hidden">
+                <b>(2/10)</b>
               </span>
             </TabsTrigger>
 
             <TabsTrigger value="done">
-              Selesai{" "}
-              <span className="xs:inline hidden">
-                ✅ <b>(8/10)</b>
+              ✅ Selesai
+              <span className="ml-1 xs:inline hidden">
+                <b>(8/10)</b>
               </span>
             </TabsTrigger>
           </TabsList>
