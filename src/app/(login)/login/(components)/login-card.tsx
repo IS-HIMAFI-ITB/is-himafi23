@@ -88,7 +88,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     /** Tunggu hasil dari signIn. Jika berhasil maka akan dilakukan redirect ke halaman awal, sebaliknya jika ada error maka user tidak akan redirect kemanapun. */
     const res = await signIn("credentials", {
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl: "/login/verify",
       ...data,
     });
 
@@ -134,7 +134,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
    * @see https://next-auth.js.org/getting-started/client#session
    */
   if (status === "authenticated") {
-    router.replace("/");
+    router.push("/login/verify");
     return (
       <Container>
         <div className="flex flex-col justify-center items-center h-screen">
@@ -203,10 +203,10 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
             <Button type="submit" disabled={loading}>
               {loading ? <Loader2Icon className="animate-spin" /> : "Log in"}
             </Button>
-            <Button variant={"secondary"} className="ml-4">
+            {/* <Button variant={"secondary"} className="ml-4">
               <GoogleImage height={20} width={20} />
               <span>Register with Google</span>
-            </Button>
+            </Button> */}
           </CardFooter>
         </form>
       </Form>
