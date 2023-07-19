@@ -76,6 +76,19 @@ module.exports = {
       backgroundImage: {
         skyBackground: "url('../../public/images/sky.png')",
       },
+      backgroundOpacity: {
+        100: "1",
+        90: ".90",
+        80: ".80",
+        70: ".70",
+        60: ".60",
+        50: ".50",
+        40: ".40",
+        30: ".30",
+        20: ".20",
+        10: ".10",
+        5: ".05",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

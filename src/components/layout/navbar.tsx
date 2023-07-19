@@ -38,9 +38,16 @@ import { Button, ButtonProps } from "../ui/button";
 import { useToast } from "../ui/toast/useToast";
 import UserAction from "../user-action";
 
-interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
+  disableBackground?: boolean;
+}
 
-const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
+const NavbarContainer = ({
+  className,
+  children,
+  disableBackground = false,
+  ...props
+}: NavbarProps) => {
   const { scrolled } = useNavbar();
   const isHome = usePathname() === "/";
   return (
@@ -50,7 +57,7 @@ const NavbarContainer = ({ className, children, ...props }: NavbarProps) => {
           "sticky backdrop-blur-2xl backdrop-contrast-75 backdrop-brightness-150 top-0 w-full z-50",
         scrolled &&
           "shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100",
-        !scrolled && "bg-skyBackground",
+        !scrolled && !disableBackground && "bg-skyBackground",
         className
       )}
       {...props}
