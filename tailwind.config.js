@@ -111,6 +111,12 @@ module.exports = {
       screens: {
         xs: "432px",
       },
+      dropShadow: {
+        glow: [
+          "0 0px 20px rgba(255,255, 255, 0.35)",
+          "0 0px 65px rgba(255, 255,255, 0.2)",
+        ],
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("tailwindcss-bg-patterns")],

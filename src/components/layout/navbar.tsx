@@ -215,7 +215,7 @@ export default function Navbar() {
                 </SheetHeader>
                 <NavbarContent className="flex-col gap-4 px-0 items-start">
                   <NavbarLink href="/">Home</NavbarLink>
-                  <NavbarLink href="/tugas">Tugas</NavbarLink>
+                  <NavbarLink href="/kelas">Kelas</NavbarLink>
                   <NavbarDropdown
                     tabIndex={0}
                     orientation="vertical"
@@ -280,7 +280,7 @@ export default function Navbar() {
             </NavbarBrand>
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
-              <NavbarLink href="/tugas">Tugas</NavbarLink>
+              <NavbarLink href="/kelas">Kelas</NavbarLink>
               <NavbarDropdown trigger="Tentang Kami">
                 <NavbarDropdownLink
                   onClick={() => {

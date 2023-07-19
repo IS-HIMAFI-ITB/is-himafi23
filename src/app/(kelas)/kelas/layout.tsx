@@ -2,7 +2,7 @@ import React from "react";
 
 import Navbar from "@/components/layout/navbar";
 
-export default function TugasLayout({
+export default function KelasLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,9 +10,7 @@ export default function TugasLayout({
   return (
     <>
       <Navbar />
-      <main className="bg-skyBackground bg-opacity-50 min-h-screen">
-        {children}
-      </main>
+      <main className="bg-skyBackground min-h-screen">{children}</main>
     </>
   );
 }
