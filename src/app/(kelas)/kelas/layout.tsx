@@ -1,10 +1,8 @@
-import Image from "next/image";
 import React from "react";
 
-import hero from "@/../public/images/sky.png";
 import Navbar from "@/components/layout/navbar";
 
-export default function HomepageLayout({
+export default function KelasLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -12,7 +10,7 @@ export default function HomepageLayout({
   return (
     <>
       <Navbar />
-      <main className="bg-skyBackground">{children}</main>
+      <main className="bg-skyBackground min-h-screen">{children}</main>
     </>
   );
 }
