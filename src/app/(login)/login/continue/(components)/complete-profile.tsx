@@ -45,7 +45,7 @@ const completeProfileSchema = z
       .number()
       .gte(10221000, "Format NIM salah")
       .lte(10222125, "Format NIM salah"),
-    password: z.string().nonempty("Password must not be empty"),
+    password: z.string().min(8, "Password terlalu pendek"),
     confirmPassword: z.string().nonempty("This field must not be empty"),
     phoneNumber: z
       .string()
