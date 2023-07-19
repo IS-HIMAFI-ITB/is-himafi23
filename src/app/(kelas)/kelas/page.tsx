@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import React from "react";
 
 import Container from "@/components/layout/container";
+import Unauthenticated from "@/components/template/unauthenticated";
 import { H2 } from "@/components/typography";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +18,9 @@ import TugasCard from "./(components)/tugas-card";
 
 export default function KelasPage() {
   const session = useSession();
+
+  if (session.status === "unauthenticated") return <Unauthenticated />;
+
   return (
     <Container className="py-12">
       <section className="flex flex-col flex-wrap md:flex-row gap-y-8 gap-x-12 justify-between items-start mb-12">
