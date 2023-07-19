@@ -11,11 +11,15 @@ declare module "next-auth" {
     user: {
       role: Role;
       nim: string;
+      createdAt: Date;
+      updatedAt: Date;
     } & DefaultSession["user"];
   }
 
   interface User {
     role: Role;
     nim: string;
+    createdAt: Date;
+    updatedAt: Date;
   }
 }

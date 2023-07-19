@@ -18,3 +18,27 @@ export async function GET(
 
   return NextResponse.json(user, { status: 200 });
 }
+
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { nim: string } }
+) {
+  const data = await req.json();
+
+  const user = await prisma.user
+    .update({
+      where: {
+        nim: params.nim,
+      },
+      data: {
+        nim: data.nim.toString(),
+        password: data.password,
+        phoneNumber: data.phoneNumber,
+      },
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+
+  return NextResponse.json(user, { status: 200 });
+}

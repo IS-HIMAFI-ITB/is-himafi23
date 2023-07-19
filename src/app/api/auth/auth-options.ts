@@ -86,6 +86,8 @@ export const authOptions: AuthOptions = {
         role: Role;
         image: string;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
       };
       return {
         ...session,
@@ -95,6 +97,8 @@ export const authOptions: AuthOptions = {
           role: session.user.role,
           image: session.user.image,
           name: session.user.name,
+          createdAt: session.user.createdAt,
+          updatedAt: session.user.updatedAt,
         },
       };
     },
