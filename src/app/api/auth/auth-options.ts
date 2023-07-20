@@ -81,6 +81,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.user = token.user as {
+        id: string;
         nim: string;
         email: string;
         role: Role;
@@ -92,6 +93,7 @@ export const authOptions: AuthOptions = {
       return {
         ...session,
         user: {
+          id: session.user.id,
           nim: session.user.nim,
           email: session.user.email,
           role: session.user.role,
