@@ -41,6 +41,7 @@ export async function PUT(
         nim: data.nim.toString(),
         password: data.password,
         phoneNumber: data.phoneNumber,
+        lastPasswordChange: data.lastPasswordChange,
       },
     })
     .catch((err) => {

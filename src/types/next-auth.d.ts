@@ -14,6 +14,7 @@ declare module "next-auth" {
       nim: string;
       createdAt: Date;
       updatedAt: Date;
+      lastPasswordChange: Date;
     } & DefaultSession["user"];
   }
 
@@ -23,5 +24,6 @@ declare module "next-auth" {
     nim: string;
     createdAt: Date;
     updatedAt: Date;
+    lastPasswordChange: Date;
   }
 }

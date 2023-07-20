@@ -89,6 +89,7 @@ export const authOptions: AuthOptions = {
         name: string;
         createdAt: Date;
         updatedAt: Date;
+        lastPasswordChange: Date;
       };
       return {
         ...session,
@@ -101,6 +102,7 @@ export const authOptions: AuthOptions = {
           name: session.user.name,
           createdAt: session.user.createdAt,
           updatedAt: session.user.updatedAt,
+          lastPasswordChange: session.user.lastPasswordChange,
         },
       };
     },

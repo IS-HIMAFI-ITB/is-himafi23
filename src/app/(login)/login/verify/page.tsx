@@ -11,7 +11,7 @@ export default function VerifyLogin() {
   const session = useSession();
   if (session.status === "authenticated") {
     // Ini ngecek apakah user udah pernah ganti password apa belum, diliat dari updatedAt dan createdAt nya.
-    if (session.data.user.createdAt === session.data.user.updatedAt) {
+    if (!session.data.user.lastPasswordChange) {
       router.push("/login/continue");
     } else if (session.data.user.role === "PESERTA") {
       // Kalau yang login peserta, redirect ke halaman kelas.

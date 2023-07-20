@@ -60,20 +60,21 @@ model Kelompok {
 }
 
 model User {
-  id            String       @id @default(uuid())
-  name          String
-  nim           String?      @unique
-  role          Role         @default(PESERTA)
-  password      String?
-  phoneNumber   String?
-  kelompok      Kelompok?    @relation(fields: [kelompokId], references: [id])
-  kelompokId    Int?
-  email         String?      @unique
-  emailVerified DateTime?    @map("email_verified")
-  image         String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  submisiTugas  Submission[]
+  id                 String       @id @default(uuid())
+  name               String
+  nim                String?      @unique
+  role               Role         @default(PESERTA)
+  password           String?
+  phoneNumber        String?
+  kelompok           Kelompok?    @relation(fields: [kelompokId], references: [id])
+  kelompokId         Int?
+  lastPasswordChange DateTime?
+  email              String?      @unique
+  emailVerified      DateTime?    @map("email_verified")
+  image              String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  submisiTugas       Submission[]
 }
 
 // UNNEDED MODELS TO BE DELETED

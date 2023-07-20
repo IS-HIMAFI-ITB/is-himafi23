@@ -85,6 +85,7 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
         nim: data.nim,
         password: data.password,
         phoneNumber: data.phoneNumber,
+        lastPasswordChange: new Date().toISOString(),
       }),
     }).then((res) => res.json());
 
@@ -107,11 +108,16 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
       phoneNumber: res.phoneNumber,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
+      lastPasswordChange: res.lastPasswordChange,
+    }).then((res) => {
+      if (!res) return;
+      if (res.user.role === "PESERTA") {
+        // Kalau yang login peserta, redirect ke halaman kelas.
+        router.replace("/kelas");
+      } else {
+        router.replace("/");
+      }
     });
-
-    if (session) {
-      router.push("/login/verify");
-    }
   }
 
   if (status === "unauthenticated") {
