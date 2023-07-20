@@ -9,6 +9,7 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     user: {
+      id: string;
       role: Role;
       nim: string;
       createdAt: Date;
@@ -17,6 +18,7 @@ declare module "next-auth" {
   }
 
   interface User {
+    id: string;
     role: Role;
     nim: string;
     createdAt: Date;

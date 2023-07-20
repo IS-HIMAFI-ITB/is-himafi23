@@ -43,14 +43,14 @@ model Tugas {
 
 model Submission {
   id          String   @id @default(cuid())
-  title       String?
-  description String?  @db.Text
   submittedAt DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
   userId      String
   tugas       Tugas    @relation(fields: [tugasId], references: [id])
   tugasId     Int
   files       String
+  score       Int?
+  feedback    String?
 }
 
 model Kelompok {
