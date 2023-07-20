@@ -51,6 +51,8 @@ model Submission {
   tugas       Tugas    @relation(fields: [tugasId], references: [id])
   tugasId     Int
   files       String
+  score       Int?
+  feedback    String?
 }
 
 model Kelompok {
