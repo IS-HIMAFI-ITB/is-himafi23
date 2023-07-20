@@ -52,11 +52,11 @@ export default function TugasCard({ loading, tugas, done }: Props) {
           <div className="flex flex-row flex-wrap items-center gap-4">
             <div className="flex flex-row gap-2 items-center">
               <CalendarIcon className="shrink-0" size={16} />
-              <p>{moment(tugas.dueDate).format("MMMM Do YYYY")}</p>
+              <p>{moment(tugas.dueDate).format("Do MMMM YYYY")}</p>
             </div>
             <div className="flex flex-row gap-2 items-center">
               <ClockIcon className="shrink-0" size={16} />
-              <p>{moment(tugas.dueDate).format("HH:MM:SS")}</p>
+              <p>{moment(tugas.dueDate).format("HH:MM")}</p>
             </div>
             <Badge
               variant={
