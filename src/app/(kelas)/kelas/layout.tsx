@@ -9,8 +9,8 @@ export default function KelasLayout({
 }) {
   return (
     <>
-      <Navbar />
-      <main className="bg-skyBackground min-h-screen">{children}</main>
+      <Navbar background="bg-skyBackgroundDim" />
+      <main className="bg-skyBackgroundDim min-h-screen">{children}</main>
     </>
   );
 }

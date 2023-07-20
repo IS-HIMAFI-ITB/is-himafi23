@@ -5,22 +5,25 @@ import { useSession } from "next-auth/react";
 import React from "react";
 
 import Container from "@/components/layout/container";
-import { H2 } from "@/components/typography";
+import Unauthenticated from "@/components/template/unauthenticated";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+
 import DayInfoCard from "./(components)/day-info";
 import TugasCard from "./(components)/tugas-card";
+import TugasSectionPeserta from "./(components)/tugas-section-peserta";
 
 export default function KelasPage() {
   const session = useSession();
+
+  if (session.status === "unauthenticated") return <Unauthenticated />;
+
   return (
     <Container className="py-12">
-      <section className="flex flex-row flex-wrap gap-y-8 gap-x-12 justify-between items-start mb-12">
-        <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
+      <section className="flex flex-col flex-wrap md:flex-row gap-y-8 gap-x-12 justify-between items-start mb-12">
+        <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-[2.7rem] leading-[1] xs:text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
           Ruang Kelas
         </p>
 
@@ -60,7 +63,9 @@ export default function KelasPage() {
         </Card>
       </section>
 
-      <section className="flex flex-col gap-6">
+      {/* Disabled sampai full release */}
+
+      {/* <section className="flex flex-col gap-6">
         <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
           <H2 className="border-none">Informasi Kehadiran</H2>
 
@@ -108,84 +113,9 @@ export default function KelasPage() {
             unknown
           />
         </motion.div>
-      </section>
+      </section> */}
 
-      <motion.section
-        className="flex flex-col gap-4 my-24"
-        initial={{ opacity: 0, y: 200 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.8,
-          ease: [0, 0.71, 0.2, 1.01],
-          delay: 0,
-        }}
-      >
-        <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
-          <H2 className="border-none">Tugas Kamu</H2>
-          <div className="flex flex-row gap-2 items-center">
-            <p>Tugas selesai</p>
-            <Badge>80%</Badge>
-          </div>
-        </div>
-
-        <Tabs defaultValue="assigned" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="assigned">
-              Ditugaskan{" "}
-              <span className="xs:inline hidden">
-                🕒 <b>(2/10)</b>
-              </span>
-            </TabsTrigger>
-
-            <TabsTrigger value="done">
-              Selesai{" "}
-              <span className="xs:inline hidden">
-                ✅ <b>(8/10)</b>
-              </span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="assigned">
-            <TugasCard
-              id="1"
-              title="Kontrak Belajar Intellektuelle Schule 2023"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
-        possimus reiciendis dolorum nisi ipsam doloremque deserunt deleniti
-        dignissimos eum accusantium eos eius pariatur. Iste quidem reiciendis
-        sequi placeat exercitationem quod. Lorem, ipsum dolor sit amet
-        consectetur adipisicing elit. Odio mollitia, quasi quia necessitatibus
-        modi ipsa nulla doloribus corrupti, odit voluptates dolore aliquid,
-        dolor quisquam! Doloribus veniam dolorem architecto culpa ex! Lorem
-        ipsum dolor sit amet, consectetur adipisicing elit. Quidem nihil omnis
-        voluptate dolor excepturi. Deserunt harum placeat aspernatur modi odio,
-        error dignissimos magnam molestiae voluptates ad odit tenetur deleniti
-        optio?"
-              dueDateTime="21/07/2023, 23.59 WIB"
-            />
-          </TabsContent>
-
-          {/* TODO: Ini harus pakai pagination, klo ga bakal sampai bawah banget WKWWKWKWK */}
-          <TabsContent value="done">
-            <TugasCard
-              mockTelat
-              id="1"
-              title="Kontrak Belajar Intellektuelle Schule 2023"
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
-        possimus reiciendis dolorum nisi ipsam doloremque deserunt deleniti
-        dignissimos eum accusantium eos eius pariatur. Iste quidem reiciendis
-        sequi placeat exercitationem quod. Lorem, ipsum dolor sit amet
-        consectetur adipisicing elit. Odio mollitia, quasi quia necessitatibus
-        modi ipsa nulla doloribus corrupti, odit voluptates dolore aliquid,
-        dolor quisquam! Doloribus veniam dolorem architecto culpa ex! Lorem
-        ipsum dolor sit amet, consectetur adipisicing elit. Quidem nihil omnis
-        voluptate dolor excepturi. Deserunt harum placeat aspernatur modi odio,
-        error dignissimos magnam molestiae voluptates ad odit tenetur deleniti
-        optio?"
-              dueDateTime="21/07/2023, 23.59 WIB"
-            />
-          </TabsContent>
-        </Tabs>
-      </motion.section>
+      <TugasSectionPeserta />
     </Container>
   );
 }

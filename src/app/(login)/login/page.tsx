@@ -19,6 +19,7 @@ export default function Home() {
           style={{ objectFit: "cover" }}
           className="relative"
         />
+        <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
       </section>
       <motion.div className="h-screen flex flex-col justify-center items-center md:items-end">
         <LoginCard className="shrink md:shrink-0 md:w-[600px] md:h-screen" />

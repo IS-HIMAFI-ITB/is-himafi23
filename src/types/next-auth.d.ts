@@ -9,13 +9,19 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     user: {
+      id: string;
       role: Role;
       nim: string;
+      createdAt: Date;
+      updatedAt: Date;
     } & DefaultSession["user"];
   }
 
   interface User {
+    id: string;
     role: Role;
     nim: string;
+    createdAt: Date;
+    updatedAt: Date;
   }
 }

@@ -81,20 +81,26 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.user = token.user as {
+        id: string;
         nim: string;
         email: string;
         role: Role;
         image: string;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
       };
       return {
         ...session,
         user: {
+          id: session.user.id,
           nim: session.user.nim,
           email: session.user.email,
           role: session.user.role,
           image: session.user.image,
           name: session.user.name,
+          createdAt: session.user.createdAt,
+          updatedAt: session.user.updatedAt,
         },
       };
     },

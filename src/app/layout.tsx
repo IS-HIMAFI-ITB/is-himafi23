@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/context/theme-provider";
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata = {
+  metadataBase: new URL("https://www.ishimafiitb.com"),
   title: {
     template: "%s | Intellektuelle Schule 2023",
     default: "Intellektuelle Schule 2023",

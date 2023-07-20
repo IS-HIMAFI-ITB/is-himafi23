@@ -75,6 +75,7 @@ module.exports = {
       },
       backgroundImage: {
         skyBackground: "url('../../public/images/sky.png')",
+        skyBackgroundDim: "url('../../public/images/sky-dim.png')",
       },
       backgroundOpacity: {
         100: "1",
@@ -119,5 +120,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("tailwindcss-bg-patterns")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-bg-patterns"),
+    require("@tailwindcss/typography"),
+  ],
 };

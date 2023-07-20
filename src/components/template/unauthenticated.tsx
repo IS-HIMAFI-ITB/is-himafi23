@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -10,8 +9,8 @@ import { Button } from "../ui/button";
 
 export default function Unauthenticated() {
   return (
-    <Container>
-      <Button
+    <Container className="h-[calc(100vh-72.6px)] flex flex-col items-start sm:items-center justify-center">
+      {/* <Button
         variant={"link"}
         className="mt-4 absolute top-0 left-0 m-12 group/back"
         asChild
@@ -22,15 +21,20 @@ export default function Unauthenticated() {
         </Link>
       </Button>
 
-      <Logo width={50} height={50} className="absolute top-0 right-0 m-12" />
+      <Logo width={50} height={50} className="absolute top-0 right-0 m-12" /> */}
       {/* <ThemeSwitch className="absolute bottom-0 right-0 m-12" /> */}
 
-      <div className="flex flex-col items-center justify-center h-screen">
-        <H1 className="text-destructive">Access not allowed!</H1>
-        <P className="text-center">
-          You are either not logged in or not{" "}
-          <br className="sm:hidden inline" /> authorized to access this page.
-        </P>
+      <H1 className="text-destructive sm:text-center">Access not allowed!</H1>
+      <P className="sm:text-center">
+        You are either not logged in or not authorized to access this page.
+      </P>
+      <div className="flex flex-col mt-6 gap-4 items-center w-full max-w-md">
+        <Button className="w-full" asChild>
+          <Link href={"/login"}>Login</Link>
+        </Button>
+        <Button className="w-full" variant={"outline"} asChild>
+          <Link href={"/"}>Back to home</Link>
+        </Button>
       </div>
     </Container>
   );
