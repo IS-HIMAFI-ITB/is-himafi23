@@ -40,12 +40,14 @@ import UserAction from "../user-action";
 
 interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   disableBackground?: boolean;
+  background?: string;
 }
 
 const NavbarContainer = ({
   className,
   children,
   disableBackground = false,
+  background = "bg-skyBackground",
   ...props
 }: NavbarProps) => {
   const { scrolled } = useNavbar();
@@ -57,7 +59,7 @@ const NavbarContainer = ({
           "sticky backdrop-blur-2xl backdrop-contrast-75 backdrop-brightness-150 top-0 w-full z-50",
         scrolled &&
           "shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100",
-        !scrolled && !disableBackground && "bg-skyBackground",
+        !scrolled && !disableBackground && background,
         className
       )}
       {...props}
@@ -189,7 +191,11 @@ const NavbarSideMenu = ({ className, children, ...props }: NavbarProps) => {
   );
 };
 
-export default function Navbar() {
+export default function Navbar({
+  disableBackground = false,
+  background,
+  ...props
+}: NavbarProps) {
   const { width } = useWindowDimensions();
   const isMobile = width! <= 900 ?? undefined;
   const { toast } = useToast();
@@ -197,7 +203,10 @@ export default function Navbar() {
   switch (isMobile) {
     case true:
       return (
-        <NavbarContainer>
+        <NavbarContainer
+          disableBackground={disableBackground}
+          background={background}
+        >
           <NavbarContent>
             <Sheet>
               <SheetTrigger>
@@ -267,7 +276,10 @@ export default function Navbar() {
 
     case false:
       return (
-        <NavbarContainer>
+        <NavbarContainer
+          disableBackground={disableBackground}
+          background={background}
+        >
           <NavbarContent>
             <NavbarBrand src={logo} alt="logo" width={40} height={40}>
               {/* <p className="font-bold leading-tight tracking-wider">
