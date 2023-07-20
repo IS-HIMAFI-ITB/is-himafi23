@@ -170,7 +170,7 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Masukkan NIM TPB kamu"
+                      placeholder="Masukkan NIM kamu"
                       {...field}
                     />
                   </FormControl>
