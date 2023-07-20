@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import React, { useState } from "react";
 
 import DropFile from "@/components/drop-file";
@@ -30,16 +29,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
-import { getQueryClient } from "@/lib/utils";
 import { Submission, Tugas } from "@prisma/client";
 import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function TugasPage({ params }: { params: { id: string } }) {
   moment.locale("id");
   const session = useSession();
   const { toast } = useToast();
-  const queryClient = getQueryClient();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
   const tugas = useQuery<Tugas, Error>({
@@ -116,6 +114,15 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         description: err.message,
       });
     },
+    onSettled: () => {
+      setOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: [
+          "tugasSubmission",
+          { tugasId: params.id, userId: session.data?.user.id },
+        ],
+      });
+    },
   });
 
   const deleteSubmission = useMutation({
@@ -154,6 +161,15 @@ export default function TugasPage({ params }: { params: { id: string } }) {
       toast({
         title: "Gagal mengumpulkan tugas",
         description: err.message,
+      });
+    },
+    onSettled: () => {
+      setOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: [
+          "tugasSubmission",
+          { tugasId: params.id, userId: session.data?.user.id },
+        ],
       });
     },
   });
