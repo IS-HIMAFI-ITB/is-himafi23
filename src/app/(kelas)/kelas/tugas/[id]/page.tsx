@@ -103,6 +103,12 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         description: "Tugas kamu berhasil dikumpulkan.",
       });
     },
+    onError: (err: Error) => {
+      toast({
+        title: "Gagal mengumpulkan tugas",
+        description: err.message,
+      });
+    },
   });
 
   const deleteSubmission = useMutation({
@@ -135,6 +141,12 @@ export default function TugasPage({ params }: { params: { id: string } }) {
       toast({
         title: "Berhasil menghapus submisi",
         description: "Submisi kamu berhasil dihapus.",
+      });
+    },
+    onError: (err: Error) => {
+      toast({
+        title: "Gagal mengumpulkan tugas",
+        description: err.message,
       });
     },
   });
