@@ -54,7 +54,14 @@ export default function TugasSectionPeserta() {
       });
     });
     setTugasAssigned(tugasAssigned);
-  }, [tugases, submissions]);
+  }, [
+    tugases.data,
+    submissions.data,
+    tugases.isLoading,
+    tugases.isError,
+    submissions.isLoading,
+    submissions.isError,
+  ]);
 
   return (
     <section className="flex flex-col gap-4 mt-12">
