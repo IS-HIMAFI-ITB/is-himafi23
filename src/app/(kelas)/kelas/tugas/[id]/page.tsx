@@ -95,7 +95,14 @@ export default function TugasPage({ params }: { params: { id: string } }) {
           "tugasSubmission",
           { tugasId: params.id, userId: session.data?.user.id },
         ],
-        data
+        (oldData) =>
+          oldData
+            ? {
+                ...oldData,
+                files: data.files,
+                submittedAt: data.submittedAt,
+              }
+            : oldData
       );
       setOpen(false);
       toast({
