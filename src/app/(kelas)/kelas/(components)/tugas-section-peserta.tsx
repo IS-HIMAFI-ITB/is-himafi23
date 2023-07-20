@@ -81,7 +81,7 @@ export default function TugasSectionPeserta() {
                   : "default"
               }
             >
-              {(tugasDone?.length! / tugases.data?.length!) * 100}%
+              {((tugasDone?.length! / tugases.data?.length!) * 100).toFixed(2)}%
             </Badge>
           )}
         </div>
