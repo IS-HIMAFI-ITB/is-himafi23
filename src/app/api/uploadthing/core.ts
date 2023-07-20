@@ -22,11 +22,11 @@ export const ourFileRouter = {
       if (!user) throw new Error("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userEmail: user.user.email };
+      return { userNim: user.user.nim };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userEmail);
+      console.log("Upload complete for userId:", metadata.userNim);
 
       console.log("file url", file.url);
     }),
@@ -40,11 +40,11 @@ export const ourFileRouter = {
       if (!user) throw new Error("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userEmail: user.user.email };
+      return { userNim: user.user.nim };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userEmail);
+      console.log("Upload complete for userId:", metadata.userNim);
 
       console.log("file url", file.url);
     }),
