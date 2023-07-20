@@ -11,7 +11,7 @@ import {
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-
+import { motion } from "framer-motion";
 import DropFile from "@/components/drop-file";
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
@@ -182,7 +182,17 @@ export default function TugasPage({ params }: { params: { id: string } }) {
     <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
       {/* Bagian deskripsi tugas */}
 
-      <article className="prose lg:prose-lg dark:prose-invert">
+      <motion.article
+        className="prose lg:prose-lg dark:prose-invert"
+        initial={{ opacity: 0, y: 200 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0,
+        }}
+      >
         <h3 className="flex flex-row items-center gap-2">
           Tugas #{tugas.data?.id}
         </h3>
@@ -217,9 +227,19 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         </div>
 
         <p>{tugas.data?.description}</p>
-      </article>
+      </motion.article>
 
-      <div className="sticky top-28 h-max flex flex-col gap-4">
+      <motion.div
+        className="sticky top-28 h-max flex flex-col gap-4"
+        initial={{ opacity: 0, y: 200 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0.3,
+        }}
+      >
         <div className="flex flex-row gap-4">
           <H3>Nilai kamu</H3>
 
@@ -264,7 +284,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
 
         <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
 
-        <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary">
+        <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
           <div className="flex flex-row gap-6 items-center">
             {!tugasSubmission.data && (
               <AlertDialog open={open} onOpenChange={setOpen}>
@@ -398,7 +418,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         <p className="max-h-[200px] overflow-y-auto">
           {tugasSubmission.data?.feedback ?? "Belum ada feedback."}
         </p>
-      </div>
+      </motion.div>
     </Container>
   );
 }

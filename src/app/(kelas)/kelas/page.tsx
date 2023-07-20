@@ -66,22 +66,22 @@ export default function KelasPage() {
       {/* Disabled sampai full release */}
 
       {/* <section className="flex flex-col gap-6">
-        <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
+        <motion.div 
+          className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
           <H2 className="border-none">Informasi Kehadiran</H2>
 
-          <motion.div
-            className="flex flex-row gap-2 items-center"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
+          <div className="flex flex-row gap-2 items-center">
             <p>Persen kehadiran</p>
             <Badge variant={"destructive"}>50%</Badge>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         <motion.div
           className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 min-h-[16rem] h-max"
