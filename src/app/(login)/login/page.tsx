@@ -1,7 +1,8 @@
+"use client";
+
 import Image from "next/image";
-
+import { motion } from "framer-motion";
 import hero from "@/../public/images/cityscape.png";
-
 import LoginCard from "./(components)/login-card";
 
 export default function Home() {
@@ -19,9 +20,9 @@ export default function Home() {
           className="relative"
         />
       </section>
-      <div className="h-screen flex flex-col justify-center items-center md:items-end">
+      <motion.div className="h-screen flex flex-col justify-center items-center md:items-end">
         <LoginCard className="shrink md:shrink-0 md:w-[600px] md:h-screen" />
-      </div>
+      </motion.div>
     </section>
   );
 }
