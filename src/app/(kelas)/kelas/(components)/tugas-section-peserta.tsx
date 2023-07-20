@@ -2,7 +2,7 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { H2, H3 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
@@ -34,18 +34,27 @@ export default function TugasSectionPeserta() {
     },
   });
 
-  // TODO: This is not efficient, but it works for now
-  const tugasDone = tugases.data?.filter((tugas) => {
-    return submissions.data?.find((submission) => {
-      return submission.tugasId === tugas.id;
-    });
-  });
+  const [tugasAssigned, setTugasAssigned] = React.useState<Tugas[]>([]);
+  const [tugasDone, setTugasDone] = React.useState<Tugas[]>([]);
+  useEffect(() => {
+    if (!tugases.data || !submissions.data) return;
+    if (tugases.isLoading || submissions.isLoading) return;
+    if (tugases.isError || submissions.isError) return;
 
-  const tugasAssigned = tugases.data?.filter((tugas) => {
-    return !submissions.data?.find((submission) => {
-      return submission.tugasId === tugas.id;
+    const tugasDone = tugases.data?.filter((tugas) => {
+      return submissions.data?.find((submission) => {
+        return submission.tugasId === tugas.id;
+      });
     });
-  });
+    setTugasDone(tugasDone);
+
+    const tugasAssigned = tugases.data?.filter((tugas) => {
+      return !submissions.data?.find((submission) => {
+        return submission.tugasId === tugas.id;
+      });
+    });
+    setTugasAssigned(tugasAssigned);
+  }, [tugases, submissions]);
 
   return (
     <section className="flex flex-col gap-4 mt-12">
@@ -102,7 +111,7 @@ export default function TugasSectionPeserta() {
 
         <TabsContent className="flex flex-col gap-3" value="assigned">
           {tugases.isLoading && <TugasCard loading />}
-          {tugasAssigned?.length === 0 && (
+          {tugasAssigned?.length === 0 && !tugases.isLoading && (
             <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
               <H3>Yay! Tugas kamu selesai semua 🎉</H3>
             </Card>
