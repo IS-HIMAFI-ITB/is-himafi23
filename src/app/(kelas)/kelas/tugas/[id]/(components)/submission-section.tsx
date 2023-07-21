@@ -207,43 +207,47 @@ export default function SubmissionSection({
 
       <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
 
-      <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
-        <div className="flex flex-row gap-6 items-center">
-          {!tugasSubmission && (
-            <AlertDialog open={open} onOpenChange={setOpen}>
-              <AlertDialogTrigger className="flex flex-row gap-6 items-center">
+      {!tugasSubmission && (
+        <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialogTrigger asChild>
+            <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
+              <div className="flex flex-row gap-6 items-center">
                 <UploadIcon
                   size={24}
                   className="group-hover/fileSubmitted:text-primary"
                 />
                 <p className="font-bold">Upload file</p>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <DropFile
-                  onClientUploadComplete={(res) => {
-                    if (!res) return;
-                    submitTugas.mutate({
-                      fileUrl: res[0].fileUrl,
-                      method: "POST",
-                    });
-                  }}
-                  onUploadError={(err) => {
-                    toast({
-                      title: "Gagal mengupload tugas",
-                      description: err.message,
-                    });
-                  }}
-                />
-                <AlertDialogCancel>Batal</AlertDialogCancel>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
+              </div>
+            </Card>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <DropFile
+              onClientUploadComplete={(res) => {
+                if (!res) return;
+                submitTugas.mutate({
+                  fileUrl: res[0].fileKey,
+                  method: "POST",
+                });
+              }}
+              onUploadError={(err) => {
+                toast({
+                  title: "Gagal mengupload tugas",
+                  description: err.message,
+                });
+              }}
+            />
+            <AlertDialogCancel>Batal</AlertDialogCancel>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
 
-          {tugasSubmission && (
-            <a
-              href={tugasSubmission.files}
-              className="flex flex-row gap-6 items-center"
-            >
+      {tugasSubmission && (
+        <a
+          href={`https://uploadthing.com/f/${tugasSubmission.files}`}
+          className="flex flex-row gap-6 items-center"
+        >
+          <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
+            <div className="flex flex-row gap-6 items-center">
               <DownloadIcon
                 size={32}
                 className="group-hover/fileSubmitted:text-primary"
@@ -275,10 +279,10 @@ export default function SubmissionSection({
                   </p>
                 </div>
               </div>
-            </a>
-          )}
-        </div>
-      </Card>
+            </div>
+          </Card>
+        </a>
+      )}
 
       {tugasSubmission && (
         <div className="flex flex-row gap-2 items-center">
@@ -293,7 +297,7 @@ export default function SubmissionSection({
                 onClientUploadComplete={(res) => {
                   if (!res) return;
                   submitTugas.mutate({
-                    fileUrl: res[0].fileUrl,
+                    fileUrl: res[0].fileKey,
                     method: "PATCH",
                     submissionId: tugasSubmission?.id,
                   });
