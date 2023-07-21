@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { utapi } from "uploadthing/server";
 
 import { prisma } from "@/prisma";
 
@@ -72,6 +73,19 @@ export async function DELETE(
       where: {
         id: body.id,
       },
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+
+  // Delete files from storage
+  await utapi
+    .deleteFiles(submission.files)
+    .then((res) => {
+      console.log(
+        `Delete file ${submission.files} from storage success: `,
+        res.success
+      );
     })
     .catch((err) => {
       throw new Error(err);
