@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { CalendarIcon, ClockIcon, LinkIcon } from "lucide-react";
 import moment from "moment";
 import React from "react";
@@ -10,7 +11,17 @@ import { Tugas } from "@prisma/client";
 
 export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
   return (
-    <article className="prose lg:prose-lg dark:prose-invert">
+    <motion.article
+      className="prose lg:prose-lg dark:prose-invert"
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{
+        duration: 0.8,
+        ease: [0, 0.71, 0.2, 1.01],
+        delay: 0,
+      }}
+    >
       <h3 className="flex flex-row items-center gap-2">Tugas #{tugas?.id}</h3>
 
       <h1>{tugas?.title}</h1>
@@ -79,6 +90,6 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
             ))}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

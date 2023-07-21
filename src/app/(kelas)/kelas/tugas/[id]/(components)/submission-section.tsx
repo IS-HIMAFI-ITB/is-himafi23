@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import {
   CalendarIcon,
   ClockIcon,
@@ -156,7 +157,17 @@ export default function SubmissionSection({
   });
 
   return (
-    <div className="sticky top-28 h-max flex flex-col gap-4">
+    <motion.div
+      className="sticky top-28 h-max flex flex-col gap-4"
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{
+        duration: 0.8,
+        ease: [0, 0.71, 0.2, 1.01],
+        delay: 0.3,
+      }}
+    >
       <div className="flex flex-row gap-4">
         <H3>Nilai kamu</H3>
 
@@ -196,7 +207,7 @@ export default function SubmissionSection({
 
       <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
 
-      <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary">
+      <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
         <div className="flex flex-row gap-6 items-center">
           {!tugasSubmission && (
             <AlertDialog open={open} onOpenChange={setOpen}>
@@ -330,6 +341,6 @@ export default function SubmissionSection({
       <p className="max-h-[200px] overflow-y-auto">
         {tugasSubmission?.feedback ?? "Belum ada feedback."}
       </p>
-    </div>
+    </motion.div>
   );
 }

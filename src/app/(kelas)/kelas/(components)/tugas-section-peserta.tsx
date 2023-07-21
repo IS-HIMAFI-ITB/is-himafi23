@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
@@ -13,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import TugasCard from "./tugas-card";
 
-export default function TugasSectionPeserta() {
+export default function TugasSectionPeserta({ isVisible }: any) {
   const session = useSession();
   const tugases = useQuery<Tugas[], Error>({
     queryKey: ["tugas"],
@@ -64,85 +65,145 @@ export default function TugasSectionPeserta() {
   ]);
 
   return (
-    <section className="flex flex-col gap-4 mt-12">
-      <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
-        <H2 className="border-none -mb-2">Tugas Kamu</H2>
-        <div className="flex flex-row gap-2 items-center">
-          <p>Tugas selesai</p>
-          {tugases.isLoading || submissions.isLoading ? (
-            <Badge>
-              <Loader2Icon className="mr-2 animate-spin" size={16} />%
-            </Badge>
-          ) : (
-            <Badge
-              variant={
-                (tugasDone?.length! / tugases.data?.length!) * 100 < 75
-                  ? "destructive"
-                  : "default"
-              }
-            >
-              {((tugasDone?.length! / tugases.data?.length!) * 100).toFixed(2)}%
-            </Badge>
-          )}
+    <AnimatePresence>
+      <motion.section
+        className="flex flex-col gap-4 my-24"
+        initial={{ opacity: 0, y: 200 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0,
+        }}
+      >
+        <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
+          <H2 className="border-none -mb-2">Tugas Kamu</H2>
+          <div className="flex flex-row gap-2 items-center">
+            <p>Tugas selesai</p>
+            {tugases.isLoading || submissions.isLoading ? (
+              <Badge>
+                <Loader2Icon className="mr-2 animate-spin" size={16} />%
+              </Badge>
+            ) : (
+              <Badge
+                variant={
+                  (tugasDone?.length! / tugases.data?.length!) * 100 < 75
+                    ? "destructive"
+                    : "default"
+                }
+              >
+                {((tugasDone?.length! / tugases.data?.length!) * 100).toFixed(
+                  2
+                )}
+                %
+              </Badge>
+            )}
+          </div>
         </div>
-      </div>
 
-      <Tabs defaultValue="assigned" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="assigned">
-            🕒 Ditugaskan
-            <span className="ml-1 xs:inline hidden">
-              {submissions.isLoading || tugases.isLoading ? (
-                <Loader2Icon className="animate-spin" size={12} />
-              ) : (
-                <b>
-                  ({tugasAssigned?.length}/{tugases.data?.length})
-                </b>
-              )}
-            </span>
-          </TabsTrigger>
+        <Tabs defaultValue="assigned" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="assigned">
+              🕒 Ditugaskan
+              <span className="ml-1 xs:inline hidden">
+                {submissions.isLoading || tugases.isLoading ? (
+                  <Loader2Icon className="animate-spin" size={12} />
+                ) : (
+                  <b>
+                    ({tugasAssigned?.length}/{tugases.data?.length})
+                  </b>
+                )}
+              </span>
+            </TabsTrigger>
 
-          <TabsTrigger value="done">
-            ✅ Selesai
-            <span className="ml-1 xs:inline hidden">
-              {submissions.isLoading || tugases.isLoading ? (
-                <Loader2Icon className="animate-spin" size={12} />
-              ) : (
-                <b>
-                  ({tugasDone?.length}/{tugases.data?.length})
-                </b>
-              )}
-            </span>
-          </TabsTrigger>
-        </TabsList>
+            <TabsTrigger value="done">
+              ✅ Selesai
+              <span className="ml-1 xs:inline hidden">
+                {submissions.isLoading || tugases.isLoading ? (
+                  <Loader2Icon className="animate-spin" size={12} />
+                ) : (
+                  <b>
+                    ({tugasDone?.length}/{tugases.data?.length})
+                  </b>
+                )}
+              </span>
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent className="flex flex-col gap-3" value="assigned">
-          {tugases.isLoading && <TugasCard loading />}
-          {tugasAssigned?.length === 0 && !tugases.isLoading && (
-            <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
-              <H3>Yay! Tugas kamu selesai semua 🎉</H3>
-            </Card>
-          )}
-          {!(tugasAssigned?.length === 0) &&
-            !tugases.isLoading &&
-            tugasAssigned?.map((tugas) => {
-              return <TugasCard key={tugas.id} tugas={tugas} />;
-            })}
-        </TabsContent>
+          <TabsContent className="flex flex-col gap-3" value="assigned">
+            {tugases.isLoading && <TugasCard loading />}
+            {tugasAssigned?.length === 0 && !tugases.isLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  delay: 0,
+                }}
+              >
+                <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
+                  <H3>Yay! Tugas kamu selesai semua 🎉</H3>
+                </Card>
+              </motion.div>
+            )}
+            {!(tugasAssigned?.length === 0) &&
+              !tugases.isLoading &&
+              tugasAssigned?.map((tugas, index) => {
+                return (
+                  <motion.div
+                    key={tugas.id}
+                    initial={{ opacity: 0, y: 200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      ease: [0, 0.71, 0.2, 1.01],
+                      delay: 0.15 * index,
+                    }}
+                  >
+                    <TugasCard tugas={tugas} />
+                  </motion.div>
+                );
+              })}
+          </TabsContent>
 
-        {/* TODO: Ini harus pakai pagination, klo ga bakal sampai bawah banget WKWWKWKWK */}
-        <TabsContent className="flex flex-col gap-3" value="done">
-          {tugasDone?.length === 0 && (
-            <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
-              <H3>Belum ada tugas yang selesai 😔</H3>
-            </Card>
-          )}
-          {!(tugasDone?.length === 0) &&
-            tugasDone?.map((tugas) => {
-              return <TugasCard done key={tugas.id} tugas={tugas} />;
-            })}
-        </TabsContent>
-      </Tabs>
-    </section>
+          {/* TODO: Ini harus pakai pagination, klo ga bakal sampai bawah banget WKWWKWKWK */}
+          <TabsContent className="flex flex-col gap-3" value="done">
+            {tugasDone?.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  delay: 0,
+                }}
+              >
+                <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
+                  <H3>Belum ada tugas yang selesai 😔</H3>
+                </Card>
+              </motion.div>
+            )}
+            {!(tugasDone?.length === 0) &&
+              tugasDone?.map((tugas, index) => {
+                return (
+                  <motion.div
+                    key={tugas.id}
+                    initial={{ opacity: 0, y: 200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.8,
+                      ease: [0, 0.71, 0.2, 1.01],
+                      delay: 0.15 * index,
+                    }}
+                  >
+                    <TugasCard done tugas={tugas} />
+                  </motion.div>
+                );
+              })}
+          </TabsContent>
+        </Tabs>
+      </motion.section>
+    </AnimatePresence>
   );
 }

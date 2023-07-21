@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import DayInfoCard from "./(components)/day-info";
+import TugasCard from "./(components)/tugas-card";
 import TugasSectionPeserta from "./(components)/tugas-section-peserta";
 
 export default function KelasPage() {
@@ -65,28 +66,53 @@ export default function KelasPage() {
       {/* Disabled sampai full release */}
 
       {/* <section className="flex flex-col gap-6">
-        <div className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between">
+        <motion.div 
+          className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
           <H2 className="border-none">Informasi Kehadiran</H2>
 
           <div className="flex flex-row gap-2 items-center">
             <p>Persen kehadiran</p>
             <Badge variant={"destructive"}>50%</Badge>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 min-h-[16rem] h-max">
+        <motion.div
+          className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 min-h-[16rem] h-max"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
           <DayInfoCard
-            className="border-primary md:drop-shadow-glow"
+            className="border-primary md:drop-shadow-glow hover:scale-105 transition"
             day="1"
             date="12/12/2023"
             time="07.00 WIB - 09.00 WIB"
             location="Ciwalk"
             desc="Lorem ipsum dolor sit amet, ini judul day."
           />
-          <DayInfoCard className="md:flex hidden" unknown />
-          <DayInfoCard className="xl:flex hidden" unknown />
-          <DayInfoCard className="xl:flex hidden" unknown />
-        </div>
+          <DayInfoCard
+            className="md:flex hidden hover:scale-105 transition"
+            unknown
+          />
+          <DayInfoCard
+            className="xl:flex hidden hover:scale-105 transition"
+            unknown
+          />
+          <DayInfoCard
+            className="xl:flex hidden hover:scale-105 transition"
+            unknown
+          />
+        </motion.div>
       </section> */}
 
       <TugasSectionPeserta />
