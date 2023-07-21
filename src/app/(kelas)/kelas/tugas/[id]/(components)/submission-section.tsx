@@ -124,7 +124,7 @@ export default function SubmissionSection({
           "tugasSubmission",
           { tugasId: params.id, userId: session.data?.user.id },
         ],
-        (oldData) =>
+        (oldData: Submission | undefined) =>
           oldData
             ? {
                 ...oldData,
@@ -159,8 +159,9 @@ export default function SubmissionSection({
   return (
     <motion.div
       className="sticky top-28 h-max flex flex-col gap-4"
-      initial={{ opacity: 0, y: 200 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      // diganti karena ada overflow sebelumnya
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{
         duration: 0.8,
