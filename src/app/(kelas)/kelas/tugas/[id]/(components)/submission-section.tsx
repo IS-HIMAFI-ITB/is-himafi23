@@ -61,12 +61,13 @@ export default function SubmissionSection({
     },
     onSuccess: (data) => {
       setOpen(false);
-      queryClient.removeQueries({
-        queryKey: [
+      queryClient.setQueryData(
+        [
           "tugasSubmission",
           { tugasId: params.id, userId: session?.data?.user.id },
         ],
-      });
+        undefined
+      );
       toast({
         title: "Berhasil menghapus submisi",
         description: "Submisi kamu berhasil dihapus.",

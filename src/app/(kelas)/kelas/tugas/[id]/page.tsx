@@ -44,8 +44,8 @@ export default function TugasPage({ params }: { params: { id: string } }) {
     return <Unauthenticated />;
   }
 
-  if (tugas.status === "loading" || tugasSubmission.status === "loading") {
-    if (tugas.status === "loading" && tugasSubmission.status === "success") {
+  if (tugas.isLoading || tugasSubmission.isLoading) {
+    if (tugas.isLoading && tugasSubmission.isSuccess) {
       return (
         <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
           <article className="prose lg:prose-lg dark:prose-invert">
@@ -73,23 +73,27 @@ export default function TugasPage({ params }: { params: { id: string } }) {
       );
     }
 
-    if (tugas.status === "success" && tugasSubmission.status === "loading") {
-      <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-        <TugasSection tugas={tugas.data} />
-        <div className="sticky top-28 h-max flex flex-col gap-4">
-          <Skeleton className="w-full h-8" />
-          <div className="flex flex-row gap-4 items-center">
-            <Skeleton className="w-[15ch] h-8" />
-            <Skeleton className="w-[15ch] h-8" />
-          </div>
-          <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
-          <Skeleton className="w-full h-16" />
-          <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
+    if (tugas.isSuccess && tugasSubmission.isLoading) {
+      return (
+        <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
+          <TugasSection tugas={tugas.data} />
+          <div className="sticky top-28 h-max flex flex-col gap-4">
+            <Skeleton className="w-full h-8" />
+            <div className="flex flex-row gap-4 items-center">
+              <Skeleton className="w-[15ch] h-8" />
+              <Skeleton className="w-[15ch] h-8" />
+            </div>
+            <p className="text-lg font-bold mt-4 -mb-2">
+              File yang dikumpulkan
+            </p>
+            <Skeleton className="w-full h-16" />
+            <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
 
-          <Separator />
-          <Skeleton className="w-full h-40" />
-        </div>
-      </Container>;
+            <Separator />
+            <Skeleton className="w-full h-40" />
+          </div>
+        </Container>
+      );
     }
 
     return (
