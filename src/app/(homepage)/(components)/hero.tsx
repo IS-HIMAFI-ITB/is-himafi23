@@ -9,6 +9,8 @@ import { useToast } from "@/components/ui/toast/useToast";
 import { H1, H2, H4 } from "@/components/typography";
 import { Book, Atom, BrainCog, Users, Pencil, User } from "lucide-react";
 import Logo from "@/components/logo";
+import { VisiMisi } from "./visi-misi";
+import { misi } from "./misi";
 
 const MotionButton = motion(Button);
 
@@ -130,125 +132,49 @@ export default function HeroSection() {
             duration: 0.8,
             ease: [0, 0.71, 0.2, 1.01],
           }}
-          className="w-full flex flex-col justify-start "
+          className="w-full flex flex-col justify-center items-center"
         >
-          <motion.p className="text-accent before:drop-shadow-glow before:content-['Visi_dan_Misi'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight">
-            Visi dan{" "}
-            <span className="before:content-['\_\_\_\_'] before:hidden before:md:inline before:text-accent before:absolute before:-translate-y-2 before:translate-x-4 before:-rotate-3">
-              Misi
+          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
+            <span className="rotate-10 translate-x-6 text-foreground relative">
+              Visi dan Misi
             </span>
+          </p>
+          <motion.p
+            className="mt-4 md:text-xl text-xs text-center md:w-[700px]"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+          >
+            “Intellektuelle Schule sebagai{" "}
+            <span className="font-semibold">kontinum ruangwaktu</span> dalam
+            pembudayaan kebijaksanaan dan intelektualitas melalui pergerakan
+            menuju kesadaran.”
           </motion.p>
           <motion.div
-            className="mt-7 bg-slate-800/80 bg-gradient-to-b from-sky-950 p-4 rounded-lg pl-4 text-lg"
-            initial={{ opacity: 0, y: 200 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.8,
               ease: [0, 0.71, 0.2, 1.01],
             }}
           >
-            <H1 className="text-center border-b-2 pb-3 border-slate-100/50">
-              Visi
-            </H1>
-            <div className="flex gap-4 mt-4">
-              <Logo width={100} height={100} />
-              <H4 className="mt-2 text-md">
-                Intellektuelle Schulle sebagai kontinum ruangwaktu dalam
-                pembudayaan kebijaksanaan dan intelektualitas melalui pergerakan
-                menuju kesadaran.
-              </H4>
-            </div>
-          </motion.div>
-          <motion.div
-            className="mt-5 bg-slate-800/80 bg-gradient-to-b from-sky-950 to-slate-800/80 to-90% p-4 rounded-lg pl-4 text-center"
-            initial={{ opacity: 0, y: 200 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            <H1 className="mb-6 text-center border-b-2 pb-3 border-slate-100/50">
-              Misi
-            </H1>
-            <div className="flex flex-col md:flex-row gap-8 text-md justify-between">
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-                className="md:w-[900px]"
-              >
-                <Book className="w-full mb-5 text-yellow-300" size={80} />
-                <p>
-                  Menciptakan kaderisasi Intellektuelle Schulle sebagai
-                  lingkungan pendidikan yang ideal berupa komunitas belajar yang
-                  merekonstruksi paradigma subjek terhadap Fisika dan ilmu
-                  pengetahuan lainnya.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <Atom className="w-full mb-5 text-yellow-300" size={80} />
-                <p>
-                  Membentuk kaderisasi Intellektuelle Schulle melalui pola asuh
-                  pendidikan ilmiah yang sesuai dengan kebutuhan dan kondisi
-                  peserta IS 2023.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <BrainCog className="w-full mb-5 text-yellow-300" size={80} />{" "}
-                <p>
-                  Menanamkan iklim pembelajaran yang positif melalui penyadaran,
-                  perenungan, dan perbuatan dengan melakukan pembudayaan sikap
-                  dan metode ilmiah.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <Users className="w-full mb-5 text-yellow-300" size={80} />{" "}
-                <p>
-                  Menumbuhkan kesadaran terhadap potensi dan perannya dalam
-                  berkemahasiswaan dan masyarakat secara umum.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <Pencil className="w-full mb-5 text-yellow-300" size={80} />{" "}
-                <p>
-                  Merumuskan metode penanaman nilai yang adaptif dengan kondisi
-                  peserta IS 2023 sehingga tertanamnya profil keanggotaan
-                  HIMAFI.
-                </p>
-              </motion.div>
-            </div>
+            <VisiMisi className="w-[1000px] h-[200px] relative hidden md:flex justify-center items-center" />
+            <motion.div className="flex flex-col gap-4 md:hidden">
+              {misi.data.map((misi, index) => (
+                <div
+                  className="flex flex-col items-center text-center mt-5 flex-auto"
+                  key={index}
+                >
+                  <p className="text-sm font-semibold text-accent">
+                    {misi.title}
+                  </p>
+                  <p className="text-xs">{misi.description}</p>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </motion.div>
       </Container>
