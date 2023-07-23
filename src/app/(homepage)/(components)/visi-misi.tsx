@@ -93,6 +93,20 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
       <div className="next bg-accent text-black" onClick={() => paginate(1)}>
         {"‣"}
       </div>
+      <div className="flex flex-row justify-center mt-10 relative top-[90px]">
+        {misi.data.map((_, i) => (
+          <div
+            key={i}
+            className={cn(
+              "w-2 h-2 rounded-full bg-accent mx-2 cursor-pointer",
+              i === misiIndex && "bg-white"
+            )}
+            onClick={() => {
+              setPage([i, i > misiIndex ? 1 : -1]);
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
