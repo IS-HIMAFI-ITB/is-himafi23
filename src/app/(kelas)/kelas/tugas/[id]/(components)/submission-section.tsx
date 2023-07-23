@@ -156,7 +156,7 @@ export default function SubmissionSection({
         )}
       </div>
 
-      <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
+      <p className="text-lg font-bold mt-4 -mb-2">Jawaban yang dikumpulkan</p>
 
       {!tugasSubmission?.files && (
         <AlertDialog open={open} onOpenChange={setOpen}>
@@ -168,7 +168,7 @@ export default function SubmissionSection({
                   className="group-hover/fileSubmitted:text-primary"
                 />
 
-                <p className="font-bold">Upload file</p>
+                <p className="font-bold">Upload file/jawaban</p>
               </div>
             </Card>
           </AlertDialogTrigger>
