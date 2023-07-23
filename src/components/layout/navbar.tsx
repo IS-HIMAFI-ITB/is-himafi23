@@ -56,10 +56,11 @@ const NavbarContainer = ({
     <nav
       className={cn(
         !isHome &&
-          "sticky backdrop-blur-2xl backdrop-contrast-75 backdrop-brightness-150 top-0 w-full z-50",
+          "backdrop-blur-2xl backdrop-contrast-75 backdrop-brightness-150 w-full",
         scrolled &&
           "shadow-lg border-b bg-background/80 backdrop-contrast-100 backdrop-brightness-100",
         !scrolled && !disableBackground && background,
+        "sticky top-0 z-50",
         className
       )}
       {...props}
