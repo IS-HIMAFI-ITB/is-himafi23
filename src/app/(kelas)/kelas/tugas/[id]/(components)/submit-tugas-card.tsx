@@ -30,6 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
+import { UploadDropzone } from "@/components/upload-button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Submission } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -173,36 +174,39 @@ export default function SubmitTugasCard({
   });
 
   return (
-    <AlertDialogContent className="overflow-y-auto max-h-[100vh]">
-      <DropFile
-        onClientUploadComplete={(res) => {
-          if (!res) return;
-          toast({
-            title: "Berhasil mengupload tugas",
-            description: (
-              <>
-                File tugas kamu{" "}
-                <code>{res[0].fileKey.split("_").slice(1).join("_")}</code>{" "}
-                berhasil diupload
-              </>
-            ),
-          });
-          if (uploadedFileKey) {
-            handleCancel().then(() => {
-              setUploadedFileKey(res[0].fileKey);
+    <AlertDialogContent className="overflow-y-auto h-full md:max-h-[80vh] max-w-3xl">
+      <div className="rounded-md border-dashed border-2 border-primary/20">
+        <UploadDropzone
+          endpoint="fileUploader"
+          onClientUploadComplete={(res) => {
+            if (!res) return;
+            toast({
+              title: "Berhasil mengupload tugas",
+              description: (
+                <>
+                  File tugas kamu{" "}
+                  <code>{res[0].fileKey.split("_").slice(1).join("_")}</code>{" "}
+                  berhasil diupload
+                </>
+              ),
             });
-            return;
-          }
+            if (uploadedFileKey) {
+              handleCancel().then(() => {
+                setUploadedFileKey(res[0].fileKey);
+              });
+              return;
+            }
 
-          setUploadedFileKey(res[0].fileKey);
-        }}
-        onUploadError={(err) => {
-          toast({
-            title: "Gagal mengupload tugas",
-            description: err.message,
-          });
-        }}
-      />
+            setUploadedFileKey(res[0].fileKey);
+          }}
+          onUploadError={(err) => {
+            toast({
+              title: "Gagal mengupload tugas",
+              description: err.message,
+            });
+          }}
+        />
+      </div>
       <Card className="flex flex-row justify-between flex-wrap gap-x-8 gap-y-2 px-6 py-3">
         <p className="font-semibold">
           {uploadedFileKey ? "Uploaded file" : "No uploaded file"}
@@ -291,7 +295,14 @@ export default function SubmitTugasCard({
           </form>
         </Form>
       </Card>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-row gap-2 items-center">
+        <AlertDialogCancel
+          disabled={loading}
+          onClick={() => handleCancel()}
+          className="w-full my-0"
+        >
+          Batal
+        </AlertDialogCancel>
         <Button
           disabled={loading}
           className="w-full"
@@ -335,9 +346,6 @@ export default function SubmitTugasCard({
             "Submit"
           )}
         </Button>
-        <AlertDialogCancel disabled={loading} onClick={() => handleCancel()}>
-          Batal
-        </AlertDialogCancel>
       </div>
     </AlertDialogContent>
   );
