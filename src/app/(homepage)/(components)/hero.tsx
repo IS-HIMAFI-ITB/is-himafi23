@@ -22,7 +22,7 @@ export default function HeroSection() {
       {/*Coming Soon */}
       <Container
         id="hero"
-        className="min-h-[calc(100dvh-72.6px)] h-full flex justify-center w-max"
+        className="min-h-[calc(100vh-72.6px)] h-full flex justify-center w-max"
       >
         <AnimatePresence>
           <motion.div
