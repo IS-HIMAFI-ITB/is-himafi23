@@ -18,7 +18,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useToast } from "@/components/ui/toast/useToast";
 import { UploadDropzone } from "@/components/upload-button";
 import UserAction from "@/components/user-action";
 
@@ -28,14 +27,15 @@ interface DropFileProps {
     res: { fileUrl: string; fileKey: string }[] | undefined
   ) => void;
   onUploadError?: (error: Error) => void;
+  onUploadProgress?: (progress: number) => void;
 }
 
 const DropFile: React.FC<DropFileProps> = ({
   className,
   onClientUploadComplete,
   onUploadError,
+  onUploadProgress,
 }) => {
-  const { toast } = useToast();
   const { status } = useSession();
 
   if (status == "loading") {
@@ -68,8 +68,9 @@ const DropFile: React.FC<DropFileProps> = ({
           <div className="flex justify-center items-center">
             <Logo width={50} height={50} className="mb-2" />
           </div>
-          <CardTitle>Upload and attach files</CardTitle>
-          <CardDescription>Upload and attach your files here</CardDescription>
+          <CardTitle className="text-center leading-tight">
+            Upload and attach files
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
@@ -78,12 +79,10 @@ const DropFile: React.FC<DropFileProps> = ({
                 endpoint="fileUploader"
                 onClientUploadComplete={onClientUploadComplete}
                 onUploadError={onUploadError}
+                onUploadProgress={onUploadProgress}
               />
             </div>
           </div>
-          <CardDescription className="text-xs mt-2">
-            Format nama: NIM_Nama_Jenis tugas.pdf
-          </CardDescription>
         </CardContent>
       </Card>
     );

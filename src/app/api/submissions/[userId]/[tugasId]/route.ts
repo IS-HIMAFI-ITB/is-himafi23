@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { utapi } from "uploadthing/server";
 
 import { prisma } from "@/prisma";
 
@@ -34,7 +33,8 @@ export async function POST(
         userId: params.userId,
         tugasId: Number(params.tugasId),
         submittedAt: new Date(),
-        files: body.files,
+        files: body.files ?? null,
+        links: body.links ?? null,
       },
     })
     .catch((err) => {
@@ -46,14 +46,16 @@ export async function POST(
 
 export async function PATCH(req: NextRequest) {
   const body = await req.json();
+
   const submission = await prisma.submission
     .update({
       where: {
         id: body.id,
       },
       data: {
-        files: body.files,
-        submittedAt: new Date(),
+        files: body.files ?? null,
+        links: body.links ?? null,
+        submittedAt: body.submittedAt ?? undefined,
       },
     })
     .catch((err) => {
@@ -78,18 +80,19 @@ export async function DELETE(
       throw new Error(err);
     });
 
-  // Delete files from storage
-  await utapi
-    .deleteFiles(submission.files)
-    .then((res) => {
-      console.log(
-        `Delete file ${submission.files} from storage success: `,
-        res.success
-      );
-    })
-    .catch((err) => {
-      throw new Error(err);
-    });
+  // if (!submission.files) return NextResponse.json(submission, { status: 200 });
+  // // Delete files from storage
+  // await utapi
+  //   .deleteFiles(submission.files)
+  //   .then((res) => {
+  //     console.log(
+  //       `Delete file ${submission.files} from storage success: `,
+  //       res.success
+  //     );
+  //   })
+  //   .catch((err) => {
+  //     throw new Error(err);
+  //   });
 
   return NextResponse.json(submission, { status: 200 });
 }
