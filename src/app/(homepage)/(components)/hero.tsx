@@ -134,7 +134,7 @@ export default function HeroSection() {
           }}
           className="w-full flex flex-col justify-center items-center"
         >
-          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
+          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-4xl xs:text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
             <span className="rotate-10 translate-x-6 text-foreground relative">
               Visi dan Misi
             </span>
@@ -161,8 +161,8 @@ export default function HeroSection() {
               ease: [0, 0.71, 0.2, 1.01],
             }}
           >
-            <VisiMisi className="w-[1000px] h-[200px] relative hidden md:flex justify-center items-center" />
-            <motion.div className="flex flex-col gap-4 md:hidden">
+            <VisiMisi className="w-[1000px] h-[200px] relative hidden lg:flex justify-center items-center" />
+            <motion.div className="flex flex-col gap-4 lg:hidden">
               {misi.data.map((misi, index) => (
                 <div
                   className="flex flex-col items-center text-center mt-5 flex-auto"

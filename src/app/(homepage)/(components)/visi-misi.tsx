@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { misi } from "./misi";
 import "./styles.css";
+import { cn } from "@/lib/utils";
 
 interface VisiMisiProps {
   className?: string;
@@ -46,10 +47,6 @@ const swipePower = (offset: number, velocity: number) => {
 export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
   const [[page, direction], setPage] = useState([0, 0]);
 
-  // We only have 3 images, but we paginate them absolutely (ie 1, 2, 3, 4, 5...) and
-  // then wrap that within 0-2 to find our image ID in the array below. By passing an
-  // absolute page index as the `motion` component's `key` prop, `AnimatePresence` will
-  // detect it as an entirely new image. So you can infinitely paginate as few as 1 images.
   const misiIndex = wrap(0, misi.data.length, page);
 
   const paginate = (newDirection: number) => {
@@ -58,9 +55,12 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
 
   return (
     <div className={className}>
+      <div className="prev bg-accent text-black" onClick={() => paginate(-1)}>
+        {"‣"}
+      </div>
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
-          className="text-center w-[650px] absolute before:overflow-hidden before:whitespace-nowrap"
+          className="text-center w-[600px] absolute flex-shrink"
           key={page}
           custom={direction}
           variants={variants}
@@ -89,14 +89,10 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
           </p>
           <p className="text-xl">{misi.data[misiIndex].description}</p>
         </motion.div>
-
-        <div className="next bg-accent text-black" onClick={() => paginate(1)}>
-          {"‣"}
-        </div>
-        <div className="prev bg-accent text-black" onClick={() => paginate(-1)}>
-          {"‣"}
-        </div>
       </AnimatePresence>
+      <div className="next bg-accent text-black" onClick={() => paginate(1)}>
+        {"‣"}
+      </div>
     </div>
   );
 };

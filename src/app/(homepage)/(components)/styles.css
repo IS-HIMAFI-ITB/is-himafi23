@@ -16,10 +16,10 @@
 }
 
 .next {
-  right: 10px;
+  right: 120px;
 }
 
 .prev {
-  left: 10px;
+  left: 120px;
   transform: scale(-1);
 }
