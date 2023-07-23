@@ -1,16 +1,16 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import Container from "@/components/layout/container";
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast/useToast";
-import { H1, H2, H4 } from "@/components/typography";
-import { Book, Atom, BrainCog, Users, Pencil, User } from "lucide-react";
-import Logo from "@/components/logo";
-import { VisiMisi } from "./visi-misi";
+
 import { misi } from "./misi";
+import { VisiMisi } from "./visi-misi";
 
 const MotionButton = motion(Button);
 
@@ -123,7 +123,7 @@ export default function HeroSection() {
       {/*Visi Misi */}
       <Container
         id="hero"
-        className="min-h-[calc(100dvh-72.6px)] h-full flex justify-center"
+        className="min-h-screen py-36 h-full flex justify-center"
       >
         <motion.div
           initial={{ opacity: 0, y: 200 }}
@@ -134,13 +134,13 @@ export default function HeroSection() {
           }}
           className="w-full flex flex-col justify-center items-center"
         >
-          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-4xl xs:text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
+          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-[2.6rem] leading-[1] xs:text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
             <span className="rotate-10 translate-x-6 text-foreground relative">
               Visi dan Misi
             </span>
           </p>
           <motion.p
-            className="mt-4 md:text-xl text-xs text-center md:w-[700px]"
+            className="mt-8 lg:text-xl text-base text-center md:max-w-none md:w-[700px]"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
@@ -165,13 +165,15 @@ export default function HeroSection() {
             <motion.div className="flex flex-col gap-4 lg:hidden">
               {misi.data.map((misi, index) => (
                 <div
-                  className="flex flex-col items-center text-center mt-5 flex-auto"
+                  className="flex flex-col items-center text-center mt-8 px-4 flex-auto"
                   key={index}
                 >
-                  <p className="text-sm font-semibold text-accent">
+                  <p className="text-sm xs:text-base sm:text-md font-semibold text-accent">
                     {misi.title}
                   </p>
-                  <p className="text-xs">{misi.description}</p>
+                  <p className="text-sm xs:text-base sm:text-md max-w-lg">
+                    {misi.description}
+                  </p>
                 </div>
               ))}
             </motion.div>

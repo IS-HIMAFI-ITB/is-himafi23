@@ -1,12 +1,14 @@
 "use client";
 
-import * as React from "react";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { wrap } from "popmotion";
-import { misi } from "./misi";
 import "./styles.css";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { wrap } from "popmotion";
+import { useState } from "react";
+
 import { cn } from "@/lib/utils";
+
+import { misi } from "./misi";
 
 interface VisiMisiProps {
   className?: string;
@@ -54,7 +56,7 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
   };
 
   return (
-    <div className={className}>
+    <div className={cn(className)}>
       <div className="prev bg-accent text-black" onClick={() => paginate(-1)}>
         {"‣"}
       </div>
