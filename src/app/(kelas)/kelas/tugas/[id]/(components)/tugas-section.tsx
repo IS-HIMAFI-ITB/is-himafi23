@@ -62,6 +62,7 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
             Kemudian, bentuk url "https://" atau "http://" hanya diambil domain utamanya.
             Contoh "https://drive.google.com/..." hanya diambil "drive.google.com"*/}
 
+          {!tugas?.attachments && <p>Tidak ada attachment.</p>}
           {tugas?.attachments
             ?.split("|")
             .filter((element) => (element === "|" ? null : element))

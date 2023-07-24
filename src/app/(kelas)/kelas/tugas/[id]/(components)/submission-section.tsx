@@ -1,10 +1,13 @@
 "use client";
 
+import "moment/locale/id";
+
 import { motion } from "framer-motion";
 import {
   CalendarIcon,
   ClockIcon,
   DownloadIcon,
+  ExternalLink,
   UploadIcon,
 } from "lucide-react";
 import moment from "moment";
@@ -30,6 +33,8 @@ import { useToast } from "@/components/ui/toast/useToast";
 import { Submission, Tugas } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import SubmitTugasCard from "./submit-tugas-card";
+
 export default function SubmissionSection({
   tugas,
   tugasSubmission,
@@ -39,14 +44,27 @@ export default function SubmissionSection({
   tugasSubmission: Submission | undefined;
   params: { id: string };
 }) {
+  const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
+  const [uploadedFileKey, setUploadedFileKey] = useState<string | undefined>(
+    tugasSubmission?.files ?? undefined
+  );
+  const [attachments, setAttachments] = useState<string | undefined>(
+    tugasSubmission?.links ?? undefined
+  );
   const { toast } = useToast();
   const session = useSession();
   const queryClient = useQueryClient();
+  moment.locale("id");
 
   const deleteSubmission = useMutation({
     mutationKey: ["deleteSubmission", { submissionId: tugasSubmission?.id }],
     mutationFn: async () => {
+      setLoading(true);
+      toast({
+        title: "Menghapus submisi",
+      });
       const res = await fetch(
         `/api/submissions/${session?.data?.user.id}/${params.id}`,
         {
@@ -56,12 +74,15 @@ export default function SubmissionSection({
           },
           body: JSON.stringify({ id: tugasSubmission?.id }),
         }
-      ).then((res) => res.json());
+      )
+        .then((res) => res.json())
+        .catch((err) => {
+          throw new Error(err);
+        });
 
       return res;
     },
     onSuccess: (data) => {
-      setOpen(false);
       queryClient.setQueryData(
         [
           "tugasSubmission",
@@ -69,6 +90,9 @@ export default function SubmissionSection({
         ],
         undefined
       );
+      setOpen(false);
+      setUploadedFileKey(undefined);
+      setAttachments(undefined);
       toast({
         title: "Berhasil menghapus submisi",
         description: "Submisi kamu berhasil dihapus.",
@@ -76,81 +100,17 @@ export default function SubmissionSection({
     },
     onError: (err: Error) => {
       toast({
-        title: "Gagal mengumpulkan tugas",
+        title:
+          "Gagal menghapus file submisi, namun submisi kamu berhasil dihapus, silakan refresh halaman ini.",
         description: err.message,
       });
     },
     onSettled: () => {
-      setOpen(false);
+      setLoading(false);
       queryClient.invalidateQueries({
         queryKey: [
           "tugasSubmission",
           { tugasId: params.id, userId: session?.data?.user.id },
-        ],
-      });
-    },
-  });
-
-  const submitTugas = useMutation({
-    mutationKey: [
-      "submitTugas",
-      { tugasId: params.id, userId: session.data?.user.id },
-    ],
-    mutationFn: async ({
-      fileUrl,
-      method,
-      submissionId,
-    }: {
-      fileUrl: string;
-      method: string;
-      submissionId?: string;
-    }) => {
-      const res = await fetch(
-        `/api/submissions/${session.data?.user.id}/${params.id}`,
-        {
-          method: method,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ files: fileUrl, id: submissionId }),
-        }
-      ).then((res) => res.json());
-
-      return res as Submission;
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        [
-          "tugasSubmission",
-          { tugasId: params.id, userId: session.data?.user.id },
-        ],
-        (oldData: Submission | undefined) =>
-          oldData
-            ? {
-                ...oldData,
-                files: data.files,
-                submittedAt: data.submittedAt,
-              }
-            : oldData
-      );
-      setOpen(false);
-      toast({
-        title: "Berhasil mengumpulkan tugas",
-        description: "Tugas kamu berhasil dikumpulkan.",
-      });
-    },
-    onError: (err: Error) => {
-      toast({
-        title: "Gagal mengumpulkan tugas",
-        description: err.message,
-      });
-    },
-    onSettled: () => {
-      setOpen(false);
-      queryClient.invalidateQueries({
-        queryKey: [
-          "tugasSubmission",
-          { tugasId: params.id, userId: session.data?.user.id },
         ],
       });
     },
@@ -185,30 +145,55 @@ export default function SubmissionSection({
           </Badge>
         )}
 
-        {tugasSubmission && <Badge className="w-max">Sudah dikumpulkan</Badge>}
-
-        {!tugasSubmission && (
+        {tugasSubmission ? (
+          <>
+            <Badge className="w-max">Sudah dikumpulkan</Badge>
+            {tugasSubmission?.score === null ? (
+              <Badge variant={"destructive"} className="w-max">
+                Belum dinilai
+              </Badge>
+            ) : (
+              <Badge variant={"secondary"} className="w-max">
+                Sudah dinilai
+              </Badge>
+            )}
+          </>
+        ) : (
           <Badge variant={"destructive"} className="w-max">
             Belum dikumpulkan
           </Badge>
         )}
-
-        {!tugasSubmission?.score && tugasSubmission! && (
-          <Badge variant={"destructive"} className="w-max">
-            Belum dinilai
-          </Badge>
-        )}
-
-        {tugasSubmission?.score && tugasSubmission! && (
-          <Badge variant={"secondary"} className="w-max">
-            Sudah dinilai
-          </Badge>
-        )}
       </div>
 
-      <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
+      <p className="text-lg font-bold mt-4 -mb-2">Jawaban yang dikumpulkan</p>
+      {tugasSubmission?.submittedAt && (
+        <div className="flex flex-row flex-wrap gap-1 items-center">
+          <p className="text-sm">Dikumpulkan </p>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <CalendarIcon className="xs:ml-2" size={12} />{" "}
+            <p className="text-sm">
+              {moment(tugasSubmission.submittedAt).format("L")}
+            </p>
+          </div>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <ClockIcon className="ml-2" size={12} />
+            <p className="text-sm">
+              {moment(new Date(tugasSubmission.submittedAt)).format("hh:mm")}
+              {/* {`${
+                (new Date(tugasSubmission.submittedAt).getHours() < 10
+                  ? "0"
+                  : "") + new Date().getHours()
+              }:${
+                (new Date(tugasSubmission.submittedAt).getMinutes() < 10
+                  ? "0"
+                  : "") + new Date().getMinutes()
+              }`} */}
+            </p>
+          </div>
+        </div>
+      )}
 
-      {!tugasSubmission && (
+      {!tugasSubmission?.files && (
         <AlertDialog open={open} onOpenChange={setOpen}>
           <AlertDialogTrigger asChild>
             <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
@@ -217,72 +202,103 @@ export default function SubmissionSection({
                   size={24}
                   className="group-hover/fileSubmitted:text-primary"
                 />
-                <p className="font-bold">Upload file</p>
+
+                <p className="font-bold">Upload file/jawaban</p>
               </div>
             </Card>
           </AlertDialogTrigger>
-          <AlertDialogContent>
-            <DropFile
-              onClientUploadComplete={(res) => {
-                if (!res) return;
-                submitTugas.mutate({
-                  fileUrl: res[0].fileKey,
-                  method: "POST",
-                });
-              }}
-              onUploadError={(err) => {
-                toast({
-                  title: "Gagal mengupload tugas",
-                  description: err.message,
-                });
-              }}
-            />
-            <AlertDialogCancel>Batal</AlertDialogCancel>
-          </AlertDialogContent>
+
+          <SubmitTugasCard
+            loading={loading}
+            setLoading={setLoading}
+            uploadedFileKey={uploadedFileKey}
+            setUploadedFileKey={setUploadedFileKey}
+            attachments={attachments}
+            setAttachments={setAttachments}
+            edit={edit}
+            setEdit={setEdit}
+            variant="submit"
+            params={{ id: params.id }}
+            setOpen={setOpen}
+            tugasSubmission={tugasSubmission}
+          />
         </AlertDialog>
       )}
 
-      {tugasSubmission && (
+      {tugasSubmission?.files && (
         <a
           href={`https://uploadthing.com/f/${tugasSubmission.files}`}
           className="flex flex-row gap-6 items-center"
         >
-          <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
-            <div className="flex flex-row gap-6 items-center">
-              <DownloadIcon
-                size={32}
-                className="group-hover/fileSubmitted:text-primary"
-              />
-              <div className="flex flex-col gap-1">
-                <p className="font-semibold line-clamp-1">
+          <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform w-full max-w-full">
+            <div className="flex flex-row gap-6 items-center w-full">
+              <div>
+                <DownloadIcon
+                  size={32}
+                  className="group-hover/fileSubmitted:text-primary shrink-0"
+                />
+              </div>
+
+              <div className="flex flex-row gap-4 justify-between w-full overflow-hidden">
+                <p className="font-semibold line-clamp-1 text-ellipsis">
                   {decodeURI(
                     tugasSubmission.files.split("_").slice(1).join("_")
                   )}
                 </p>
-                <div className="flex flex-row flex-wrap gap-1 items-center">
-                  <Badge className="xs:inline hidden" variant={"outline"}>
-                    .
-                    {
-                      tugasSubmission.files
-                        .split("_")
-                        .slice(1)
-                        .join("_")
-                        .split(".")[1]
-                    }
-                  </Badge>
-                  <CalendarIcon className="xs:ml-2" size={12} />{" "}
+
+                <Badge className="xs:inline hidden" variant={"outline"}>
+                  .
+                  {
+                    // Ambil ekstensi file
+                    tugasSubmission.files
+                      .split("_")
+                      .slice(1)
+                      .join("_")
+                      .split(".")[1]
+                  }
+                </Badge>
+                {/* <CalendarIcon className="xs:ml-2" size={12} />{" "}
                   <p className="text-sm">
                     {moment(tugasSubmission.submittedAt).format("L")}
                   </p>
                   <ClockIcon className="ml-2" size={12} />
                   <p className="text-sm">
-                    {moment(tugasSubmission.submittedAt).format("HH:MM")}
-                  </p>
-                </div>
+                    {`${new Date(
+                      tugasSubmission.submittedAt
+                    ).getHours()}:${new Date(
+                      tugasSubmission.submittedAt
+                    ).getMinutes()}`}
+                  </p> */}
               </div>
             </div>
           </Card>
         </a>
+      )}
+
+      {tugasSubmission?.links && (
+        <>
+          {tugasSubmission.links.split("|").map((link) => (
+            <Card
+              key={link}
+              className="py-3 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform"
+            >
+              <div className="flex flex-col gap-1">
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-row gap-6 items-center"
+                >
+                  <ExternalLink
+                    size={24}
+                    className="group-hover/fileSubmitted:text-primary shrink-0"
+                  />
+                  <p className="font-semibold line-clamp-1">{link}</p>
+                </a>
+              </div>
+            </Card>
+          ))}
+        </>
       )}
 
       {tugasSubmission && (
@@ -293,38 +309,38 @@ export default function SubmissionSection({
                 Ganti submisi
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
-              <DropFile
-                onClientUploadComplete={(res) => {
-                  if (!res) return;
-                  submitTugas.mutate({
-                    fileUrl: res[0].fileKey,
-                    method: "PATCH",
-                    submissionId: tugasSubmission?.id,
-                  });
-                }}
-                onUploadError={(err) => {
-                  toast({
-                    title: "Gagal mengupload tugas",
-                    description: err.message,
-                  });
-                }}
-              />
-              <AlertDialogCancel>Batal</AlertDialogCancel>
-            </AlertDialogContent>
+
+            <SubmitTugasCard
+              loading={loading}
+              setLoading={setLoading}
+              uploadedFileKey={uploadedFileKey}
+              setUploadedFileKey={setUploadedFileKey}
+              attachments={attachments}
+              setAttachments={setAttachments}
+              edit={edit}
+              setEdit={setEdit}
+              params={{ id: params.id }}
+              setOpen={setOpen}
+              tugasSubmission={tugasSubmission}
+              variant="edit"
+            />
           </AlertDialog>
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant={"destructive"} className="w-full">
                 Hapus submisi
               </Button>
             </AlertDialogTrigger>
+
             <AlertDialogContent>
               <AlertDialogHeader>
                 Apakah kamu yakin ingin menghapus submisi kamu?
               </AlertDialogHeader>
+
               <AlertDialogFooter>
                 <AlertDialogAction>Batal</AlertDialogAction>
+
                 <AlertDialogCancel onClick={() => deleteSubmission.mutate()}>
                   Hapus
                 </AlertDialogCancel>

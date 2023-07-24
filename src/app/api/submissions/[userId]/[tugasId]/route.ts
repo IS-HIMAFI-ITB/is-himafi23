@@ -33,8 +33,9 @@ export async function POST(
       data: {
         userId: params.userId,
         tugasId: Number(params.tugasId),
-        submittedAt: new Date(),
-        files: body.files,
+        submittedAt: body.submittedAt ?? undefined,
+        files: body.files ?? null,
+        links: body.links ?? null,
       },
     })
     .catch((err) => {
@@ -46,14 +47,16 @@ export async function POST(
 
 export async function PATCH(req: NextRequest) {
   const body = await req.json();
+
   const submission = await prisma.submission
     .update({
       where: {
         id: body.id,
       },
       data: {
-        files: body.files,
-        submittedAt: new Date(),
+        files: body.files ?? null,
+        links: body.links ?? null,
+        submittedAt: body.submittedAt ?? undefined,
       },
     })
     .catch((err) => {
@@ -78,18 +81,25 @@ export async function DELETE(
       throw new Error(err);
     });
 
-  // Delete files from storage
-  await utapi
-    .deleteFiles(submission.files)
-    .then((res) => {
-      console.log(
-        `Delete file ${submission.files} from storage success: `,
-        res.success
-      );
-    })
-    .catch((err) => {
-      throw new Error(err);
-    });
+  if (!submission.files) return NextResponse.json(submission, { status: 200 });
+
+  await utapi.deleteFiles(submission.files).then((res) => {
+    console.log("delete file", res.success);
+  });
 
   return NextResponse.json(submission, { status: 200 });
+
+  // if (!submission.files) return NextResponse.json(submission, { status: 200 });
+  // // Delete files from storage
+  // const deleteFile = await utapi.deleteFiles(submission.files).catch((err) => {
+  //   throw new Error(err);
+  // });
+
+  // Promise.all([submission, deleteFile])
+  //   .then((values) => {
+  //     return NextResponse.json(values[0], { status: 200 });
+  //   })
+  //   .catch((err) => {
+  //     throw new Error(err);
+  //   });
 }
