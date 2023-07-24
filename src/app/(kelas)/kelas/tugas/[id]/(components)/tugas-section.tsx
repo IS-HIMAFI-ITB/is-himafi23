@@ -37,7 +37,15 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
 
           <p className="text-sm">
             {moment(tugas?.dueDate).format("LL")} pukul{" "}
-            {moment(tugas?.dueDate).format("HH:MM")}
+            {moment(tugas?.dueDate).format(
+              `HH:mm ${
+                moment(tugas?.dueDate).format("Z") === "+07:00"
+                  ? "[WIB]"
+                  : moment(tugas?.dueDate).format("Z") === "+08:00"
+                  ? "[WITA]"
+                  : `[GMT] ${moment(tugas?.updatedAt).format("Z")}`
+              }`
+            )}
           </p>
         </Badge>
 
@@ -47,12 +55,26 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
         >
           <ClockIcon size={16} />{" "}
           <p className="text-sm">
-            Updated {moment(tugas?.updatedAt).format("DD-MM-YYYY, HH:MM")}
+            Updated{" "}
+            {moment(tugas?.updatedAt).format(
+              `DD-MM-YYYY, HH:mm ${
+                moment(tugas?.updatedAt).format("Z") === "+07:00"
+                  ? "[WIB]"
+                  : moment(tugas?.updatedAt).format("Z") === "+08:00"
+                  ? "[WITA]"
+                  : `[GMT] ${moment(tugas?.updatedAt).format("Z")}`
+              }`
+            )}
           </p>
         </Badge>
       </div>
 
-      <p>{tugas?.description}</p>
+      <div
+        className="my-6"
+        dangerouslySetInnerHTML={{
+          __html: tugas?.description ?? "Tidak ada deskripsi.",
+        }}
+      />
 
       <div className="not-prose flex flex-col gap-2 justify-start">
         <p className="font-bold">Attachments</p>
@@ -67,7 +89,12 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
             ?.split("|")
             .filter((element) => (element === "|" ? null : element))
             .map((attachment, i) => (
-              <a href={attachment} key={tugas?.id}>
+              <a
+                href={attachment.split("?judultugas=")[0]}
+                key={tugas?.id}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Card className="px-5 py-4 w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
                   <LinkIcon
                     className="group-hover/download:text-primary"
@@ -75,13 +102,14 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
                   />
                   <div className="flex flex-col gap-1">
                     <p className="font-semibold line-clamp-1">
-                      Attachment {i + 1}
+                      {attachment.split("?judultugas=")[1]}
                     </p>
                     <p className="text-sm opacity-50 overflow-hidden line-clamp-1">
                       {
                         attachment
                           .replace("https://", "")
                           .replace("http://", "")
+                          .split("?judultugas=")[0]
                           .split("/")[0]
                       }
                     </p>
