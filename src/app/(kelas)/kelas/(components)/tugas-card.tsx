@@ -5,7 +5,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 
-import { H3, P } from "@/components/typography";
+import { H3 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -56,7 +56,17 @@ export default function TugasCard({ loading, tugas, done }: Props) {
             </div>
             <div className="flex flex-row gap-2 items-center">
               <ClockIcon className="shrink-0" size={16} />
-              <p>{moment(tugas.dueDate).format("hh:mm")}</p>
+              <p>
+                {moment(tugas?.dueDate).format(
+                  `HH:mm ${
+                    moment(tugas?.dueDate).format("Z") === "+07:00"
+                      ? "[WIB]"
+                      : moment(tugas?.dueDate).format("Z") === "+08:00"
+                      ? "[WITA]"
+                      : `[GMT] ${moment(tugas?.updatedAt).format("Z")}`
+                  }`
+                )}
+              </p>
             </div>
             <Badge
               variant={
@@ -73,7 +83,10 @@ export default function TugasCard({ loading, tugas, done }: Props) {
           </div>
         </div>
 
-        <P className="opacity-50 line-clamp-3">{tugas?.description}</P>
+        <div
+          className="opacity-50 line-clamp-3 mt-4"
+          dangerouslySetInnerHTML={{ __html: tugas?.description }}
+        />
       </Card>
     </Link>
   );

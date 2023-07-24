@@ -33,7 +33,7 @@ export async function POST(
       data: {
         userId: params.userId,
         tugasId: Number(params.tugasId),
-        submittedAt: body.submittedAt ?? undefined,
+        submittedAt: new Date(),
         files: body.files ?? null,
         links: body.links ?? null,
       },
@@ -56,7 +56,7 @@ export async function PATCH(req: NextRequest) {
       data: {
         files: body.files ?? null,
         links: body.links ?? null,
-        submittedAt: body.submittedAt ?? undefined,
+        submittedAt: new Date(),
       },
     })
     .catch((err) => {

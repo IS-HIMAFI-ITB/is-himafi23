@@ -8,7 +8,7 @@ import {
   ClockIcon,
   DownloadIcon,
   ExternalLink,
-  UploadIcon,
+  UploadIcon
 } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
@@ -23,7 +23,7 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -178,7 +178,18 @@ export default function SubmissionSection({
           <div className="flex flex-row flex-wrap gap-1 items-center">
             <ClockIcon className="ml-2" size={12} />
             <p className="text-sm">
-              {moment(new Date(tugasSubmission.submittedAt)).format("hh:mm")}
+              {moment(new Date(tugasSubmission.submittedAt)).format(
+                `HH:mm ${
+                  moment(tugasSubmission?.submittedAt).format("Z") === "+07:00"
+                    ? "[WIB]"
+                    : moment(tugasSubmission?.submittedAt).format("Z") ===
+                      "+08:00"
+                    ? "[WITA]"
+                    : `[GMT] ${moment(tugasSubmission?.submittedAt).format(
+                        "Z"
+                      )}`
+                }`
+              )}
               {/* {`${
                 (new Date(tugasSubmission.submittedAt).getHours() < 10
                   ? "0"
