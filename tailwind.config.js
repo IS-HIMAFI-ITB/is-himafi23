@@ -76,6 +76,11 @@ module.exports = {
       backgroundImage: {
         skyBackground: "url('../../public/images/sky.png')",
         skyBackgroundDim: "url('../../public/images/sky-dim.png')",
+        errorBackground: "url('../../public/images/error-background.png')",
+        pastBackground: "url('../../public/images/past-background.png')",
+        futureBackground: "url('../../public/images/future-background.png')",
+        timeMachineBackground:
+          "url('../../public/images/time-machine-background.png')",
       },
       backgroundOpacity: {
         100: "1",
