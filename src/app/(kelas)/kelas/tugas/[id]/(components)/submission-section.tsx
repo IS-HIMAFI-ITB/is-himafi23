@@ -1,10 +1,13 @@
 "use client";
 
+import "moment/locale/id";
+
 import { motion } from "framer-motion";
 import {
   CalendarIcon,
   ClockIcon,
   DownloadIcon,
+  ExternalLink,
   UploadIcon,
 } from "lucide-react";
 import moment from "moment";
@@ -53,6 +56,7 @@ export default function SubmissionSection({
   const { toast } = useToast();
   const session = useSession();
   const queryClient = useQueryClient();
+  moment.locale("id");
 
   const deleteSubmission = useMutation({
     mutationKey: ["deleteSubmission", { submissionId: tugasSubmission?.id }],
@@ -70,7 +74,11 @@ export default function SubmissionSection({
           },
           body: JSON.stringify({ id: tugasSubmission?.id }),
         }
-      ).then((res) => res.json());
+      )
+        .then((res) => res.json())
+        .catch((err) => {
+          throw new Error(err);
+        });
 
       return res;
     },
@@ -92,7 +100,8 @@ export default function SubmissionSection({
     },
     onError: (err: Error) => {
       toast({
-        title: "Gagal mengumpulkan tugas",
+        title:
+          "Gagal menghapus file submisi, namun submisi kamu berhasil dihapus, silakan refresh halaman ini.",
         description: err.message,
       });
     },
@@ -157,6 +166,32 @@ export default function SubmissionSection({
       </div>
 
       <p className="text-lg font-bold mt-4 -mb-2">Jawaban yang dikumpulkan</p>
+      {tugasSubmission?.submittedAt && (
+        <div className="flex flex-row flex-wrap gap-1 items-center">
+          <p className="text-sm">Dikumpulkan </p>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <CalendarIcon className="xs:ml-2" size={12} />{" "}
+            <p className="text-sm">
+              {moment(tugasSubmission.submittedAt).format("L")}
+            </p>
+          </div>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <ClockIcon className="ml-2" size={12} />
+            <p className="text-sm">
+              {moment(new Date(tugasSubmission.submittedAt)).format("hh:mm")}
+              {/* {`${
+                (new Date(tugasSubmission.submittedAt).getHours() < 10
+                  ? "0"
+                  : "") + new Date().getHours()
+              }:${
+                (new Date(tugasSubmission.submittedAt).getMinutes() < 10
+                  ? "0"
+                  : "") + new Date().getMinutes()
+              }`} */}
+            </p>
+          </div>
+        </div>
+      )}
 
       {!tugasSubmission?.files && (
         <AlertDialog open={open} onOpenChange={setOpen}>
@@ -195,33 +230,34 @@ export default function SubmissionSection({
           href={`https://uploadthing.com/f/${tugasSubmission.files}`}
           className="flex flex-row gap-6 items-center"
         >
-          <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
-            <div className="flex flex-row gap-6 items-center">
-              <DownloadIcon
-                size={32}
-                className="group-hover/fileSubmitted:text-primary"
-              />
+          <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform w-full max-w-full">
+            <div className="flex flex-row gap-6 items-center w-full">
+              <div>
+                <DownloadIcon
+                  size={32}
+                  className="group-hover/fileSubmitted:text-primary shrink-0"
+                />
+              </div>
 
-              <div className="flex flex-col gap-1">
-                <p className="font-semibold line-clamp-1">
+              <div className="flex flex-row gap-4 justify-between w-full overflow-hidden">
+                <p className="font-semibold line-clamp-1 text-ellipsis">
                   {decodeURI(
                     tugasSubmission.files.split("_").slice(1).join("_")
                   )}
                 </p>
 
-                <div className="flex flex-row flex-wrap gap-1 items-center">
-                  <Badge className="xs:inline hidden" variant={"outline"}>
-                    .
-                    {
-                      // Ambil ekstensi file
-                      tugasSubmission.files
-                        .split("_")
-                        .slice(1)
-                        .join("_")
-                        .split(".")[1]
-                    }
-                  </Badge>
-                  <CalendarIcon className="xs:ml-2" size={12} />{" "}
+                <Badge className="xs:inline hidden" variant={"outline"}>
+                  .
+                  {
+                    // Ambil ekstensi file
+                    tugasSubmission.files
+                      .split("_")
+                      .slice(1)
+                      .join("_")
+                      .split(".")[1]
+                  }
+                </Badge>
+                {/* <CalendarIcon className="xs:ml-2" size={12} />{" "}
                   <p className="text-sm">
                     {moment(tugasSubmission.submittedAt).format("L")}
                   </p>
@@ -232,12 +268,37 @@ export default function SubmissionSection({
                     ).getHours()}:${new Date(
                       tugasSubmission.submittedAt
                     ).getMinutes()}`}
-                  </p>
-                </div>
+                  </p> */}
               </div>
             </div>
           </Card>
         </a>
+      )}
+
+      {tugasSubmission?.links && (
+        <>
+          {tugasSubmission.links.split("|").map((link) => (
+            <Card
+              key={link}
+              className="py-3 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform"
+            >
+              <div className="flex flex-col gap-1">
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-row gap-6 items-center"
+                >
+                  <ExternalLink
+                    size={24}
+                    className="group-hover/fileSubmitted:text-primary shrink-0"
+                  />
+                  <p className="font-semibold line-clamp-1">{link}</p>
+                </a>
+              </div>
+            </Card>
+          ))}
+        </>
       )}
 
       {tugasSubmission && (

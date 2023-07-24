@@ -132,7 +132,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
+    <Container className="pt-12 pb-24 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
       <TugasSection tugas={tugas.data} />
 
       <SubmissionSection

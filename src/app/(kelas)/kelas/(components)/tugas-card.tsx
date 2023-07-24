@@ -56,7 +56,7 @@ export default function TugasCard({ loading, tugas, done }: Props) {
             </div>
             <div className="flex flex-row gap-2 items-center">
               <ClockIcon className="shrink-0" size={16} />
-              <p>{moment(tugas.dueDate).format("HH:MM")}</p>
+              <p>{moment(tugas.dueDate).format("hh:mm")}</p>
             </div>
             <Badge
               variant={

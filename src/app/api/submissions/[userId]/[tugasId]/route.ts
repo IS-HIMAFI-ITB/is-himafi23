@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { utapi } from "uploadthing/server";
 
 import { prisma } from "@/prisma";
 
@@ -32,7 +33,7 @@ export async function POST(
       data: {
         userId: params.userId,
         tugasId: Number(params.tugasId),
-        submittedAt: new Date(),
+        submittedAt: body.submittedAt ?? undefined,
         files: body.files ?? null,
         links: body.links ?? null,
       },
@@ -80,19 +81,25 @@ export async function DELETE(
       throw new Error(err);
     });
 
+  if (!submission.files) return NextResponse.json(submission, { status: 200 });
+
+  await utapi.deleteFiles(submission.files).then((res) => {
+    console.log("delete file", res.success);
+  });
+
+  return NextResponse.json(submission, { status: 200 });
+
   // if (!submission.files) return NextResponse.json(submission, { status: 200 });
   // // Delete files from storage
-  // await utapi
-  //   .deleteFiles(submission.files)
-  //   .then((res) => {
-  //     console.log(
-  //       `Delete file ${submission.files} from storage success: `,
-  //       res.success
-  //     );
+  // const deleteFile = await utapi.deleteFiles(submission.files).catch((err) => {
+  //   throw new Error(err);
+  // });
+
+  // Promise.all([submission, deleteFile])
+  //   .then((values) => {
+  //     return NextResponse.json(values[0], { status: 200 });
   //   })
   //   .catch((err) => {
   //     throw new Error(err);
   //   });
-
-  return NextResponse.json(submission, { status: 200 });
 }

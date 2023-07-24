@@ -2,7 +2,7 @@
 
 import {
   DownloadIcon,
-  LinkIcon,
+  ExternalLink,
   Loader2Icon,
   PlusIcon,
   XIcon,
@@ -239,9 +239,11 @@ export default function SubmitTugasCard({
                   href={`//${attachment
                     .replace("https://", "")
                     .replace("http://", "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row gap-3 items-center hover:text-primary"
                 >
-                  <LinkIcon size={16} />{" "}
+                  <ExternalLink size={16} />{" "}
                   <span className="line-clamp-1 max-w-sm">
                     {
                       attachment
