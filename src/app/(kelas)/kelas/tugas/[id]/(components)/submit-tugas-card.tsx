@@ -207,7 +207,7 @@ export default function SubmitTugasCard({
           }}
         />
       </div>
-      <Card className="flex flex-row justify-between flex-wrap gap-x-8 gap-y-2 px-6 py-3">
+      <Card className="flex flex-row justify-between flex-wrap items-center gap-x-8 gap-y-2 px-6 py-3">
         <p className="font-semibold">
           {uploadedFileKey ? "Uploaded file" : "No uploaded file"}
         </p>
