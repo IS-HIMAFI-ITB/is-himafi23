@@ -40,7 +40,6 @@ export async function PUT(
       data: {
         nim: data.nim.toString(),
         password: data.password,
-        phoneNumber: data.phoneNumber,
         lastPasswordChange: data.lastPasswordChange,
       },
     })

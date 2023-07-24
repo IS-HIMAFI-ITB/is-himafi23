@@ -113,12 +113,6 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "phoneNumber",
-    header: ({ column }) => {
-      return <span className="w-max whitespace-nowrap">Phone Number</span>;
-    },
-  },
-  {
     accessorKey: "email",
     header: "Email",
   },

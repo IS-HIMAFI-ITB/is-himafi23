@@ -47,11 +47,6 @@ const completeProfileSchema = z
       .lte(10222125, "Format NIM salah"),
     password: z.string().min(8, "Password terlalu pendek"),
     confirmPassword: z.string().nonempty("This field must not be empty"),
-    phoneNumber: z
-      .string()
-      .startsWith("+62", "Format nomor telepon tidak valid")
-      .min(12, "Nomor telepon terlalu pendek")
-      .nonempty("This field must not be empty"),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (password !== confirmPassword) {
@@ -84,7 +79,6 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
       body: JSON.stringify({
         nim: data.nim,
         password: data.password,
-        phoneNumber: data.phoneNumber,
         lastPasswordChange: new Date().toISOString(),
       }),
     }).then((res) => res.json());
@@ -105,7 +99,6 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
     });
     const session = await update({
       nim: res.nim,
-      phoneNumber: res.phoneNumber,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
       lastPasswordChange: res.lastPasswordChange,
@@ -203,22 +196,6 @@ const CompleteProfile: React.FC<CompleteProfileProps> = ({ className }) => {
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phoneNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nomor Telepon</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <FormDescription className="opacity-50 text-sm">
-                    Nomor telepon harus diawali dengan +62
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
