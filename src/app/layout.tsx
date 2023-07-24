@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toast/toaster";
 import { NextAuthProvider } from "@/context/auth-provider";
 import { QueryProvider } from "@/context/query-provider";
 import { ThemeProvider } from "@/context/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -77,6 +78,7 @@ export default function RootLayout({
             <ThemeProvider attribute="class" defaultTheme="dark">
               {children}
               <Toaster />
+              <Analytics />
             </ThemeProvider>
           </QueryProvider>
         </NextAuthProvider>
