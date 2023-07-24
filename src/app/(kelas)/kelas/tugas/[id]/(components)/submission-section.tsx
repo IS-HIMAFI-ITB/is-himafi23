@@ -8,7 +8,7 @@ import {
   ClockIcon,
   DownloadIcon,
   ExternalLink,
-  UploadIcon
+  UploadIcon,
 } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
@@ -23,7 +23,7 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -167,7 +167,7 @@ export default function SubmissionSection({
 
       <p className="text-lg font-bold mt-4 -mb-2">Jawaban yang dikumpulkan</p>
       {tugasSubmission?.submittedAt && (
-        <div className="flex flex-row flex-wrap gap-1 items-center">
+        <div className="flex flex-row flex-wrap gap-2 items-center">
           <p className="text-sm">Dikumpulkan </p>
           <div className="flex flex-row flex-wrap gap-1 items-center">
             <CalendarIcon className="xs:ml-2" size={12} />{" "}
@@ -349,7 +349,7 @@ export default function SubmissionSection({
                 Apakah kamu yakin ingin menghapus submisi kamu?
               </AlertDialogHeader>
 
-              <AlertDialogFooter>
+              <AlertDialogFooter className="space-y-2">
                 <AlertDialogAction>Batal</AlertDialogAction>
 
                 <AlertDialogCancel onClick={() => deleteSubmission.mutate()}>
