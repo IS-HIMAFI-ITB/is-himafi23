@@ -1,12 +1,18 @@
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { utapi } from "uploadthing/server";
 
+import { authOptions } from "@/app/api/auth/auth-options";
 import { prisma } from "@/prisma";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { userId: string; tugasId: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
   const submissions = await prisma.submission
     .findFirst({
       where: {
@@ -27,6 +33,10 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { userId: string; tugasId: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
   const body = await req.json();
   const submission = await prisma.submission
     .create({
@@ -46,6 +56,10 @@ export async function POST(
 }
 
 export async function PATCH(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
   const body = await req.json();
 
   const submission = await prisma.submission
@@ -70,6 +84,10 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { userId: string; tugasId: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
   const body = await req.json();
   const submission = await prisma.submission
     .delete({
