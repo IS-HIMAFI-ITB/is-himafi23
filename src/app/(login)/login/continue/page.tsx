@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import hero from "@/../public/images/cityscape.png";
+import hero from "@/../public/images/error-background.png";
 
 import CompleteProfile from "./(components)/complete-profile";
 
@@ -20,7 +20,7 @@ export default function Home() {
         />
         <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
       </section>
-      <div className="h-screen flex flex-col justify-center items-center md:items-end">
+      <div className="h-screen flex flex-col justify-center items-center md:items-start">
         <CompleteProfile className="shrink md:shrink-0 md:w-[600px] md:h-screen" />
       </div>
     </section>

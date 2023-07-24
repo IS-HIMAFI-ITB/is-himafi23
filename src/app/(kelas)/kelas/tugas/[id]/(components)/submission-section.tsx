@@ -349,10 +349,13 @@ export default function SubmissionSection({
                 Apakah kamu yakin ingin menghapus submisi kamu?
               </AlertDialogHeader>
 
-              <AlertDialogFooter className="space-y-2">
+              <AlertDialogFooter>
                 <AlertDialogAction>Batal</AlertDialogAction>
 
-                <AlertDialogCancel onClick={() => deleteSubmission.mutate()}>
+                <AlertDialogCancel
+                  className="mt-3"
+                  onClick={() => deleteSubmission.mutate()}
+                >
                   Hapus
                 </AlertDialogCancel>
               </AlertDialogFooter>

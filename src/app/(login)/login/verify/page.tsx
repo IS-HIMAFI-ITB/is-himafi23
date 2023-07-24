@@ -24,5 +24,9 @@ export default function VerifyLogin() {
   }
 
   // Selagi ngecek session yang barusan login, tampilkan loading.
-  return <Loading />;
+  return (
+    <div className="bg-pastBackground bg-cover">
+      <Loading />
+    </div>
+  );
 }
