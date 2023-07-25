@@ -46,11 +46,8 @@ export default function UserAction({
                 </Avatar>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <Link href={"/#profile"} passHref>
+                <Link href={`/profile/${data.user?.nim}`} passHref>
                   <NavigationMenuLink
-                    onClick={() => {
-                      toast({ title: "Coming Soon" });
-                    }}
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "w-full justify-start whitespace-nowrap"
