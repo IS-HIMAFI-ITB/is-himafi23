@@ -30,6 +30,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import Unauthenticated from "@/components/template/unauthenticated";
+import { motion } from "framer-motion";
 
 export default function ProfilePage({ params }: { params: { nim: number } }) {
   const session = useSession();
@@ -45,7 +46,7 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
     //Return skeleton
     return (
       <Container className="min-h-[calc(100vh-72.6px-4rem)] h-screen flex flex-col gap-3 justify-center w-max">
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 mt-40">
           <Card className="w-full lg:w-[900px] bg-background">
             <CardHeader>
               <div className="rounded-full w-20 h-20 text-black flex items-center justify-center">
@@ -107,7 +108,16 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
 
   return (
     <Container className="min-h-[calc(100vh-72.6px-4rem)] h-full flex flex-col gap-3 justify-center w-max">
-      <div className="flex flex-col lg:flex-row gap-4 justify-between mt-40">
+      <motion.div
+        className="flex flex-col lg:flex-row gap-4 justify-between mt-40"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0,
+        }}
+      >
         <Card className="w-full lg:w-[600px] xl:w-[900px] bg-background">
           <CardHeader>
             <Avatar className="w-20 h-20 text-3xl">
@@ -165,30 +175,50 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
             </div>
           </CardContent>
         </Card>
-      </div>
-      <Card className="bg-background">
-        <CardHeader>
-          <CardTitle className="text-xl">Info</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/*ntar bisa ditambah lagi */}
-          <div>
-            <span>Nomor HP: </span>
-            <span>{data[0].phoneNumber}</span>
-          </div>
-          <div>
-            <span>Alamat: </span>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="bg-background w-[370px] lg:w-[836px] xl:w-[1136px]">
-        <CardHeader>
-          <CardTitle>Posts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <UserPosts data={data} />
-        </CardContent>
-      </Card>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0.2,
+        }}
+      >
+        <Card className="bg-background">
+          <CardHeader>
+            <CardTitle className="text-xl">Info</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {/*ntar bisa ditambah lagi */}
+            <div>
+              <span>Nomor HP: </span>
+              <span>{data[0].phoneNumber}</span>
+            </div>
+            <div>
+              <span>Alamat: </span>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0.4,
+        }}
+      >
+        <Card className="bg-background w-[370px] lg:w-[836px] xl:w-[1136px]">
+          <CardHeader>
+            <CardTitle>Posts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <UserPosts data={data} />
+          </CardContent>
+        </Card>
+      </motion.div>
     </Container>
   );
 }
