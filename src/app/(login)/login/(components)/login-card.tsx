@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { motion } from "framer-motion";
+
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
 import ThemeSwitch from "@/components/theme-switch";
@@ -51,7 +51,7 @@ const loginSchema = z.object({
     z.coerce
       .number()
       .gte(10221000, "Format NIM salah")
-      .lte(10222120, "Format NIM salah"),
+      .lte(10222150, "Format NIM salah"),
     z.coerce
       .number()
       .gte(16022001, "Format NIM salah")
