@@ -34,17 +34,37 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
   },
   {
     accessorKey: "nim",
-    header: "NIM",
+    accessorFn: (row) => row.user.nim, // row.original.user.nim.split("@")[0]
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        NIM
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
     cell: ({ row }) => {
       const user = row.original.user;
 
-      return <div className="w-max">{user.nim}</div>;
+      return user.nim;
     },
   },
   {
     id: "nama",
     accessorKey: "nama",
-    header: "Nama",
+    accessorFn: (row) => row.user.name,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Nama
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
     cell: ({ row }) => {
       const user = row.original.user;
 
@@ -63,7 +83,10 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <DownloadIcon size={16} className="mr-2 group-hover:text-primary" />{" "}
+          <DownloadIcon
+            size={16}
+            className="mr-2 shrink-0 group-hover:text-primary"
+          />{" "}
           {files?.split("_").slice(1).join("_")}
         </a>
       );
@@ -78,7 +101,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Submitted
-        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+        <ArrowUpDown className="ml-2 shrink-0 h-4 w-4 group-hover:text-primary" />
       </Button>
     ),
     cell: ({ row }) => {
@@ -109,7 +132,17 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
   },
   {
     accessorKey: "links",
-    header: "Links",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Links
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
+    accessorFn: (row) => row.links,
     cell: ({ row }) => {
       const links = row.original.links;
       return (
@@ -139,7 +172,17 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
   },
   {
     accessorKey: "score",
-    header: "Score",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Score
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
+    accessorFn: (row) => row.score,
     cell: ({ row }) => {
       const score = row.original.score;
       return <div className="w-max min-w-[10px]">{score ?? "-"}/100</div>;
