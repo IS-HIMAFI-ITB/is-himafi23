@@ -4,6 +4,7 @@ import "moment/locale/id";
 
 import moment from "moment";
 import { useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 import React from "react";
 
 import Container from "@/components/layout/container";
@@ -129,6 +130,10 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         </div>
       </Container>
     );
+  }
+
+  if (tugas.isError || tugasSubmission.isError || tugas.data === null) {
+    return notFound();
   }
 
   return (
