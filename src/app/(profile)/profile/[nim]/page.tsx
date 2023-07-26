@@ -16,6 +16,17 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Settings2, Camera } from "lucide-react";
 import { getUser } from "@/lib/client-fetch";
@@ -31,6 +42,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { motion } from "framer-motion";
+import EditProfile from "./(components)/edit-profile";
 
 export default function ProfilePage({ params }: { params: { nim: number } }) {
   const session = useSession();
@@ -131,16 +143,16 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
                 <H3 className="lg:text-2xl">{data[0].name}</H3>
                 {session.status === "authenticated" &&
                   session.data?.user.nim === data[0].nim && (
-                    <HoverCard>
-                      <HoverCardTrigger asChild>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
                         <Button className="ml-auto p-2" variant="outline">
                           <Settings2 />
                         </Button>
-                      </HoverCardTrigger>
-                      <HoverCardContent className="w-max">
-                        <p className="text-xs">Edit profile</p>
-                      </HoverCardContent>
-                    </HoverCard>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <EditProfile userData={data} />
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
               </div>
               <div className="flex gap-2">
@@ -191,12 +203,14 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
           </CardHeader>
           <CardContent>
             {/*ntar bisa ditambah lagi */}
+
             <div>
               <span>Nomor HP: </span>
-              <span>{data[0].phoneNumber}</span>
-            </div>
-            <div>
-              <span>Alamat: </span>
+              {data[0].phoneNumber ? (
+                <span>{data[0].phoneNumber}</span>
+              ) : (
+                <span>Unavailable</span>
+              )}
             </div>
           </CardContent>
         </Card>
