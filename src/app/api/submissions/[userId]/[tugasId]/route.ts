@@ -13,6 +13,27 @@ export async function GET(
   if (!session) {
     throw new Error("Unauthorized");
   }
+
+  if (params.userId === "all-users") {
+    const submissions = await prisma.submission.findMany({
+      where: {
+        tugasId: Number(params.tugasId),
+      },
+      orderBy: {
+        submittedAt: "desc",
+      },
+      include: {
+        user: true,
+        tugas: {
+          select: {
+            dueDate: true,
+          },
+        },
+      },
+    });
+    return NextResponse.json(submissions, { status: 200 });
+  }
+
   const submissions = await prisma.submission
     .findFirst({
       where: {
