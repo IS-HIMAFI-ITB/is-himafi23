@@ -118,7 +118,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Bagian Tabel */}
-      <div className="rounded-md overflow-auto">
+      <div className="rounded-md">
         <Table>
           {/* Table Header */}
           <TableHeader>
