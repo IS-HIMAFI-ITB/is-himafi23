@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="my-8">
       {/* Bagian Tabel */}
-      <div className="rounded-md overflow-hidden">
+      <div className="rounded-md">
         <Table>
           {/* Table Header */}
           <TableHeader>
