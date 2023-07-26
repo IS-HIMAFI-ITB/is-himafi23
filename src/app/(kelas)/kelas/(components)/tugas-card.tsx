@@ -63,7 +63,7 @@ export default function TugasCard({ loading, tugas, done }: Props) {
                       ? "[WIB]"
                       : moment(tugas?.dueDate).format("Z") === "+08:00"
                       ? "[WITA]"
-                      : `[GMT] ${moment(tugas?.updatedAt).format("Z")}`
+                      : `[GMT] ${moment(tugas?.dueDate).format("Z")}`
                   }`
                 )}
               </p>

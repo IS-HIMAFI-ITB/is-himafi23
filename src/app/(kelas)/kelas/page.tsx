@@ -2,30 +2,42 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Role } from "@prisma/client";
 
 import DayInfoCard from "./(components)/day-info";
 import TugasCard from "./(components)/tugas-card";
+import TugasSectionPanitia from "./(components)/tugas-section-panitia";
 import TugasSectionPeserta from "./(components)/tugas-section-peserta";
 
 export default function KelasPage() {
   const session = useSession();
+  const [viewAs, setViewAs] = useState<string>(Role.PESERTA);
 
   if (session.status === "unauthenticated") return <Unauthenticated />;
 
   return (
     <Container className="py-12">
       <section className="flex flex-col flex-wrap md:flex-row gap-y-8 gap-x-12 justify-between items-start mb-12">
-        <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-[2.7rem] leading-[1] xs:text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
-          Ruang Kelas
-        </p>
+        <div>
+          <p className="before:drop-shadow-glow text-accent font-black tracking-tight text-[2.7rem] leading-[1] xs:text-5xl sm:text-6xl lg:text-7xl before:content-['Ruang_Kelas'] before:absolute before:ml-[2px] before:mt-[2px] before:sm:ml-1 before:sm:mt-1 before:text-foreground">
+            Ruang Kelas
+          </p>
+        </div>
 
         <Card className="p-4 flex flex-row gap-4 justify-center items-center">
           <Avatar className="md:w-12 md:h-12">
@@ -49,7 +61,24 @@ export default function KelasPage() {
                 {session.status === "loading" && (
                   <Loader2Icon className="animate-spin" size={16} />
                 )}{" "}
-                {!(session.status === "loading") && session.data?.user.role}
+                {!(session.status === "loading") &&
+                  (session.data?.user.role === Role.PESERTA ? (
+                    session.data.user.role
+                  ) : (
+                    <Select defaultValue={viewAs} onValueChange={setViewAs}>
+                      <SelectTrigger className="text-sm flex flex-row gap-1 focus:ring-offset-0 w-fit h-fit px-0 py-px border-none ring-0 focus:ring-0">
+                        <SelectValue placeholder={viewAs} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={Role.PESERTA}>
+                          {Role.PESERTA}
+                        </SelectItem>
+                        <SelectItem value={session.data?.user.role!}>
+                          {session.data?.user.role}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ))}
               </Badge>
               {" · "}
               {session.status === "loading" && (
@@ -63,10 +92,20 @@ export default function KelasPage() {
         </Card>
       </section>
 
+      {/* <section className="flex flex-col gap-4 my-12">
+        <Alert variant={"destructive"} className="w-full">
+          <AlertTriangle size={16} />
+          <AlertTitle>Perhatikan Kembali Pengumpulan Tugas 1</AlertTitle>
+          <AlertDescription>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </AlertDescription>
+        </Alert>
+      </section> */}
+
       {/* Disabled sampai full release */}
 
-      {/* <section className="flex flex-col gap-6">
-        <motion.div 
+      {/* <section className="flex flex-col gap-6 my-24">
+        <motion.div
           className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,7 +154,13 @@ export default function KelasPage() {
         </motion.div>
       </section> */}
 
-      <TugasSectionPeserta />
+      {session.data?.user.role === "PESERTA" && <TugasSectionPeserta />}
+      {!(session.data?.user.role === "PESERTA") &&
+        (viewAs === "PESERTA" ? (
+          <TugasSectionPeserta />
+        ) : (
+          <TugasSectionPanitia />
+        ))}
     </Container>
   );
 }
