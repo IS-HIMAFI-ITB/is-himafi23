@@ -1,19 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, LinkIcon, PlusIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { H2 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
+import TugasAttachments from "./tugas-attachments";
 import TugasSubmissionDetail from "./tugas-submission-detail";
 
 async function getTugas() {
@@ -29,6 +29,13 @@ export default function TugasSectionPanitia() {
     refetchInterval: 1000 * 60 * 5, // 10 minutes
   });
   const [tugasIndex, setTugasIndex] = useState<number>(0);
+  const [tugasView, setTugasView] = useState<Tugas | null>(null);
+
+  useEffect(() => {
+    if (tugas.status === "success" && tugas.data) {
+      setTugasView(tugas.data[tugasIndex]);
+    }
+  }, [tugasIndex, tugas.status, tugas.data]);
   // if (tugas.status === "loading" || users.status === "loading")
   //   return <div>Loading...</div>;
 
@@ -116,11 +123,11 @@ export default function TugasSectionPanitia() {
 
       <div className="flex md:flex-row flex-col justify-between items-center gap-y-5 gap-x-8">
         <Link
-          href={`/kelas/tugas/${tugas.data[tugasIndex].id}`}
+          href={`/kelas/tugas/${tugasView?.id}`}
           className="w-full drop-shadow-glow hover:underline underline-offset-2"
         >
           <H2 className="border-none w-full p-0 text-accent">
-            {tugas.data[tugasIndex].title}
+            {tugasView?.title}
           </H2>
         </Link>
 
@@ -175,49 +182,16 @@ export default function TugasSectionPanitia() {
       <article className="prose prose-invert max-w-none w-full">
         <div
           dangerouslySetInnerHTML={{
-            __html: tugas.data[tugasIndex].description,
+            __html: tugasView?.description as TrustedHTML,
           }}
         />
 
-        <div className="not-prose w-full flex flex-row flex-wrap items-center gap-4">
-          {tugas?.data[tugasIndex]?.attachments
-            ?.split("|")
-            .filter((element) => (element === "|" ? null : element))
-            .map((attachment, i) => (
-              <a
-                href={attachment.split("?judultugas=")[0]}
-                key={tugas?.data[tugasIndex]?.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Card className="px-5 py-4 w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
-                  <LinkIcon
-                    className="group-hover/download:text-primary"
-                    size={24}
-                  />
-
-                  <div className="flex flex-col gap-1">
-                    <p className="font-semibold line-clamp-1">
-                      {attachment.split("?judultugas=")[1]}
-                    </p>
-
-                    <p className="text-sm opacity-50 overflow-hidden line-clamp-1">
-                      {
-                        attachment
-                          .replace("https://", "")
-                          .replace("http://", "")
-                          .split("?judultugas=")[0]
-                          .split("/")[0]
-                      }
-                    </p>
-                  </div>
-                </Card>
-              </a>
-            ))}
-        </div>
+        {tugas.data && (
+          <TugasAttachments key={tugasIndex} tugas={tugas.data[tugasIndex]} />
+        )}
       </article>
 
-      <TugasSubmissionDetail tugasId={tugas.data[tugasIndex].id} />
+      <TugasSubmissionDetail tugasId={tugasView?.id!} />
     </motion.section>
   );
 }
