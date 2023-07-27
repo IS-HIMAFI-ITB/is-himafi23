@@ -31,7 +31,7 @@ export default function TugasSubmissionDetail({
   const submission = useQuery<TugasSubmissionDetailProps[], Error>({
     queryKey: ["tugasSubmission", { id: tugasId }],
     queryFn: () => getTugasSubmission(tugasId),
-    refetchInterval: 1000 * 60 * 10, // 10 minutes
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
   // if (submission.status === "loading") return <div>Loading...</div>;
@@ -48,9 +48,11 @@ export default function TugasSubmissionDetail({
           <Skeleton className="mt-8 w-full h-96" />
         </>
       )}
+
       {submission.status === "error" && (
         <div>Error {submission.error.message}</div>
       )}
+
       {submission.status === "success" && (
         <DataTable
           fetching={submission.isFetching}
