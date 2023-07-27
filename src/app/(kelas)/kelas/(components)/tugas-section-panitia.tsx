@@ -134,8 +134,10 @@ export default function TugasSectionPanitia() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="px-4" size={"icon"} variant={"outline"}>
-            <Edit3 className="w-max shrink-0" size={16} />
+          <Button className="px-4" size={"icon"} variant={"outline"} asChild>
+            <Link href={`/kelas/tugas/${tugas.data[tugasIndex].id}/edit`}>
+              <Edit3 className="w-max shrink-0" size={16} />
+            </Link>
           </Button>
           <Button
             className="w-max md:w-full md:max-w-max"

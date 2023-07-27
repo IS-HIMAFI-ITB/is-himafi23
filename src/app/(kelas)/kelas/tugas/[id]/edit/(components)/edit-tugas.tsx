@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Tugas } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -60,38 +61,51 @@ const attachmentSchema = z.object({
 const formSchema = z.object({
   description: z.string().nonempty(),
   title: z.string().nonempty(),
-  attachments: z.string().optional(),
+  attachments: z.string().optional().nullable(),
   dueDate: z.date(),
   dueTime: z.string(),
 });
 
-export default function CreateTugas() {
+export default function EditTugas({
+  tugas,
+  params,
+}: {
+  tugas: Tugas;
+  params: { id: string };
+}) {
   const queryClient = useQueryClient();
   const titleEditorRef = useRef<any>(null);
   const descriptionEditorRef = useRef<any>(null);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [attachments, setAttachments] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: "<p>Ini deskripsi tugas.</p>",
-      title: "<h1>Ini judul tugas.</h1>",
-      dueDate: undefined,
+      description: tugas.description,
+      title: tugas.title,
+      attachments: tugas.attachments,
+      dueDate: tugas.dueDate ? new Date(tugas.dueDate.toString()) : undefined,
+      dueTime: tugas.dueDate
+        ? moment(tugas.dueDate).format("HH:mm")
+        : undefined,
     },
   });
 
-  const createTugas = useMutation({
-    mutationKey: ["createTugas"],
+  useEffect(() => {
+    console.log(form.getValues());
+  }, [form]);
+  const editTugas = useMutation({
+    mutationKey: ["editTugas"],
     mutationFn: (body: {
       description: string;
       title: string;
-      attachments: string | undefined;
+      attachments: string | null | undefined;
       dueDate: Date;
     }) => {
       return fetch("/api/tugas", {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
@@ -105,14 +119,14 @@ export default function CreateTugas() {
       setLoading(false);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["tugas"]);
+      queryClient.invalidateQueries(["tugas", { id: params.id }]);
       toast({
-        title: "Tugas berhasil dibuat",
+        title: "Tugas berhasil diedit",
       });
     },
     onError: (err: Error) => {
       toast({
-        title: "Gagal membuat tugas baru",
+        title: "Gagal mengubah detail tugas",
         description: err.message,
       });
     },
@@ -121,7 +135,8 @@ export default function CreateTugas() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formattedBody = getFormattedBody(values);
 
-    createTugas.mutate(formattedBody);
+    console.log(formattedBody);
+    // editTugas.mutate(formattedBody);
   }
 
   function getFormattedBody(values: z.infer<typeof formSchema>) {
@@ -158,11 +173,6 @@ export default function CreateTugas() {
     attachmentForm.reset({ title: "", url: "" }, { keepValues: false });
   }
 
-  useEffect(() => {
-    if (!date) return;
-    form.setValue("dueDate", date);
-  }, [date, form]);
-
   return (
     <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
       <motion.article
@@ -176,32 +186,25 @@ export default function CreateTugas() {
           delay: 0,
         }}
       >
-        <h3 className="flex flex-row items-center gap-2">Tugas baru</h3>
+        <h3 className="flex flex-row items-center gap-2">Tugas #{params.id}</h3>
 
         <Editor
           id="1"
           onChange={(e) => {
             form.setValue(
               "title",
-              `<h1>${
-                e.target.getContent({ format: "text" }) ?? "Ini judul tugas"
-              }</h1>`
+              `<h1>${e.target.getContent({ format: "text" })}</h1>`
             );
 
-            if (
-              titleEditorRef.current &&
-              titleEditorRef.current.getContent({ format: "text" }) === ""
-            ) {
-              titleEditorRef.current.setContent(`<h1>Ini judul tugas.</h1>`);
-            } else {
-              titleEditorRef.current.setContent(
-                `<h1>${e.target.getContent({ format: "text" })}</h1>`
-              );
-            }
+            if (!titleEditorRef.current) return;
+
+            titleEditorRef.current.setContent(
+              `<h1>${e.target.getContent({ format: "text" })}</h1>`
+            );
           }}
           onInit={(evt, editor) => (titleEditorRef.current = editor)}
           apiKey={process.env.TINYMCE_API_KEY}
-          initialValue={form.getValues("title")}
+          initialValue={`<h1>${tugas.title}</h1>`}
           init={{
             inline: true,
             skin: "small",
@@ -215,14 +218,11 @@ export default function CreateTugas() {
         <Editor
           id="2"
           onChange={(e) => {
-            form.setValue(
-              "description",
-              e.target.getContent() ?? "<p>Ini deskripsi tugas.</p>"
-            );
+            form.setValue("description", e.target.getContent());
           }}
           onInit={(evt, editor) => (descriptionEditorRef.current = editor)}
           apiKey={process.env.TINYMCE_API_KEY}
-          initialValue={form.getValues("description")}
+          initialValue={tugas.description}
           init={{
             height: 500,
             inline: true,
@@ -396,11 +396,11 @@ export default function CreateTugas() {
                             !field.value && "text-muted-foreground"
                           )}
                         >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
+                          {field.value
+                            ? moment(field.value).format("dddd, DD MMMM YYYY")
+                            : tugas.dueDate
+                            ? moment(tugas.dueDate).format("dddd, DD MMMM YYYY")
+                            : "Pick a date"}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
