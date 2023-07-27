@@ -5,6 +5,7 @@ import "./editor-style.css";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import {
+  ArrowLeft,
   CalendarIcon,
   HelpCircle,
   LinkIcon,
@@ -13,6 +14,7 @@ import {
   XCircleIcon,
 } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -176,6 +178,11 @@ export default function CreateTugas() {
           delay: 0,
         }}
       >
+        <Button variant={"outline"} className="mb-4 no-underline" asChild>
+          <Link href={`/kelas`}>
+            <ArrowLeft className="mr-2" size={16} /> Kembali ke halaman kelas
+          </Link>
+        </Button>
         <h3 className="flex flex-row items-center gap-2">Tugas baru</h3>
 
         <Editor

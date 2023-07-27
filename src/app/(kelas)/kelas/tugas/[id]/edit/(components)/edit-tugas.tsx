@@ -5,14 +5,17 @@ import "./editor-style.css";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import {
+  ArrowLeft,
   CalendarIcon,
   HelpCircle,
   LinkIcon,
   Loader2Icon,
   PlusIcon,
   XCircleIcon,
+  XIcon,
 } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -135,8 +138,7 @@ export default function EditTugas({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formattedBody = getFormattedBody(values);
 
-    console.log(formattedBody);
-    // editTugas.mutate(formattedBody);
+    editTugas.mutate(formattedBody);
   }
 
   function getFormattedBody(values: z.infer<typeof formSchema>) {
@@ -186,6 +188,11 @@ export default function EditTugas({
           delay: 0,
         }}
       >
+        <Button variant={"outline"} className="mb-4 no-underline" asChild>
+          <Link href={`/kelas`}>
+            <ArrowLeft className="mr-2" size={16} /> Kembali ke halaman kelas
+          </Link>
+        </Button>
         <h3 className="flex flex-row items-center gap-2">Tugas #{params.id}</h3>
 
         <Editor
@@ -378,7 +385,29 @@ export default function EditTugas({
         <p>Isi sesuai dengan zona waktu kamu.</p>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onReset={() => {
+              form.reset(
+                {
+                  title: tugas.title,
+                  attachments: tugas.attachments,
+                  description: tugas.description,
+                  dueDate: tugas.dueDate,
+                  dueTime: moment(new Date(tugas.dueDate.toString())).format(
+                    "HH:mm"
+                  ),
+                },
+                { keepValues: false, keepDefaultValues: true }
+              );
+              if (!titleEditorRef.current) return;
+              if (!descriptionEditorRef.current) return;
+
+              descriptionEditorRef.current.setContent(tugas.description);
+              titleEditorRef.current.setContent(`<h1>${tugas.title}</h1>`);
+            }}
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <FormField
               control={form.control}
               name="dueDate"
@@ -481,8 +510,16 @@ export default function EditTugas({
               {loading ? (
                 <Loader2Icon size={16} className="animate-spin" />
               ) : (
-                "Buat Tugas"
+                "Edit Tugas"
               )}
+            </Button>
+            <Button
+              className="w-full flex flex-row items-center"
+              variant={"outline"}
+              type="reset"
+            >
+              <XIcon className="mr-2" size={16} />
+              Reset
             </Button>
           </form>
         </Form>

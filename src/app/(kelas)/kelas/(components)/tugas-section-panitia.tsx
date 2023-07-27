@@ -13,6 +13,16 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 import { H2 } from "@/components/typography";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,8 +32,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/toast/useToast";
 import { Tugas } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import TugasAttachments from "./tugas-attachments";
 import TugasSubmissionDetail from "./tugas-submission-detail";
@@ -41,6 +52,33 @@ export default function TugasSectionPanitia() {
     refetchInterval: 1000 * 60 * 5, // 10 minutes
   });
   const [tugasIndex, setTugasIndex] = useState<number>(0);
+  const { toast } = useToast();
+
+  const deleteTugas = useMutation({
+    mutationKey: ["deleteTugas"],
+    mutationFn: () => {
+      if (!tugas.data) return Promise.reject("Tugas ID is undefined");
+
+      return fetch(`/api/tugas/${tugas.data[tugasIndex].id}`, {
+        method: "DELETE",
+      });
+    },
+    onMutate: () => {
+      toast({
+        title: "Menghapus tugas...",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Tugas berhasil dihapus!",
+      });
+
+      tugas.refetch();
+    },
+    onSettled: () => {
+      tugas.refetch();
+    },
+  });
 
   // if (tugas.status === "loading" || users.status === "loading")
   //   return <div>Loading...</div>;
@@ -127,10 +165,41 @@ export default function TugasSectionPanitia() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="p-0">
               <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                <Button variant={"destructive"} className="w-full">
-                  <TrashIcon className="w-max shrink-0 mr-2" size={16} />
-                  Hapus
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant={"destructive"}
+                      className="w-full"
+                      onClick={() => console.log(tugas.data[tugasIndex].id)}
+                    >
+                      <TrashIcon className="w-max shrink-0 mr-2" size={16} />
+                      Hapus
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      Apakah kamu yakin ingin menghapus tugas{" "}
+                      {tugas.data[tugasIndex].title}?
+                    </AlertDialogHeader>
+                    <AlertDialogDescription>
+                      Tugas yang sudah dihapus tidak dapat dikembalikan, dan
+                      akan menghapus semua data yang berkaitan dengan tugas ini.
+                    </AlertDialogDescription>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>
+                        <Button variant={"outline"}>Batal</Button>
+                      </AlertDialogCancel>
+                      <AlertDialogAction>
+                        <Button
+                          variant={"destructive"}
+                          onClick={() => deleteTugas.mutate()}
+                        >
+                          Hapus
+                        </Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
