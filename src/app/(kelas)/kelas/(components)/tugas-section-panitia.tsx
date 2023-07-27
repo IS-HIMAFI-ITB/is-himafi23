@@ -184,7 +184,6 @@ export default function TugasSectionPanitia() {
                     <AlertDialogFooter>
                       <AlertDialogCancel asChild>
                         <Button
-                          variant={"destructive"}
                           onClick={() =>
                             toast({
                               title:
@@ -196,7 +195,7 @@ export default function TugasSectionPanitia() {
                         </Button>
                       </AlertDialogCancel>
                       <AlertDialogAction asChild>
-                        <Button variant={"outline"}>Batal</Button>
+                        <Button>Batal</Button>
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
