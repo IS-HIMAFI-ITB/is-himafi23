@@ -36,7 +36,6 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Role } from "@prisma/client";
 import { Editor } from "@tinymce/tinymce-react";
 
 const attachmentSchema = z.object({
@@ -67,17 +66,10 @@ export default function CreateTugas() {
       description: "<p>Ini deskripsi tugas.</p>",
       title: "<h1>Ini judul tugas.</h1>",
       dueDate: undefined,
-      // dueTime: new Date()
-      //   .toLocaleTimeString("it-IT")
-      //   .split(" ")[0]
-      //   .split(":")
-      //   .slice(0, 2)
-      //   .join(":"),
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values.dueDate.toISOString());
     const properDateTime = new Date(
       values.dueDate.setHours(
         Number(values.dueTime.split(":")[0]),
@@ -113,10 +105,6 @@ export default function CreateTugas() {
     if (!date) return;
     form.setValue("dueDate", date);
   }, [date, form]);
-
-  if (session.data?.user.role === Role.PESERTA) {
-    return <Unauthenticated />;
-  }
 
   return (
     <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
