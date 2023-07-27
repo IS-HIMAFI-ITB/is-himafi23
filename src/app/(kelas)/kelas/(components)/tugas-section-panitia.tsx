@@ -1,13 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Edit3,
+  MenuIcon,
+  PlusIcon,
+  TrashIcon,
+} from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { H2 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tugas } from "@prisma/client";
@@ -29,13 +41,7 @@ export default function TugasSectionPanitia() {
     refetchInterval: 1000 * 60 * 5, // 10 minutes
   });
   const [tugasIndex, setTugasIndex] = useState<number>(0);
-  const [tugasView, setTugasView] = useState<Tugas | null>(null);
 
-  useEffect(() => {
-    if (tugas.status === "success" && tugas.data) {
-      setTugasView(tugas.data[tugasIndex]);
-    }
-  }, [tugasIndex, tugas.status, tugas.data]);
   // if (tugas.status === "loading" || users.status === "loading")
   //   return <div>Loading...</div>;
 
@@ -95,6 +101,9 @@ export default function TugasSectionPanitia() {
     return { next: tugasIndex < tugas.data!.length - 1, prev: tugasIndex > 0 };
   }
 
+  if (tugas.data.length === 0) return;
+  if (tugas.data[tugasIndex] === undefined) return;
+
   return (
     <motion.section
       className="my-12"
@@ -108,35 +117,55 @@ export default function TugasSectionPanitia() {
       }}
     >
       <div className="flex flex-row justify-between items-center my-4 gap-x-8">
-        <H2 className="border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] drop-shadow-glow before:text-accent before:-z-10">
+        <H2 className="text-xl sm:text-3xl xs:text-2xl border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] drop-shadow-glow before:text-accent before:-z-10">
           Tugas Peserta
         </H2>
+        <div className="flex flex-row gap-2 items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="hover:cursor-pointer" asChild>
+              <MenuIcon className="w-max shrink-0 mr-2" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-0">
+              <DropdownMenuItem className="hover:cursor-pointer" asChild>
+                <Button variant={"destructive"} className="w-full">
+                  <TrashIcon className="w-max shrink-0 mr-2" size={16} />
+                  Hapus
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button className="px-4" size={"icon"} variant={"outline"}>
+            <Edit3 className="w-max shrink-0" size={16} />
+          </Button>
+          <Button
+            className="w-max md:w-full md:max-w-max"
+            variant={"outline"}
+            asChild
+          >
+            <Link href={"/kelas/tugas/create"}>
+              <PlusIcon className="md:mr-2" />
 
-        <Button className="w-max md:w-full md:max-w-max" variant={"outline"}>
-          <PlusIcon className="md:mr-2" />
-
-          <span className="hidden md:inline">Tambah Tugas</span>
-        </Button>
+              <span className="hidden md:inline whitespace-nowrap">
+                Tambah Tugas
+              </span>
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Separator className="mb-6" />
 
       <div className="flex md:flex-row flex-col justify-between items-center gap-y-5 gap-x-8">
         <Link
-          href={`/kelas/tugas/${tugasView?.id}`}
+          href={`/kelas/tugas/${tugas.data[tugasIndex].id}`}
           className="w-full drop-shadow-glow hover:underline underline-offset-2"
         >
           <H2 className="border-none w-full p-0 text-accent">
-            {tugasView?.title}
+            {tugas.data[tugasIndex].title}
           </H2>
         </Link>
 
         <div className="flex flex-row gap-4 items-center w-full md:w-full justify-end">
-          <Input
-            placeholder="Cari tugas"
-            className="hidden md:inline-flex md:max-w-lg"
-          />
-
           <Button
             variant={"outline"}
             className="md:inline-flex hidden"
@@ -165,6 +194,7 @@ export default function TugasSectionPanitia() {
             variant={"outline"}
             disabled={!canNavigate().prev}
             className="md:hidden w-full"
+            onClick={handleChangePrevPage}
           >
             <ArrowLeft className="mr-2" /> Previous
           </Button>
@@ -173,6 +203,7 @@ export default function TugasSectionPanitia() {
             variant={"outline"}
             disabled={!canNavigate().next}
             className="md:hidden w-full"
+            onClick={handleChangeNextPage}
           >
             Next <ArrowRight className="ml-2" />
           </Button>
@@ -182,16 +213,22 @@ export default function TugasSectionPanitia() {
       <article className="prose prose-invert max-w-none w-full">
         <div
           dangerouslySetInnerHTML={{
-            __html: tugasView?.description as TrustedHTML,
+            __html: tugas.data[tugasIndex].description as TrustedHTML,
           }}
         />
 
         {tugas.data && (
-          <TugasAttachments key={tugasIndex} tugas={tugas.data[tugasIndex]} />
+          <TugasAttachments
+            key={tugas.data[tugasIndex].id}
+            tugas={tugas.data[tugasIndex]}
+          />
         )}
       </article>
 
-      <TugasSubmissionDetail tugasId={tugasView?.id!} />
+      <TugasSubmissionDetail
+        key={tugas.data[tugasIndex].id}
+        tugasId={tugas.data[tugasIndex].id!}
+      />
     </motion.section>
   );
 }

@@ -22,11 +22,11 @@ export default function TugasAttachments({ tugas }: { tugas: Tugas }) {
         .map((attachment, i) => (
           <a
             href={attachment.split("?judultugas=")[0]}
-            key={tugas.id}
+            key={i}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Card className="px-5 py-4 w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
+            <Card className="px-5 py-4 w-full max-w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
               <LinkIcon
                 className="group-hover/download:text-primary"
                 size={24}

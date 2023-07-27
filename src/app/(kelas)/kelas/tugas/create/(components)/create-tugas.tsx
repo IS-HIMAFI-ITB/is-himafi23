@@ -4,15 +4,19 @@ import "./editor-style.css";
 
 import { format } from "date-fns";
 import { motion } from "framer-motion";
-import { CalendarIcon, LinkIcon, PlusIcon, XCircleIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  HelpCircle,
+  LinkIcon,
+  PlusIcon,
+  XCircleIcon,
+} from "lucide-react";
 import moment from "moment";
-import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import Container from "@/components/layout/container";
-import Unauthenticated from "@/components/template/unauthenticated";
 import { H3 } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -34,6 +38,12 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
@@ -57,7 +67,6 @@ export default function CreateTugas() {
   const titleEditorRef = useRef<any>(null);
   const descriptionEditorRef = useRef<any>(null);
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const session = useSession();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -437,14 +446,27 @@ export default function CreateTugas() {
               name="dueTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Due time</FormLabel>
+                  <FormLabel className="flex flex-row items-center gap-2">
+                    Due time{" "}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <HelpCircle size={16} />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Klik icon jam agar lebih mudah memilih waktu yang
+                          diinginkan.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </FormLabel>
 
                   <FormControl>
                     <Input
                       {...field}
                       type="time"
                       name="dueTime"
-                      className="w-full"
+                      className="w-full hover:cursor-pointer"
                       placeholder="Pick a time"
                     />
                   </FormControl>
