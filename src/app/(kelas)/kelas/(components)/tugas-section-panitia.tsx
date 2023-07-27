@@ -167,11 +167,7 @@ export default function TugasSectionPanitia() {
               <DropdownMenuItem className="hover:cursor-pointer" asChild>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button
-                      variant={"destructive"}
-                      className="w-full"
-                      onClick={() => console.log(tugas.data[tugasIndex].id)}
-                    >
+                    <Button variant={"destructive"} className="w-full">
                       <TrashIcon className="w-max shrink-0 mr-2" size={16} />
                       Hapus
                     </Button>
@@ -186,16 +182,16 @@ export default function TugasSectionPanitia() {
                       akan menghapus semua data yang berkaitan dengan tugas ini.
                     </AlertDialogDescription>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>
-                        <Button variant={"outline"}>Batal</Button>
-                      </AlertDialogCancel>
-                      <AlertDialogAction>
+                      <AlertDialogCancel asChild>
                         <Button
                           variant={"destructive"}
                           onClick={() => deleteTugas.mutate()}
                         >
                           Hapus
                         </Button>
+                      </AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <Button variant={"outline"}>Batal</Button>
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
