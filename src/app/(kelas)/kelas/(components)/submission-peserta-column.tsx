@@ -76,6 +76,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     header: "File",
     cell: ({ row }) => {
       const files = row.original.files;
+      if (!files) return <div className="w-max">-</div>;
       return (
         <a
           href={`https://uploadthing.com/f/${files}`}
@@ -89,44 +90,6 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
           />{" "}
           {files?.split("_").slice(1).join("_")}
         </a>
-      );
-    },
-  },
-  {
-    accessorKey: "submittedAt",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Submitted
-        <ArrowUpDown className="ml-2 shrink-0 h-4 w-4 group-hover:text-primary" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      const submittedAt = row.original.submittedAt;
-      const dueDate = row.original.tugas.dueDate;
-
-      const isTelat = moment(submittedAt).isAfter(dueDate);
-      return (
-        <div
-          className={cn(
-            `w-max flex flex-row gap-3 items-center`,
-            isTelat && "text-destructive"
-          )}
-        >
-          {moment(submittedAt).format(
-            `DD MMMM, [pukul] HH:mm ${
-              moment(submittedAt).format("Z") === "+07:00"
-                ? "[WIB]"
-                : moment(submittedAt).format("Z") === "+08:00"
-                ? "[WITA]"
-                : `[GMT] ${moment(submittedAt).format("Z")}`
-            }`
-          )}{" "}
-          {isTelat && <Badge variant={"destructive"}>Telat</Badge>}
-        </div>
       );
     },
   },
@@ -166,6 +129,44 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
               </Link>
             </div>
           ))}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "submittedAt",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Submitted
+        <ArrowUpDown className="ml-2 shrink-0 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const submittedAt = row.original.submittedAt;
+      const dueDate = row.original.tugas.dueDate;
+
+      const isTelat = moment(submittedAt).isAfter(dueDate);
+      return (
+        <div
+          className={cn(
+            `w-max flex flex-row gap-3 items-center`,
+            isTelat && "text-destructive"
+          )}
+        >
+          {moment(submittedAt).format(
+            `DD MMMM, [pukul] HH:mm ${
+              moment(submittedAt).format("Z") === "+07:00"
+                ? "[WIB]"
+                : moment(submittedAt).format("Z") === "+08:00"
+                ? "[WITA]"
+                : `[GMT] ${moment(submittedAt).format("Z")}`
+            }`
+          )}{" "}
+          {isTelat && <Badge variant={"destructive"}>Telat</Badge>}
         </div>
       );
     },

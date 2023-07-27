@@ -91,7 +91,7 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
             .map((attachment, i) => (
               <a
                 href={attachment.split("?judultugas=")[0]}
-                key={tugas?.id}
+                key={i}
                 target="_blank"
                 rel="noopener noreferrer"
               >
