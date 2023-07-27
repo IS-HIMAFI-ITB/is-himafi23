@@ -251,7 +251,7 @@ export default function CreateTugas() {
                         if (
                           form.getValues("attachments")!.split("|").length === 1
                         ) {
-                          form.setValue("attachments", "");
+                          form.setValue("attachments", undefined);
                           return;
                         }
                         form.setValue(
