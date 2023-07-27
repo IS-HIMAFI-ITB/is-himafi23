@@ -185,7 +185,12 @@ export default function TugasSectionPanitia() {
                       <AlertDialogCancel asChild>
                         <Button
                           variant={"destructive"}
-                          onClick={() => deleteTugas.mutate()}
+                          onClick={() =>
+                            toast({
+                              title:
+                                "Harap hubungi apip atau zydan yahehhehehe",
+                            })
+                          }
                         >
                           Hapus
                         </Button>
