@@ -34,7 +34,7 @@ import {
 } from "@radix-ui/react-navigation-menu";
 
 import ThemeSwitch from "../theme-switch";
-import { Button, ButtonProps } from "../ui/button";
+import { ButtonProps, buttonVariants } from "../ui/button";
 import { useToast } from "../ui/toast/useToast";
 import UserAction from "../user-action";
 
@@ -114,43 +114,52 @@ const NavbarItems = ({ className, children, ...props }: NavbarProps) => {
   );
 };
 
-type NavbarLinkProps = LinkProps & ButtonProps & { active?: boolean };
+type NavbarLinkProps = LinkProps &
+  ButtonProps & { active?: boolean; isMobile?: boolean };
 const NavbarLink = ({
   className,
   children,
   href,
+  isMobile = false,
   ...props
 }: NavbarLinkProps) => {
   const active = usePathname() === href;
   return (
-    <Button
-      {...props}
-      variant={"ghost"}
-      className={cn("hover:cursor-pointer", active && "shadow-md", className)}
-      asChild
+    <Link
+      className={buttonVariants({
+        variant: active ? "outline" : "ghost",
+        className: cn("hover:cursor-pointer", isMobile && "w-full", className),
+      })}
+      href={href}
     >
-      <Link href={href}>{children}</Link>
-    </Button>
+      <span className={cn(isMobile && "inline mr-auto")}>{children}</span>
+    </Link>
   );
 };
 
 interface NavbarDropdownProps extends NavigationMenuProps {
   children: React.ReactNode;
   trigger: React.ReactNode;
+  isMobile?: boolean;
 }
 const NavbarDropdown = ({
   trigger,
   children,
+  isMobile,
   ...props
 }: NavbarDropdownProps) => {
   return (
-    <NavigationMenu {...props}>
+    <NavigationMenu className={cn(isMobile && "w-full")} {...props}>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent">
+          <NavigationMenuTrigger
+            className={cn("bg-transparent", isMobile && "w-full")}
+          >
             {trigger}
           </NavigationMenuTrigger>
-          <NavigationMenuContent>{children}</NavigationMenuContent>
+          <NavigationMenuContent className={cn(isMobile && "w-full")}>
+            {children}
+          </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuIndicator />
       </NavigationMenuList>
@@ -223,44 +232,22 @@ export default function Navbar({
                     </NavbarBrand>
                   </SheetTitle>
                 </SheetHeader>
-                <NavbarContent className="flex-col gap-4 px-0 items-start">
-                  <NavbarLink href="/">Home</NavbarLink>
-                  <NavbarLink href="/kelas">Kelas</NavbarLink>
-                  <NavbarDropdown
-                    tabIndex={0}
-                    orientation="vertical"
-                    trigger="Tentang Kami"
-                  >
-                    <NavbarDropdownLink
-                      onClick={() => {
-                        toast({ title: "Coming Soon" });
-                      }}
-                      href="/#latar-belakang"
-                    >
-                      Latar Belakang
-                    </NavbarDropdownLink>
-                    <NavbarDropdownLink
-                      onClick={() => {
-                        toast({ title: "Coming Soon" });
-                      }}
-                      href="/#visi-misi"
-                    >
-                      Visi dan Misi
-                    </NavbarDropdownLink>
-                    <NavbarDropdownLink
-                      onClick={() => {
-                        toast({ title: "Coming Soon" });
-                      }}
-                      href="/#organogram"
-                    >
-                      Organogram
-                    </NavbarDropdownLink>
-                  </NavbarDropdown>
+                <NavbarContent className="flex-col gap-4 px-0 items-start w-full">
+                  <NavbarLink isMobile href="/">
+                    Home
+                  </NavbarLink>
+                  <NavbarLink isMobile href="/kelas">
+                    Kelas
+                  </NavbarLink>
+                  <NavbarLink isMobile href="/#visi-misi">
+                    Visi dan Misi
+                  </NavbarLink>
                   <NavbarLink
+                    isMobile
                     onClick={() => {
                       toast({ title: "Coming Soon" });
                     }}
-                    href=""
+                    href="/#leaderboard"
                   >
                     Leaderboard
                   </NavbarLink>
@@ -294,32 +281,7 @@ export default function Navbar({
             <NavbarItems>
               <NavbarLink href="/">Home</NavbarLink>
               <NavbarLink href="/kelas">Kelas</NavbarLink>
-              <NavbarDropdown trigger="Tentang Kami">
-                <NavbarDropdownLink
-                  onClick={() => {
-                    toast({ title: "Coming Soon" });
-                  }}
-                  href="/#latar-belakang"
-                >
-                  Latar Belakang
-                </NavbarDropdownLink>
-                <NavbarDropdownLink
-                  onClick={() => {
-                    toast({ title: "Coming Soon" });
-                  }}
-                  href="/#visi-misi"
-                >
-                  Visi dan Misi
-                </NavbarDropdownLink>
-                <NavbarDropdownLink
-                  onClick={() => {
-                    toast({ title: "Coming Soon" });
-                  }}
-                  href="/#organogram"
-                >
-                  Organogram
-                </NavbarDropdownLink>
-              </NavbarDropdown>
+              <NavbarLink href="/#visi-misi">Visi dan Misi</NavbarLink>
               <NavbarLink
                 onClick={() => {
                   toast({ title: "Coming Soon" });

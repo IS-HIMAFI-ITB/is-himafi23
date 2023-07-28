@@ -71,8 +71,27 @@
 @layer base {
   * {
     @apply border-border;
+
+    /* width */
+    ::-webkit-scrollbar {
+      @apply w-2.5;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: hsl(var(--card));
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: hsl(var(--muted));
+      border-radius: 1rem;
+    }
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
   }
 }
