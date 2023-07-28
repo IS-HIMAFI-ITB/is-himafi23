@@ -397,9 +397,51 @@ const akunPanit = [
 
 const load = async () => {
   try {
-    await prisma.user.createMany({
-      data: akunPanit,
-    });
+    // ! INI UNTUK BUAT NOTIFIKASI, BODY KURANG LEBIH KEK GINI
+    // ! {
+    // !  title: "judul",
+    // !  description: "deskripsi",
+    // !  type: "UMUM",
+    // !  createdAt: new Date(),
+    // !  receiver: ["10221006", "10221000", ...]
+    // !}
+    await Promise.all(
+      ["10221006"].map((nim) =>
+        prisma.notification
+          .create({
+            data: {
+              title: "Ini unread",
+              description: "Ini unread",
+              type: "UMUM",
+              createdAt: new Date(),
+              receiver: {
+                connect: {
+                  nim: nim,
+                },
+              },
+            },
+          })
+          .then((res) => console.log(res))
+      )
+    );
+    // ! READ NOTIFICATIONS
+    // const params = { id: "9475ab02-4336-4b67-a0ec-944356417c5b" };
+    // await Promise.all(
+    //   [3, 5, 7].map((i) =>
+    //     prisma.notification.update({
+    //       where: {
+    //         id: i,
+    //       },
+    //       data: {
+    //         readBy: {
+    //           connect: {
+    //             id: params.id,
+    //           },
+    //         },
+    //       },
+    //     })
+    //   )
+    // ).then((res) => console.log(res));
   } catch (e) {
     console.error(e);
   } finally {

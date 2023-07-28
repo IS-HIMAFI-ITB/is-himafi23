@@ -6,7 +6,9 @@ import Link from "next/link";
 import React from "react";
 
 import { cn } from "@/lib/utils";
+import { Notification, User } from "@prisma/client";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button, ButtonProps } from "./ui/button";
@@ -25,6 +27,10 @@ import { useToast } from "./ui/toast/useToast";
 interface UserActionProps extends ButtonProps {
   loginText?: string;
 }
+
+interface QueryNotification extends Notification {
+  readBy: User[];
+}
 export default function UserAction({
   className,
   loginText = undefined,
@@ -33,18 +39,97 @@ export default function UserAction({
   const { data, status } = useSession();
   const { toast } = useToast();
 
+  const notifications = useQuery<QueryNotification[], Error>({
+    queryKey: ["notifications", { id: data?.user.id }],
+    queryFn: () => {
+      return fetch(`/api/notifications/${data?.user.id}`).then((res) =>
+        res.json()
+      );
+    },
+  });
+
+  const readNotification = useMutation({
+    mutationKey: ["readNotification"],
+    mutationFn: (id: number[]) => {
+      return fetch(`/api/notifications/${data?.user.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ id }),
+      }).then((res) => res.json());
+    },
+    onMutate: () => {
+      alert("onMutate");
+    },
+    onSuccess: () => {
+      alert("onSuccess");
+      notifications.refetch();
+    },
+    onError: () => {
+      alert("onError");
+    },
+  });
+
+  const unreadNotifications = notifications.data?.filter(
+    (notification) =>
+      !notification.readBy.some((user) => user.id === data?.user.id)
+  );
+
+  const readNotifications = notifications.data?.filter((notification) =>
+    notification.readBy.some((user) => user.id === data?.user.id)
+  );
+
   switch (status) {
     case "authenticated":
       return (
         <>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <BellIcon size={24} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="text-center px-5 py-3 text-sm">
-              No unread notification
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {!(
+            notifications.status === "loading" ||
+            notifications.status === "error"
+          ) && (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                onClick={() => {
+                  const body = notifications.data
+                    ?.filter(
+                      (notification) =>
+                        !notification.readBy.some(
+                          (user) => user.id === data?.user.id
+                        )
+                    )
+                    .map((notification) => notification.id);
+                  readNotification.mutate(body);
+                }}
+              >
+                <BellIcon size={24} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="text-center px-5 py-3 text-sm">
+                <div className="flex flex-col w-full">
+                  {notifications.data
+                    ?.filter(
+                      (notification) =>
+                        !notification.readBy.some(
+                          (user) => user.id === data?.user.id
+                        )
+                    )
+                    .map((notification, i) => (
+                      <div className={cn()} key={i}>
+                        {notification.description}
+                      </div>
+                    ))}
+                  {notifications.data
+                    ?.filter((notification) =>
+                      notification.readBy.some(
+                        (user) => user.id === data?.user.id
+                      )
+                    )
+                    .map((notification, i) => (
+                      <div className={cn("bg-red-300")} key={i}>
+                        {notification.description}
+                      </div>
+                    ))}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>

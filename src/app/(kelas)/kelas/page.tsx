@@ -63,7 +63,7 @@ export default function KelasPage() {
                 )}{" "}
                 {!(session.status === "loading") &&
                   (session.data?.user.role === Role.PESERTA ? (
-                    <p>session.data.user.role</p>
+                    <p>{session.data.user.role}</p>
                   ) : (
                     <Select defaultValue={viewAs} onValueChange={setViewAs}>
                       <SelectTrigger className="text-sm flex flex-row gap-1 focus:ring-offset-0 w-fit h-fit px-0 py-px border-none ring-0 focus:ring-0">
