@@ -2,10 +2,13 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
+import { H3 } from "@/components/typography";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -91,15 +94,37 @@ export default function KelasPage() {
         </Card>
       </section>
 
-      {/* <section className="flex flex-col gap-4 my-12">
-        <Alert variant={"destructive"} className="w-full">
-          <AlertTriangle size={16} />
-          <AlertTitle>Perhatikan Kembali Pengumpulan Tugas 1</AlertTitle>
-          <AlertDescription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </AlertDescription>
+      <section className="flex flex-col gap-4 my-12">
+        <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur">
+          <AlertTitle>
+            <H3>Halooo, Afi 👋</H3>
+          </AlertTitle>
+          <div className="prose prose-invert prose-sm lg:prose-base">
+            <p>
+              Ada pengumuman penting yang harus kalian ketahui! akan
+              dilaksanakan{" "}
+              <strong>Wawancara Peserta Intellektuelle Schule 2023</strong>{" "}
+              pada:
+              <br />
+              <br />
+              <strong>📆 Tanggal: </strong>29 Juli 2023
+              <br />
+              <strong>🕘 Jam: </strong>08.00 WIB - 17.00 WIB
+              <br />
+              <br />
+              Teknis pelaksanaan dapat dilihat lebih lengkap pada SOP peserta
+              wawancara yang dapat diunduh pada link{" "}
+              <Link
+                href="https://uploadthing.com/f/331cb7e9-298a-401c-8f01-e1ff3a2e28f4_SOP%20PESERTA%20WAWANCARA.pdf"
+                target="_blank"
+              >
+                berikut ini
+              </Link>
+              .
+            </p>
+          </div>
         </Alert>
-      </section> */}
+      </section>
 
       {/* Disabled sampai full release */}
 

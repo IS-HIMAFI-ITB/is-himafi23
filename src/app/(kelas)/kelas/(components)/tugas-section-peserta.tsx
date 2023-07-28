@@ -67,7 +67,7 @@ export default function TugasSectionPeserta({ isVisible }: any) {
   return (
     <AnimatePresence>
       <motion.section
-        className="flex flex-col gap-4 my-8"
+        className="flex flex-col gap-4 my-12"
         initial={{ opacity: 0, y: 200 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
