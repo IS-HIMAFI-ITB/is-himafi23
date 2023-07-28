@@ -1,14 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { AlertTriangle, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
-import { H2 } from "@/components/typography";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -94,7 +91,7 @@ export default function KelasPage() {
         </Card>
       </section>
 
-      <section className="flex flex-col gap-4 my-12">
+      {/* <section className="flex flex-col gap-4 my-12">
         <Alert variant={"destructive"} className="w-full">
           <AlertTriangle size={16} />
           <AlertTitle>Perhatikan Kembali Pengumpulan Tugas 1</AlertTitle>
@@ -102,11 +99,11 @@ export default function KelasPage() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </AlertDescription>
         </Alert>
-      </section>
+      </section> */}
 
       {/* Disabled sampai full release */}
 
-      <section className="flex flex-col gap-6 my-24">
+      {/* <section className="flex flex-col gap-6 my-24">
         <motion.div
           className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between"
           initial={{ opacity: 0, y: 100 }}
@@ -154,7 +151,7 @@ export default function KelasPage() {
             unknown
           />
         </motion.div>
-      </section>
+      </section> */}
 
       {session.data?.user.role === "PESERTA" && <TugasSectionPeserta />}
       {!(session.data?.user.role === "PESERTA") &&
