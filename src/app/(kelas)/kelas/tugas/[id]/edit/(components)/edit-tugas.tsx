@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -96,6 +96,9 @@ export default function EditTugas({
     },
   });
 
+  useEffect(() => {
+    console.log(form.getValues());
+  }, [form]);
   const editTugas = useMutation({
     mutationKey: ["editTugas"],
     mutationFn: (body: {
@@ -104,7 +107,7 @@ export default function EditTugas({
       attachments: string | null | undefined;
       dueDate: Date;
     }) => {
-      return fetch("/api/tugas", {
+      return fetch(`/api/tugas/${params.id}`, {
         method: "PATCH",
         body: JSON.stringify(body),
         headers: {
@@ -134,6 +137,20 @@ export default function EditTugas({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formattedBody = getFormattedBody(values);
+    // order of the object is important
+    const oldData = {
+      description: tugas.description,
+      title: tugas.title,
+      attachments: tugas.attachments,
+      dueDate: new Date(tugas.dueDate),
+    };
+
+    if (JSON.stringify(formattedBody) === JSON.stringify(oldData)) {
+      toast({
+        title: "Tidak ada perubahan",
+      });
+      return;
+    }
 
     editTugas.mutate(formattedBody);
   }
