@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { H3 } from "@/components/typography";
-import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Alert } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -96,9 +96,7 @@ export default function KelasPage() {
 
       <section className="flex flex-col gap-4 my-12">
         <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur">
-          <AlertTitle>
-            <H3>Halooo, Afi 👋</H3>
-          </AlertTitle>
+          <H3>Halooo, Afi 👋</H3>
           <div className="prose prose-invert prose-sm lg:prose-base">
             <p>
               Ada pengumuman penting yang harus kalian ketahui! akan
