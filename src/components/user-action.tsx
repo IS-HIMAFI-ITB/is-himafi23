@@ -1,6 +1,7 @@
 "use client";
 
-import { BellIcon, Loader2Icon, LogInIcon } from "lucide-react";
+import { BellDotIcon, BellIcon, Loader2Icon, LogInIcon } from "lucide-react";
+import moment from "moment";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
@@ -22,6 +23,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
+import { Separator } from "./ui/separator";
 import { useToast } from "./ui/toast/useToast";
 
 interface UserActionProps extends ButtonProps {
@@ -46,25 +48,24 @@ export default function UserAction({
         res.json()
       );
     },
+    refetchInterval: 1000 * 60 * 5, // 10 minutes
   });
 
   const readNotification = useMutation({
     mutationKey: ["readNotification"],
-    mutationFn: (id: number[]) => {
+    mutationFn: (id: number[] | undefined) => {
+      if (!id) return Promise.resolve();
+      if (data?.user.id === undefined) {
+        return Promise.reject(new Error("User is not authenticated"));
+      }
+
       return fetch(`/api/notifications/${data?.user.id}`, {
         method: "PATCH",
         body: JSON.stringify({ id }),
       }).then((res) => res.json());
     },
-    onMutate: () => {
-      alert("onMutate");
-    },
     onSuccess: () => {
-      alert("onSuccess");
       notifications.refetch();
-    },
-    onError: () => {
-      alert("onError");
     },
   });
 
@@ -73,59 +74,85 @@ export default function UserAction({
       !notification.readBy.some((user) => user.id === data?.user.id)
   );
 
-  const readNotifications = notifications.data?.filter((notification) =>
-    notification.readBy.some((user) => user.id === data?.user.id)
-  );
+  // sort by date
+  const readNotifications =
+    notifications.data && notifications.data.length > 3
+      ? notifications.data
+          ?.sort(
+            (a, b) =>
+              -(
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+              )
+          )
+          .slice(0, 5)
+      : notifications.data;
 
   switch (status) {
     case "authenticated":
       return (
         <>
-          {!(
-            notifications.status === "loading" ||
-            notifications.status === "error"
-          ) && (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                onClick={() => {
-                  const body = notifications.data
-                    ?.filter(
-                      (notification) =>
-                        !notification.readBy.some(
-                          (user) => user.id === data?.user.id
-                        )
-                    )
-                    .map((notification) => notification.id);
-                  readNotification.mutate(body);
-                }}
-              >
-                <BellIcon size={24} />
+          {!(notifications.status === "error") && (
+            <DropdownMenu
+              // Sent a request to mark all notifications as read when the dropdown menu is opened
+              onOpenChange={() =>
+                readNotification.mutate(
+                  unreadNotifications?.map((notif) => notif.id)
+                )
+              }
+            >
+              <DropdownMenuTrigger>
+                {unreadNotifications && unreadNotifications?.length > 0 ? (
+                  <BellDotIcon className="text-accent" size={24} />
+                ) : (
+                  <BellIcon size={24} />
+                )}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="text-center px-5 py-3 text-sm">
+
+              <DropdownMenuContent className="text-center px-5 py-3 overflow-y-auto max-h-full text-sm max-w-sm">
                 <div className="flex flex-col w-full">
-                  {notifications.data
-                    ?.filter(
-                      (notification) =>
-                        !notification.readBy.some(
-                          (user) => user.id === data?.user.id
-                        )
-                    )
-                    .map((notification, i) => (
-                      <div className={cn()} key={i}>
-                        {notification.description}
-                      </div>
-                    ))}
-                  {notifications.data
-                    ?.filter((notification) =>
-                      notification.readBy.some(
-                        (user) => user.id === data?.user.id
+                  {notifications.status === "loading" && "Loading..."}
+
+                  {notifications.data?.length === 0 && "No notifications"}
+
+                  {/* Unread notifications selalu di atas */}
+
+                  {readNotifications &&
+                    readNotifications.length > 0 &&
+                    readNotifications
+                      .sort(
+                        (a, b) =>
+                          -(
+                            new Date(a.createdAt).getTime() -
+                            new Date(b.createdAt).getTime()
+                          )
                       )
-                    )
-                    .map((notification, i) => (
-                      <div className={cn("bg-red-300")} key={i}>
-                        {notification.description}
-                      </div>
-                    ))}
+                      .map((notification, i) => (
+                        <>
+                          <div
+                            className={cn(
+                              "flex flex-col gap-1 justify-start items-start text-left py-3"
+                            )}
+                            key={i}
+                          >
+                            <p className="text-primary font-bold">
+                              {notification.title}
+                            </p>
+                            <p className="text-muted-foreground">
+                              {notification.description}
+                            </p>
+                            <div className="flex flex-row gap-3 items-center text-xs mt-1">
+                              <p className="opacity-50 text-primary">
+                                {notification.type}
+                              </p>
+                              <p className="opacity-50">
+                                {moment(notification.createdAt).fromNow()}
+                              </p>
+                            </div>
+                          </div>
+                          <Separator className="last:hidden" />
+                        </>
+                      ))}
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>

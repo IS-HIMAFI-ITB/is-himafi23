@@ -13,18 +13,15 @@ export async function GET(
     },
   });
 
-  console.log("notifications", notifications);
   const userNotifications = notifications.filter((notification) => {
     const returnValue = notification.receiver.filter(
       (receiver) => receiver.id === params.userId
     );
 
     if (returnValue.length === 0) return;
-    console.log("returnValue", returnValue);
     return returnValue;
   });
 
-  console.log("userNotifications", userNotifications);
   return NextResponse.json(userNotifications);
 }
 
@@ -34,11 +31,12 @@ export async function POST() {
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { userId: string } }
 ) {
   const body: { id: string[] } = await req.json();
 
   const ids = body.id.map((notificationId) => Number(notificationId));
+  console.log("ids", ids);
 
   const notification = await Promise.all(
     ids.map((notificationId) =>
@@ -49,7 +47,7 @@ export async function PATCH(
         data: {
           readBy: {
             connect: {
-              id: params.id,
+              id: params.userId,
             },
           },
         },
@@ -58,6 +56,8 @@ export async function PATCH(
   ).catch((error) => {
     throw new Error(error);
   });
+
+  console.log("notification", notification);
 
   return NextResponse.json({ success: true, notification });
 }

@@ -410,9 +410,10 @@ const load = async () => {
         prisma.notification
           .create({
             data: {
-              title: "Ini unread",
-              description: "Ini unread",
-              type: "UMUM",
+              title: "Izin diterima!",
+              description:
+                "Izin kamu untuk tidak mengikuti kegiatan wawancara kami terima.",
+              type: "TUGAS",
               createdAt: new Date(),
               receiver: {
                 connect: {
@@ -424,6 +425,7 @@ const load = async () => {
           .then((res) => console.log(res))
       )
     );
+
     // ! READ NOTIFICATIONS
     // const params = { id: "9475ab02-4336-4b67-a0ec-944356417c5b" };
     // await Promise.all(
