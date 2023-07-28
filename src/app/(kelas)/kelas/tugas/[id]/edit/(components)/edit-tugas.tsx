@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -96,9 +96,6 @@ export default function EditTugas({
     },
   });
 
-  useEffect(() => {
-    console.log(form.getValues());
-  }, [form]);
   const editTugas = useMutation({
     mutationKey: ["editTugas"],
     mutationFn: (body: {
