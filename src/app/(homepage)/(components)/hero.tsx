@@ -53,7 +53,7 @@ export default function HeroSection() {
 
             <div className="flex flex-col gap-2">
               <motion.p
-                className="text-accent before:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
+                className="text-accent before:md:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
                 initial={{ opacity: 0, x: 400 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
