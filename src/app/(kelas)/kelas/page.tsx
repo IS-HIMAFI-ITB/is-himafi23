@@ -1,5 +1,8 @@
 "use client";
 
+import "./info-card-style.css";
+
+import { motion } from "framer-motion";
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -7,7 +10,6 @@ import React, { useState } from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
-import { H3 } from "@/components/typography";
 import { Alert } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Role } from "@prisma/client";
 
 import DayInfoCard from "./(components)/day-info";
+import KehadiranSection from "./(components)/kehadiran-section";
 import TugasCard from "./(components)/tugas-card";
 import TugasSectionPanitia from "./(components)/tugas-section-panitia";
 import TugasSectionPeserta from "./(components)/tugas-section-peserta";
@@ -30,6 +33,7 @@ import TugasSectionPeserta from "./(components)/tugas-section-peserta";
 export default function KelasPage() {
   const session = useSession();
   const [viewAs, setViewAs] = useState<string>(Role.PESERTA);
+  const MotionAlert = motion(Alert);
 
   if (session.status === "unauthenticated") return <Unauthenticated />;
 
@@ -94,36 +98,6 @@ export default function KelasPage() {
         </Card>
       </section>
 
-      <section className="flex flex-col gap-4 my-12">
-        <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur">
-          <H3>Halooo, Afi 👋</H3>
-          <div className="prose prose-invert prose-sm lg:prose-base">
-            <p>
-              Ada pengumuman penting yang harus kalian ketahui! akan
-              dilaksanakan{" "}
-              <strong>Wawancara Peserta Intellektuelle Schule 2023</strong>{" "}
-              pada:
-              <br />
-              <br />
-              <strong>📆 Tanggal: </strong>29 Juli 2023
-              <br />
-              <strong>🕘 Jam: </strong>08.00 WIB - 17.00 WIB
-              <br />
-              <br />
-              Teknis pelaksanaan dapat dilihat lebih lengkap pada SOP peserta
-              wawancara yang dapat diunduh pada link{" "}
-              <Link
-                href="https://uploadthing.com/f/331cb7e9-298a-401c-8f01-e1ff3a2e28f4_SOP%20PESERTA%20WAWANCARA.pdf"
-                target="_blank"
-              >
-                berikut ini
-              </Link>
-              .
-            </p>
-          </div>
-        </Alert>
-      </section>
-
       {/* Disabled sampai full release */}
 
       {/* <section className="flex flex-col gap-6 my-24">
@@ -176,10 +150,91 @@ export default function KelasPage() {
         </motion.div>
       </section> */}
 
-      {session.data?.user.role === "PESERTA" && <TugasSectionPeserta />}
+      {session.data?.user.role === "PESERTA" && (
+        <>
+          <motion.section
+            initial={{ opacity: 0, y: 200 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ margin: "150px" }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+              delay: 0,
+            }}
+            className="grid grid-cols-1 lg:grid-cols-2 max-h-full my-12"
+          >
+            <KehadiranSection />
+            {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">
+              <div className="relative top-0 right-0 m-4">
+                <H3>Papan Informasi</H3>
+              </div>
+              <div
+                id="prose-alert-info-kelas"
+                className="prose prose-invert prose-sm lg:prose-base max-h-32 lg:max-h-64 overflow-y-auto"
+              >
+                <H3>Halooo, Afi 👋</H3>
+                <p>
+                  Ada pengumuman penting yang harus kalian ketahui! akan
+                  dilaksanakan{" "}
+                  <strong>Wawancara Peserta Intellektuelle Schule 2023</strong>{" "}
+                  pada:
+                  <br />
+                  <br />
+                  <strong>📆 Tanggal: </strong>29 Juli 2023
+                  <br />
+                  <strong>🕘 Jam: </strong>08.00 WIB - 17.00 WIB
+                  <br />
+                  <br />
+                  Teknis pelaksanaan dapat dilihat lebih lengkap pada SOP
+                  peserta wawancara yang dapat diunduh pada link{" "}
+                  <Link
+                    href="https://uploadthing.com/f/331cb7e9-298a-401c-8f01-e1ff3a2e28f4_SOP%20PESERTA%20WAWANCARA.pdf"
+                    target="_blank"
+                  >
+                    berikut ini
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Alert> */}
+          </motion.section>
+          <TugasSectionPeserta />
+        </>
+      )}
       {!(session.data?.user.role === "PESERTA") &&
         (viewAs === "PESERTA" ? (
-          <TugasSectionPeserta />
+          <>
+            <motion.section
+              initial={{ opacity: 0, y: 200 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ margin: "150px" }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+                delay: 0,
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-12 max-h-full my-12"
+            >
+              <KehadiranSection />
+              {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">
+                <div
+                  id="prose-alert-info-kelas"
+                  className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-72 overflow-y-auto pr-6"
+                >
+                  <H3>Halooo, Afi 👋</H3>
+                  <p>
+                    Ada pengumuman penting yang harus kalian ketahui! akan
+                    dilaksanakan{" "}
+                    <strong>
+                      Wawancara Peserta Intellektuelle Schule 2023
+                    </strong>{" "}
+                    pada:
+                  </p>
+                </div>
+              </Alert> */}
+            </motion.section>
+            <TugasSectionPeserta />
+          </>
         ) : (
           <TugasSectionPanitia />
         ))}

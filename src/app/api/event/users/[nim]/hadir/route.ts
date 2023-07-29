@@ -15,8 +15,21 @@ export async function GET(
         },
       },
     },
+    include: {
+      hadir: {
+        where: {
+          nim: params.nim,
+        },
+      },
+      izin: {
+        where: {
+          user: {
+            nim: params.nim,
+          },
+        },
+      },
+    },
   });
-
   return NextResponse.json(events);
 }
 

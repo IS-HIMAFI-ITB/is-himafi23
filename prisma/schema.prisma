@@ -83,13 +83,14 @@ model Izin {
 }
 
 model Event {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  date        DateTime
-  disabled    Boolean  @default(false)
-  hadir       User[]   @relation("hadir")
-  izin        Izin[]   @relation("izin")
+  id             String   @id @default(cuid())
+  title          String
+  description    String?  @db.Text
+  date           DateTime
+  enablePresensi Boolean  @default(false)
+  disabled       Boolean  @default(false)
+  hadir          User[]   @relation("hadir")
+  izin           Izin[]   @relation("izin")
 }
 
 model Notification {

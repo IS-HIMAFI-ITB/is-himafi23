@@ -69,7 +69,6 @@ export default function UserAction({
     },
   });
 
-  console.log("fetch data,", notifications.data);
   const unreadNotifications = notifications.data?.filter(
     (notification) =>
       !notification.readBy.some((user) => user.id === data?.user.id)
