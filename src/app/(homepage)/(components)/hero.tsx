@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/toast/useToast";
 
 import { misi } from "./misi";
 import { VisiMisi } from "./visi-misi";
+import Timeline from "./timeline";
 
 const MotionButton = motion(Button);
 
@@ -155,10 +156,11 @@ export default function HeroSection() {
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.8,
               ease: [0, 0.71, 0.2, 1.01],
+              delay: 0.2,
             }}
           >
             <VisiMisi className="w-[1000px] h-[200px] relative hidden lg:flex justify-center items-center" />
@@ -178,6 +180,23 @@ export default function HeroSection() {
               ))}
             </motion.div>
           </motion.div>
+        </motion.div>
+      </Container>
+
+      {/*Timeline Posts */}
+      <Container
+        id="hero"
+        className="min-h-[calc(100vh-72.6px-4rem)] h-full flex justify-center w-max"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
+          <Timeline />
         </motion.div>
       </Container>
     </>
