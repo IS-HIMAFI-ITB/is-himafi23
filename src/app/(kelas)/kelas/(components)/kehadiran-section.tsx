@@ -140,7 +140,7 @@ export default function KehadiranSection() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-72">
+      <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-[23rem]">
         <div className="hidden md:flex flex-row gap-6 justify-between items-center w-full">
           <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
 
@@ -248,8 +248,8 @@ export default function KehadiranSection() {
         </>
       )}
 
-      {elements.length !== 0 && (
-        <Alert className="px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
+      {elements.length !== 0 && elements[activeIndex].data && (
+        <Alert className="flex flex-col px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
           <div className="prose prose-invert prose-sm md:prose-base pb-2">
             <h3>{elements[activeIndex]?.data.title}</h3>
           </div>
@@ -267,7 +267,7 @@ export default function KehadiranSection() {
             </p>
           </div>
 
-          <div className="flex pt-6 flex-row w-full gap-3 items-center">
+          <div className="flex pt-6 flex-row mt-auto w-full gap-3 items-center">
             <Button size={"sm"} variant={"outline"} className="w-full">
               Izin
             </Button>
