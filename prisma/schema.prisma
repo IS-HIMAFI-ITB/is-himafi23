@@ -87,6 +87,7 @@ model Event {
   title       String
   description String   @db.Text
   date        DateTime
+  disabled    Boolean  @default(false)
   hadir       User[]   @relation("hadir")
   izin        Izin[]   @relation("izin")
 }
