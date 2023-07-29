@@ -56,6 +56,20 @@ model Submission {
   feedback    String?
 }
 
+model Post {
+  id         Int      @id @default(autoincrement())
+  title      String?
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  type       String?  @default("POST")
+  author     User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId   String?
+  originalId Int?
+  original   Post?    @relation("replies", fields: [originalId], references: [id], onDelete: SetNull)
+  replies    Post[]   @relation("replies")
+}
+
 enum TipeIzin {
   FULL
   MENYUSUL
@@ -129,6 +143,7 @@ model User {
   eventAttendance    Event[]        @relation("hadir")
   notifications      Notification[] @relation("received")
   readNotifications  Notification[] @relation("readBy")
+  posts              Post[]
 }
 
 // UNNEDED MODELS TO BE DELETED
