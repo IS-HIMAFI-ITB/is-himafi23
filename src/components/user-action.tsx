@@ -53,7 +53,7 @@ export default function UserAction({
 
   const readNotification = useMutation({
     mutationKey: ["readNotification"],
-    mutationFn: (id: number[] | undefined) => {
+    mutationFn: (id: string[] | undefined) => {
       if (!id) return Promise.resolve();
       if (data?.user.id === undefined) {
         return Promise.reject(new Error("User is not authenticated"));
@@ -69,6 +69,7 @@ export default function UserAction({
     },
   });
 
+  console.log("fetch data,", notifications.data);
   const unreadNotifications = notifications.data?.filter(
     (notification) =>
       !notification.readBy.some((user) => user.id === data?.user.id)
@@ -85,7 +86,7 @@ export default function UserAction({
                 new Date(b.createdAt).getTime()
               )
           )
-          .slice(0, 5)
+          .slice(0, 3)
       : notifications.data;
 
   switch (status) {
@@ -118,41 +119,32 @@ export default function UserAction({
                   {/* Unread notifications selalu di atas */}
 
                   {readNotifications &&
-                    readNotifications.length > 0 &&
-                    readNotifications
-                      .sort(
-                        (a, b) =>
-                          -(
-                            new Date(a.createdAt).getTime() -
-                            new Date(b.createdAt).getTime()
-                          )
-                      )
-                      .map((notification, i) => (
-                        <>
-                          <div
-                            className={cn(
-                              "flex flex-col gap-1 justify-start items-start text-left py-3"
-                            )}
-                            key={i}
-                          >
-                            <p className="text-primary font-bold">
-                              {notification.title}
+                    readNotifications.map((notification, i) => (
+                      <>
+                        <div
+                          className={cn(
+                            "flex flex-col gap-1 justify-start items-start text-left py-3"
+                          )}
+                          key={i}
+                        >
+                          <p className="text-primary font-bold">
+                            {notification.title}
+                          </p>
+                          <p className="text-muted-foreground">
+                            {notification.description}
+                          </p>
+                          <div className="flex flex-row gap-3 items-center text-xs mt-1">
+                            <p className="opacity-50 text-primary">
+                              {notification.type}
                             </p>
-                            <p className="text-muted-foreground">
-                              {notification.description}
+                            <p className="opacity-50">
+                              {moment(notification.createdAt).fromNow()}
                             </p>
-                            <div className="flex flex-row gap-3 items-center text-xs mt-1">
-                              <p className="opacity-50 text-primary">
-                                {notification.type}
-                              </p>
-                              <p className="opacity-50">
-                                {moment(notification.createdAt).fromNow()}
-                              </p>
-                            </div>
                           </div>
-                          <Separator className="last:hidden" />
-                        </>
-                      ))}
+                        </div>
+                        <Separator className="last:hidden" />
+                      </>
+                    ))}
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>

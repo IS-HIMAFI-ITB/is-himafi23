@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/prisma";
+import { Role } from "@prisma/client";
 
 import { authOptions } from "../auth/auth-options";
 
@@ -33,6 +34,58 @@ export async function POST(req: NextRequest) {
     .catch((err: Error) => {
       throw new Error(err.message);
     });
+
+  // Send notification to all peserta, if it errors then it's okay
+  const allPesertaid = await prisma.user
+    .findMany({
+      where: {
+        role: Role.PESERTA,
+      },
+      select: {
+        id: true,
+      },
+    })
+    .then((res) => {
+      return res.map((user) => user.id);
+    });
+
+  // Index pertama create dulu, upsert ngebug ga jelas.
+  const time = new Date().getTime();
+  await prisma.notification.create({
+    data: {
+      id: `${result.id}${time}`,
+      title: `Tugas ${result.id} baru saja ditambahkan.`,
+      description: `Kamu memiliki tugas baru dengan judul ${result.title}.`,
+      type: "TUGAS",
+      createdAt: new Date(),
+      receiver: {
+        connect: {
+          id: allPesertaid[0],
+        },
+      },
+    },
+  });
+
+  await Promise.all(
+    allPesertaid.slice(1).map((id) => {
+      return prisma.notification
+        .update({
+          where: {
+            id: `${result.id}${time}`,
+          },
+          data: {
+            receiver: {
+              connect: {
+                id: id,
+              },
+            },
+          },
+        })
+        .catch((err: Error) => {
+          console.log(err);
+        });
+    })
+  );
 
   return NextResponse.json(result, { status: 200 });
 }

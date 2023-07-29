@@ -8,25 +8,18 @@ export async function GET(
 ) {
   const notifications = await prisma.notification.findMany({
     include: {
-      receiver: true,
       readBy: true,
+    },
+    where: {
+      receiver: {
+        some: {
+          id: params.userId,
+        },
+      },
     },
   });
 
-  const userNotifications = notifications.filter((notification) => {
-    const returnValue = notification.receiver.filter(
-      (receiver) => receiver.id === params.userId
-    );
-
-    if (returnValue.length === 0) return;
-    return returnValue;
-  });
-
-  return NextResponse.json(userNotifications);
-}
-
-export async function POST() {
-  return NextResponse.json({ message: "Hello, World!" });
+  return NextResponse.json(notifications);
 }
 
 export async function PATCH(
@@ -35,8 +28,7 @@ export async function PATCH(
 ) {
   const body: { id: string[] } = await req.json();
 
-  const ids = body.id.map((notificationId) => Number(notificationId));
-  console.log("ids", ids);
+  const ids = body.id.map((notificationId) => notificationId);
 
   const notification = await Promise.all(
     ids.map((notificationId) =>
@@ -57,11 +49,5 @@ export async function PATCH(
     throw new Error(error);
   });
 
-  console.log("notification", notification);
-
   return NextResponse.json({ success: true, notification });
-}
-
-export async function DELETE() {
-  return NextResponse.json({ message: "Hello, World!" });
 }

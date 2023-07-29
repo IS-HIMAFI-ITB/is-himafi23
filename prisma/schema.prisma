@@ -92,9 +92,9 @@ model Event {
 }
 
 model Notification {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(cuid())
   title       String
-  description String   @db.Text
+  description String
   type        String
   createdAt   DateTime @default(now())
   receiver    User[]   @relation("received")
