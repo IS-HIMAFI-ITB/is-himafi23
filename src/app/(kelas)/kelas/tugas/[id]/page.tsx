@@ -63,6 +63,9 @@ export default function TugasPage({ params }: { params: { id: string } }) {
               <Skeleton className="w-full h-80" />
               <Skeleton className="w-[20ch] h-8" />
             </div>
+            <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
+
+            <Skeleton className="w-full h-40" />
           </article>
 
           <SubmissionSection
@@ -78,7 +81,11 @@ export default function TugasPage({ params }: { params: { id: string } }) {
     if (tugas.isSuccess && tugasSubmission.isLoading) {
       return (
         <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-          <TugasSection key={"loadingTugas"} tugas={tugas.data} />
+          <TugasSection
+            key={"loadingTugas"}
+            tugas={tugas.data}
+            tugasSubmission={tugasSubmission.data}
+          />
           <div className="sticky top-28 h-max flex flex-col gap-4">
             <Skeleton className="w-full h-8" />
             <div className="flex flex-row gap-4 items-center">
@@ -89,10 +96,6 @@ export default function TugasPage({ params }: { params: { id: string } }) {
               File yang dikumpulkan
             </p>
             <Skeleton className="w-full h-16" />
-            <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
-
-            <Separator />
-            <Skeleton className="w-full h-40" />
           </div>
         </Container>
       );
@@ -114,6 +117,9 @@ export default function TugasPage({ params }: { params: { id: string } }) {
             <Skeleton className="w-full h-80" />
             <Skeleton className="w-[20ch] h-8" />
           </div>
+          <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
+
+          <Skeleton className="w-full h-40" />
         </article>
 
         <div className="sticky top-28 h-max flex flex-col gap-4">
@@ -124,10 +130,6 @@ export default function TugasPage({ params }: { params: { id: string } }) {
           </div>
           <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
           <Skeleton className="w-full h-16" />
-          <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
-
-          <Separator />
-          <Skeleton className="w-full h-40" />
         </div>
       </Container>
     );
@@ -139,7 +141,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
 
   return (
     <Container className="pt-12 pb-24 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-      <TugasSection tugas={tugas.data} />
+      <TugasSection tugas={tugas.data} tugasSubmission={tugasSubmission.data} />
 
       <SubmissionSection
         params={{ id: params.id }}

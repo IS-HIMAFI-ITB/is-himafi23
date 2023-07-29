@@ -363,14 +363,6 @@ export default function SubmissionSection({
           </AlertDialog>
         </div>
       )}
-
-      <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
-
-      <Separator />
-
-      <p className="max-h-[200px] overflow-y-auto">
-        {tugasSubmission?.feedback ?? "Belum ada feedback."}
-      </p>
     </motion.div>
   );
 }

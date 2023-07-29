@@ -5,13 +5,20 @@ import { ArrowLeft, CalendarIcon, ClockIcon, LinkIcon } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
 import React from "react";
-
+import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Tugas } from "@prisma/client";
+import { Tugas, Submission } from "@prisma/client";
+import { CommentForm } from "./comment-section";
 
-export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
+export default function TugasSection({
+  tugas,
+  tugasSubmission,
+}: {
+  tugas: Tugas | undefined;
+  tugasSubmission: Submission | undefined;
+}) {
   return (
     <motion.article
       className="prose lg:prose-lg dark:prose-invert"
@@ -125,6 +132,20 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
               </a>
             ))}
         </div>
+      </div>
+      <div className="mt-4 -mb-2">
+        <p className="text-lg font-bold ">Feedback grader</p>
+
+        <Separator className="-mt-4" />
+
+        <p className="max-h-[200px] overflow-y-auto text-base">
+          {tugasSubmission?.feedback ?? "Belum ada feedback."}
+        </p>
+        <Separator />
+      </div>
+      <div className="mt-4">
+        {/*di disable ini kalau feedbacknya belum ada */}
+        <CommentForm />
       </div>
     </motion.article>
   );
