@@ -1,5 +1,7 @@
 "use client";
 
+import { CalendarIcon } from "lucide-react";
+import moment from "moment";
 import React from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { Event, Izin, User } from "@prisma/client";
 
 type QueryEvent = Event & { izin: Izin[]; users: User[] };
-
 export default function DayCard({
   event,
   active,
@@ -18,44 +19,53 @@ export default function DayCard({
   return (
     <div
       className={cn(
-        "w-full p-4 bg-card/30 rounded-md backdrop-blur hover:cursor-pointer hover:backdrop-contrast-75",
-        active && "backdrop-contrast-75"
+        "w-full py-4 px-12 bg-card/50 rounded-md backdrop-blur hover:cursor-pointer",
+        active && "backdrop-contrast-75 bg-card/30",
+        !active && "hover:border-primary hover:border"
       )}
     >
       <div className="flex flex-col gap-4 justify-start w-full">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-row flex-wrap items-start md:items-center justify-start gap-x-4 gap-y-2 h-full">
-            <p className="text-base font-semibold">{event.data.title}</p>
-            <div className="flex flex-row gap-2 items-center">
-              {event.status === "izin" && (
-                <Badge variant={"outline"}>
-                  Izin{" "}
-                  {event.data.izin[0].tipe.split("_").join(" ").toLowerCase()}
-                </Badge>
-              )}
-              <Badge
-                variant={
-                  event.status === "hadir"
-                    ? "default"
-                    : event.status === "izin"
-                    ? event.data.izin[0].status === "DITERIMA"
-                      ? "default"
-                      : "secondary"
-                    : "destructive"
-                }
-              >
-                {event.status === "izin"
-                  ? `Izin ${event.data.izin[0].status.toLowerCase()}`
-                  : event.status === "hadir"
-                  ? "Hadir full"
-                  : "Tidak hadir"}
-              </Badge>
-            </div>
-          </div>
-          {event.data.description && (
+          <p className="text-base font-semibold">{event.data.title}</p>
+          {/* {event.data.description && (
             <p className="text-sm line-clamp-2 opacity-70">
               {event.data.description}
             </p>
+          )} */}
+          {event.data.date && (
+            <div className="flex flex-row flex-wrap justify-between gap-x-2 gap-y-4 items-center text-sm">
+              <div className="flex flex-row gap-2 items-center">
+                <CalendarIcon size={16} />{" "}
+                {moment(new Date(event.data.date)).format("dddd, DD MMMM YYYY")}
+              </div>
+              <div className="flex flex-row gap-2 items-center">
+                {event.status === "izin" && (
+                  <Badge variant={"outline"}>
+                    Izin{" "}
+                    {event.data.izin[0].tipe.split("_").join(" ").toLowerCase()}
+                  </Badge>
+                )}
+                <Badge
+                  variant={
+                    event.status === "hadir"
+                      ? "default"
+                      : event.status === "izin"
+                      ? event.data.izin[0].status === "DITERIMA"
+                        ? "default"
+                        : event.data.izin[0].status === "MENUNGGU"
+                        ? "secondary"
+                        : "destructive"
+                      : "destructive"
+                  }
+                >
+                  {event.status === "izin"
+                    ? `Izin ${event.data.izin[0].status.toLowerCase()}`
+                    : event.status === "hadir"
+                    ? "Hadir full"
+                    : "Tidak hadir"}
+                </Badge>
+              </div>
+            </div>
           )}
         </div>
       </div>

@@ -26,6 +26,7 @@ import { Role } from "@prisma/client";
 
 import DayInfoCard from "./(components)/day-info";
 import KehadiranSection from "./(components)/kehadiran-section";
+import PapanInformasiSection from "./(components)/papan-informasi-section";
 import TugasCard from "./(components)/tugas-card";
 import TugasSectionPanitia from "./(components)/tugas-section-panitia";
 import TugasSectionPeserta from "./(components)/tugas-section-peserta";
@@ -164,6 +165,7 @@ export default function KelasPage() {
             className="grid grid-cols-1 lg:grid-cols-2 max-h-full my-12"
           >
             <KehadiranSection />
+            <PapanInformasiSection />
             {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">
               <div className="relative top-0 right-0 m-4">
                 <H3>Papan Informasi</H3>
@@ -213,7 +215,20 @@ export default function KelasPage() {
                 ease: [0, 0.71, 0.2, 1.01],
                 delay: 0,
               }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-12 max-h-full my-12"
+              className="grid grid-cols-1 gap-6 max-h-full my-12"
+            >
+              <PapanInformasiSection />
+            </motion.section>
+            <motion.section
+              initial={{ opacity: 0, y: 200 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ margin: "150px" }}
+              transition={{
+                duration: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+                delay: 0,
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-full my-12"
             >
               <KehadiranSection />
               {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">

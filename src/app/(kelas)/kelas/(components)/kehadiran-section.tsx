@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { H2 } from "@/components/typography";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast/useToast";
@@ -44,25 +45,40 @@ export default function KehadiranSection() {
 
   if (events[0].isLoading || events[1].isLoading || events[2].isLoading) {
     return (
-      <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-72">
-        <div className="flex flex-row gap-6 justify-between items-center w-full">
-          <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
-          <div className="flex flex-row gap-2 items-center">
-            <p>Hadir</p>
-            <Badge variant={"default"}>
-              <Loader2Icon className="animate-spin inline mr-1" size={16} />% /{" "}
-              <Loader2Icon className="animate-spin inline mx-1" size={16} />%
-            </Badge>
+      <>
+        <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-72">
+          <div className="flex flex-row gap-6 justify-between items-center w-full">
+            <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
+            <div className="flex flex-row gap-2 items-center">
+              <p>Hadir</p>
+              <Badge variant={"default"}>
+                <Loader2Icon className="animate-spin inline mr-1" size={16} />%
+                / <Loader2Icon className="animate-spin inline mx-1" size={16} />
+                %
+              </Badge>
+            </div>
+          </div>
+          <Separator />
+          <div
+            id="day-card-container"
+            className="w-full max-h-full overflow-y-auto flex flex-col gap-2 items-start"
+          >
+            <Skeleton className="w-full h-20" />
           </div>
         </div>
-        <Separator />
-        <div
-          id="day-card-container"
-          className="w-full max-h-full overflow-y-auto flex flex-col gap-2 items-start"
-        >
-          <Skeleton className="w-full h-20" />
-        </div>
-      </div>
+        <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full w-full">
+          <div className="prose prose-invert prose-sm md:prose-base pb-2">
+            <Skeleton className="w-full h-8" />
+          </div>
+
+          <div
+            id="prose-alert-info-kelas"
+            className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto"
+          >
+            <Skeleton className="w-full h-16" />
+          </div>
+        </Alert>
+      </>
     );
   }
 
@@ -125,10 +141,12 @@ export default function KehadiranSection() {
   return (
     <>
       <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-72">
-        <div className="flex flex-row gap-6 justify-between items-center w-full">
+        <div className="hidden md:flex flex-row gap-6 justify-between items-center w-full">
           <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
+
           <div className="flex flex-row gap-2 items-center">
             <p>Hadir</p>
+
             <Badge
               variant={
                 Number(persentaseKehadiranRelatif) > 75
@@ -140,14 +158,16 @@ export default function KehadiranSection() {
             </Badge>
           </div>
         </div>
-        <Separator />
+
+        <Separator className="md:block hidden" />
+
         <div
           id="day-card-container"
           className="w-full max-h-full overflow-y-auto flex flex-col gap-2 items-start"
         >
           {elements.length === 0 && (
             <div
-              className="w-full p-4 bg-card/30 rounded-md backdrop-blur hover:cursor-pointer hover:backdrop-contrast-75"
+              className="w-full py-4 px-12 bg-card/30 border-primary/5 border rounded-md backdrop-blur hover:cursor-pointer hover:backdrop-contrast-75 hover:bg-card/30"
               onClick={() =>
                 toast({
                   title: "You are clicking an unknown event!",
@@ -160,10 +180,12 @@ export default function KehadiranSection() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-row flex-wrap items-start md:items-center justify-start gap-x-4 gap-y-2 h-full">
                     <p className="text-base font-semibold">Unknown Event</p>
+
                     <div className="flex flex-row gap-2 items-center">
                       <Badge>???</Badge>
                     </div>
                   </div>
+
                   <p className="text-sm line-clamp-2 opacity-70">
                     When will it come? Who knows, maybe now, maybe never.
                   </p>
@@ -171,6 +193,7 @@ export default function KehadiranSection() {
               </div>
             </div>
           )}
+
           {elements.length !== 0 &&
             elements.map((event, i) => (
               <div
@@ -183,15 +206,77 @@ export default function KehadiranSection() {
             ))}
         </div>
       </div>
-      <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full w-full">
-        <div
-          id="prose-alert-info-kelas"
-          className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-72 overflow-y-auto pr-6"
-        >
-          <h3>{elements[activeIndex]?.data.title}</h3>
-          <p>{elements[activeIndex]?.data.description}</p>
-        </div>
-      </Alert>
+
+      {elements.length === 0 && (
+        <>
+          <div className="md:hidden flex flex-row gap-6 justify-between items-center w-full">
+            <H2 className="border-none p-0 mb-0 xs:text-3xl text-xl">
+              Kehadiran
+            </H2>
+
+            <div className="flex flex-row gap-2 items-center">
+              <p>Hadir</p>
+
+              <Badge
+                variant={
+                  Number(persentaseKehadiranRelatif) > 75
+                    ? "default"
+                    : "destructive"
+                }
+              >
+                {persentaseKehadiranAbsolut}% / {persentaseKehadiranRelatif}%
+              </Badge>
+            </div>
+          </div>
+
+          <Separator className="md:hidden" />
+          <Alert className="px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
+            <div className="prose prose-invert prose-sm md:prose-base pb-2">
+              <h3>New Adventure is Coming Soon! ✨</h3>
+            </div>
+
+            <div
+              id="prose-alert-info-kelas"
+              className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
+            >
+              <p>
+                Afi, misi penjelajahan ruang dan waktu bersama Profesor akan
+                segera dimulai. Persiapkanlah dirimu!
+              </p>
+            </div>
+          </Alert>
+        </>
+      )}
+
+      {elements.length !== 0 && (
+        <Alert className="px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
+          <div className="prose prose-invert prose-sm md:prose-base pb-2">
+            <h3>{elements[activeIndex]?.data.title}</h3>
+          </div>
+
+          <div
+            id="prose-alert-info-kelas"
+            className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
+          >
+            <p>
+              {elements[activeIndex]?.data.description} Lorem ipsum dolor sit
+              amet consectetur adipisicing elit. Saepe fugit nostrum ut itaque
+              facere expedita voluptas debitis alias, ratione accusantium
+              tempora vero id doloribus, ducimus a quas molestiae voluptate
+              explicabo?
+            </p>
+          </div>
+
+          <div className="flex pt-6 flex-row w-full gap-3 items-center">
+            <Button size={"sm"} variant={"outline"} className="w-full">
+              Izin
+            </Button>
+            <Button size={"sm"} className="w-full">
+              Hadir
+            </Button>
+          </div>
+        </Alert>
+      )}
     </>
   );
 }
