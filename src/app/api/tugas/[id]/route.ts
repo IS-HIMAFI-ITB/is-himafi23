@@ -84,8 +84,8 @@ export async function PATCH(
   const firstIndex = await prisma.notification
     .create({
       data: {
-        title: `Tugas ${tugas.id} baru saja ditambahkan.`,
-        description: `Kamu memiliki tugas baru dengan judul ${tugas.title}.`,
+        title: `Tugas ${tugas.id} baru saja diperbarui.`,
+        description: `Silakan cek detail tugas terbaru di halaman tugas yang bersangkutan.`,
         type: "TUGAS",
         createdAt: new Date(),
         receiver: {
