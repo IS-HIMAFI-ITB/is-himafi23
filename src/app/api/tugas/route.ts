@@ -51,27 +51,28 @@ export async function POST(req: NextRequest) {
 
   // Index pertama create dulu, upsert ngebug ga jelas.
   const time = new Date().getTime();
-  await prisma.notification.create({
-    data: {
-      id: `${result.id}${time}`,
-      title: `Tugas ${result.id} baru saja ditambahkan.`,
-      description: `Kamu memiliki tugas baru dengan judul ${result.title}.`,
-      type: "TUGAS",
-      createdAt: new Date(),
-      receiver: {
-        connect: {
-          id: allPesertaid[0],
+  const firstIndex = await prisma.notification
+    .create({
+      data: {
+        title: `Tugas ${result.id} baru saja ditambahkan.`,
+        description: `Kamu memiliki tugas baru dengan judul ${result.title}.`,
+        type: "TUGAS",
+        createdAt: new Date(),
+        receiver: {
+          connect: {
+            id: allPesertaid[0],
+          },
         },
       },
-    },
-  });
+    })
+    .then((res) => res.id);
 
   await Promise.all(
     allPesertaid.slice(1).map((id) => {
       return prisma.notification
         .update({
           where: {
-            id: `${result.id}${time}`,
+            id: firstIndex,
           },
           data: {
             receiver: {

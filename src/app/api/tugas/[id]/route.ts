@@ -81,26 +81,27 @@ export async function PATCH(
 
   // Index pertama create dulu, upsert ngebug ga jelas.
   const time = new Date().getTime();
-  await prisma.notification.create({
-    data: {
-      id: `${tugas.id}${time}`,
-      title: `Tugas ${tugas.id} baru saja ditambahkan.`,
-      description: `Kamu memiliki tugas baru dengan judul ${tugas.title}.`,
-      type: "TUGAS",
-      createdAt: new Date(),
-      receiver: {
-        connect: {
-          id: allPesertaid[0],
+  const firstIndex = await prisma.notification
+    .create({
+      data: {
+        title: `Tugas ${tugas.id} baru saja ditambahkan.`,
+        description: `Kamu memiliki tugas baru dengan judul ${tugas.title}.`,
+        type: "TUGAS",
+        createdAt: new Date(),
+        receiver: {
+          connect: {
+            id: allPesertaid[0],
+          },
         },
       },
-    },
-  });
+    })
+    .then((res) => res.id);
 
   await Promise.all(
     allPesertaid.slice(1).map((id, i) => {
       return prisma.notification.update({
         where: {
-          id: `${tugas.id}${time}`,
+          id: firstIndex,
         },
         data: {
           receiver: {
