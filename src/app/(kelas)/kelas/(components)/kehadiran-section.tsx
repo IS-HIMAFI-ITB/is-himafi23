@@ -150,7 +150,7 @@ export default function KehadiranSection() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-[23rem]">
+      <div className="flex flex-col gap-4 items-start md:order-first order-last max-h-[27rem]">
         <div className="hidden md:flex flex-row gap-6 justify-between items-center w-full">
           <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
 
@@ -290,7 +290,7 @@ export default function KehadiranSection() {
 
               <div
                 id="prose-alert-info-kelas"
-                className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
+                className="prose prose-invert prose-sm md:prose-base max-h-64 overflow-y-auto pr-6"
               >
                 <div
                   dangerouslySetInnerHTML={{

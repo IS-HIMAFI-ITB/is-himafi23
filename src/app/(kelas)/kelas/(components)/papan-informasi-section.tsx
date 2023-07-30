@@ -28,7 +28,22 @@ export default function PapanInformasiSection() {
   const { toast } = useToast();
 
   if (posts.isError) return notFound();
-  if (posts.isLoading) return <div>Loading...</div>;
+  if (posts.isLoading) {
+    return (
+      <>
+        <div className="flex flex-col gap-4 items-start">
+          <H2 className="border-none p-0">Papan Informasi</H2>
+
+          <Separator />
+        </div>
+        <Alert className="px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full w-full">
+          <div className="prose prose-invert prose-sm md:prose-base pb-2">
+            <h3>Loading...</h3>
+          </div>
+        </Alert>
+      </>
+    );
+  }
 
   return (
     <>

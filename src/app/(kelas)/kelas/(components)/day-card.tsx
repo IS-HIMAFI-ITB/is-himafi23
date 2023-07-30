@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Clock } from "lucide-react";
 import moment from "moment";
 import React from "react";
 
@@ -34,9 +34,25 @@ export default function DayCard({
           )} */}
           {event.data.date && (
             <div className="flex flex-row flex-wrap justify-between gap-x-2 gap-y-4 items-center text-sm">
-              <div className="flex flex-row gap-2 items-center">
-                <CalendarIcon size={16} />{" "}
-                {moment(new Date(event.data.date)).format("dddd, DD MMMM YYYY")}
+              <div className="flex flex-row flex-wrap gap-x-4 gap-y-2 items-center">
+                <div className="flex flex-row gap-2 items-center">
+                  <CalendarIcon size={16} />{" "}
+                  {moment(new Date(event.data.date)).format(
+                    "dddd, DD MMMM YYYY"
+                  )}
+                </div>
+                <div className="flex flex-row gap-2 items-center">
+                  <Clock size={16} />{" "}
+                  {moment(new Date(event.data.date)).format(
+                    `HH:mm ${
+                      moment(event.data.date).format("Z") === "+07:00"
+                        ? "[WIB]"
+                        : moment(event.data.date).format("Z") === "+08:00"
+                        ? "[WITA]"
+                        : `[GMT] ${moment(event.data.date).format("Z")}`
+                    }`
+                  )}
+                </div>
               </div>
               <div className="flex flex-row gap-2 items-center">
                 {event.status === "izin" && (
