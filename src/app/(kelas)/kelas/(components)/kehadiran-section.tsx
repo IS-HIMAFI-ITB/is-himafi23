@@ -2,13 +2,20 @@
 
 import "./kehadiran-card-style.css";
 
-import { Loader2Icon } from "lucide-react";
+import { ExternalLink, Loader2Icon } from "lucide-react";
+import moment from "moment";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { useState } from "react";
 
 import { H2 } from "@/components/typography";
 import { Alert } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -18,6 +25,8 @@ import { Event, Izin, User } from "@prisma/client";
 import { useQueries, UseQueryOptions } from "@tanstack/react-query";
 
 import DayCard from "./day-card";
+import PerizinanForm from "./perizinan-form";
+import PresensiForm from "./presensi-form";
 
 type QueryEvent = Event & { izin: Izin[]; users: User[] };
 
@@ -25,6 +34,7 @@ export default function KehadiranSection() {
   const session = useSession();
   const { toast } = useToast();
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [openPresensiDialog, setOpenPresensiDialog] = useState<boolean>(false);
   const events = useQueries({
     queries: ["hadir", "izin", "no-presence"].map<
       UseQueryOptions<QueryEvent[], Error>
@@ -82,7 +92,6 @@ export default function KehadiranSection() {
     );
   }
 
-  console.log(events[0].data, events[1].data, events[2].data);
   const jumlahEvent =
     (events[0].data?.length ?? 0) +
     (events[1].data?.length ?? 0) +
@@ -230,6 +239,7 @@ export default function KehadiranSection() {
           </div>
 
           <Separator className="md:hidden" />
+
           <Alert className="px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
             <div className="prose prose-invert prose-sm md:prose-base pb-2">
               <h3>New Adventure is Coming Soon! ✨</h3>
@@ -248,35 +258,111 @@ export default function KehadiranSection() {
         </>
       )}
 
-      {elements.length !== 0 && elements[activeIndex].data && (
-        <Alert className="flex flex-col px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
-          <div className="prose prose-invert prose-sm md:prose-base pb-2">
-            <h3>{elements[activeIndex]?.data.title}</h3>
-          </div>
+      {elements.length !== 0 &&
+        elements[activeIndex] &&
+        elements[activeIndex].data && (
+          <>
+            <div className="md:hidden flex flex-row gap-6 justify-between items-center w-full">
+              <H2 className="border-none p-0 xs:text-3xl text-xl">Kehadiran</H2>
 
-          <div
-            id="prose-alert-info-kelas"
-            className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
-          >
-            <p>
-              {elements[activeIndex]?.data.description} Lorem ipsum dolor sit
-              amet consectetur adipisicing elit. Saepe fugit nostrum ut itaque
-              facere expedita voluptas debitis alias, ratione accusantium
-              tempora vero id doloribus, ducimus a quas molestiae voluptate
-              explicabo?
-            </p>
-          </div>
+              <div className="flex flex-row gap-2 items-center">
+                <p>Hadir</p>
 
-          <div className="flex pt-6 flex-row mt-auto w-full gap-3 items-center">
-            <Button size={"sm"} variant={"outline"} className="w-full">
-              Izin
-            </Button>
-            <Button size={"sm"} className="w-full">
-              Hadir
-            </Button>
-          </div>
-        </Alert>
-      )}
+                <Badge
+                  variant={
+                    Number(persentaseKehadiranRelatif) > 75
+                      ? "default"
+                      : "destructive"
+                  }
+                >
+                  {persentaseKehadiranAbsolut}% / {persentaseKehadiranRelatif}%
+                </Badge>
+              </div>
+            </div>
+
+            <Separator className="md:hidden" />
+
+            <Alert className="flex flex-col px-12 py-8 bg-card/30 border-primary/30 md:border-primary/10 backdrop-blur h-full w-full">
+              <div className="prose prose-invert prose-sm md:prose-base pb-2">
+                <h3>{elements[activeIndex]?.data.title}</h3>
+              </div>
+
+              <div
+                id="prose-alert-info-kelas"
+                className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
+              >
+                <p>{elements[activeIndex]?.data.description}</p>
+              </div>
+
+              <div className="flex pt-6 flex-col sm:flex-row mt-auto w-full gap-x-3 gap-y-2 items-center">
+                <PerizinanForm eventDetails={elements[activeIndex]} />
+                {moment(
+                  new Date(
+                    new Date(elements[activeIndex].data.date).setHours(
+                      23,
+                      59,
+                      59
+                    )
+                  ).setDate(
+                    new Date(elements[activeIndex].data.date).getDate() - 1
+                  )
+                ).isSameOrBefore() && (
+                  <AlertDialog
+                    open={openPresensiDialog}
+                    onOpenChange={setOpenPresensiDialog}
+                  >
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        disabled={
+                          !elements[activeIndex].data.enablePresensi ||
+                          elements[activeIndex].status === "hadir"
+                        }
+                        size={"sm"}
+                        className="w-full"
+                      >
+                        Hadir
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <PresensiForm
+                        key={elements[activeIndex].data.id}
+                        onOpenChange={setOpenPresensiDialog}
+                        eventDetails={elements[activeIndex].data}
+                      />
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+                {!(elements[activeIndex].data.checkRecheckForm === "NONE") &&
+                  moment(
+                    new Date(
+                      new Date(elements[activeIndex].data.date).setHours(
+                        23,
+                        59,
+                        59
+                      )
+                    ).setDate(
+                      new Date(elements[activeIndex].data.date).getDate() - 1
+                    )
+                  ).isAfter() && (
+                    <Button
+                      size={"sm"}
+                      variant={"secondary"}
+                      className="w-full whitespace-nowrap"
+                      asChild
+                    >
+                      <Link
+                        target="_blank"
+                        href={elements[activeIndex].data.checkRecheckForm!}
+                      >
+                        <ExternalLink className="mr-1" size={16} />
+                        Check Recheck
+                      </Link>
+                    </Button>
+                  )}
+              </div>
+            </Alert>
+          </>
+        )}
     </>
   );
 }

@@ -10,7 +10,6 @@ import React, { useState } from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
-import { Alert } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -22,10 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Role } from "@prisma/client";
 
 import DayInfoCard from "./(components)/day-info";
 import KehadiranSection from "./(components)/kehadiran-section";
+import KehadiranSectionPanitia from "./(components)/kehadiran-section-panitia";
 import PapanInformasiSection from "./(components)/papan-informasi-section";
 import TugasCard from "./(components)/tugas-card";
 import TugasSectionPanitia from "./(components)/tugas-section-panitia";
@@ -34,7 +35,6 @@ import TugasSectionPeserta from "./(components)/tugas-section-peserta";
 export default function KelasPage() {
   const session = useSession();
   const [viewAs, setViewAs] = useState<string>(Role.PESERTA);
-  const MotionAlert = motion(Alert);
 
   if (session.status === "unauthenticated") return <Unauthenticated />;
 
@@ -99,106 +99,32 @@ export default function KelasPage() {
         </Card>
       </section>
 
-      {/* Disabled sampai full release */}
-
-      {/* <section className="flex flex-col gap-6 my-24">
-        <motion.div
-          className="flex flex-row flex-wrap gap-x-12 gap-y-4 items-center justify-between"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
-        >
-          <H2 className="border-none">Informasi Kehadiran</H2>
-
-          <div className="flex flex-row gap-2 items-center">
-            <p>Persen kehadiran</p>
-            <Badge variant={"destructive"}>50%</Badge>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 min-h-[16rem] h-max"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
-        >
-          <DayInfoCard
-            className="border-primary md:drop-shadow-glow hover:scale-105 transition"
-            day="1"
-            date="12/12/2023"
-            time="07.00 WIB - 09.00 WIB"
-            location="Ciwalk"
-            desc="Lorem ipsum dolor sit amet, ini judul day."
-          />
-          <DayInfoCard
-            className="md:flex hidden hover:scale-105 transition"
-            unknown
-          />
-          <DayInfoCard
-            className="xl:flex hidden hover:scale-105 transition"
-            unknown
-          />
-          <DayInfoCard
-            className="xl:flex hidden hover:scale-105 transition"
-            unknown
-          />
-        </motion.div>
-      </section> */}
-
       {session.data?.user.role === "PESERTA" && (
         <>
           <motion.section
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: "150px" }}
             transition={{
               duration: 0.8,
               ease: [0, 0.71, 0.2, 1.01],
               delay: 0,
             }}
-            className="grid grid-cols-1 lg:grid-cols-2 max-h-full my-12"
+            className="grid grid-cols-1 gap-6 max-h-full my-12"
+          >
+            <PapanInformasiSection />
+          </motion.section>
+          <motion.section
+            initial={{ opacity: 0, y: 200 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ margin: "130px" }}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+              delay: 0,
+            }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-full my-12"
           >
             <KehadiranSection />
-            <PapanInformasiSection />
-            {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">
-              <div className="relative top-0 right-0 m-4">
-                <H3>Papan Informasi</H3>
-              </div>
-              <div
-                id="prose-alert-info-kelas"
-                className="prose prose-invert prose-sm lg:prose-base max-h-32 lg:max-h-64 overflow-y-auto"
-              >
-                <H3>Halooo, Afi 👋</H3>
-                <p>
-                  Ada pengumuman penting yang harus kalian ketahui! akan
-                  dilaksanakan{" "}
-                  <strong>Wawancara Peserta Intellektuelle Schule 2023</strong>{" "}
-                  pada:
-                  <br />
-                  <br />
-                  <strong>📆 Tanggal: </strong>29 Juli 2023
-                  <br />
-                  <strong>🕘 Jam: </strong>08.00 WIB - 17.00 WIB
-                  <br />
-                  <br />
-                  Teknis pelaksanaan dapat dilihat lebih lengkap pada SOP
-                  peserta wawancara yang dapat diunduh pada link{" "}
-                  <Link
-                    href="https://uploadthing.com/f/331cb7e9-298a-401c-8f01-e1ff3a2e28f4_SOP%20PESERTA%20WAWANCARA.pdf"
-                    target="_blank"
-                  >
-                    berikut ini
-                  </Link>
-                  .
-                </p>
-              </div>
-            </Alert> */}
           </motion.section>
           <TugasSectionPeserta />
         </>
@@ -209,7 +135,6 @@ export default function KelasPage() {
             <motion.section
               initial={{ opacity: 0, y: 200 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "150px" }}
               transition={{
                 duration: 0.8,
                 ease: [0, 0.71, 0.2, 1.01],
@@ -222,7 +147,7 @@ export default function KelasPage() {
             <motion.section
               initial={{ opacity: 0, y: 200 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "150px" }}
+              viewport={{ margin: "130px" }}
               transition={{
                 duration: 0.8,
                 ease: [0, 0.71, 0.2, 1.01],
@@ -231,27 +156,26 @@ export default function KelasPage() {
               className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-full my-12"
             >
               <KehadiranSection />
-              {/* <Alert className="relative px-12 py-8 bg-card/30 border-primary/10 backdrop-blur h-full">
-                <div
-                  id="prose-alert-info-kelas"
-                  className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-72 overflow-y-auto pr-6"
-                >
-                  <H3>Halooo, Afi 👋</H3>
-                  <p>
-                    Ada pengumuman penting yang harus kalian ketahui! akan
-                    dilaksanakan{" "}
-                    <strong>
-                      Wawancara Peserta Intellektuelle Schule 2023
-                    </strong>{" "}
-                    pada:
-                  </p>
-                </div>
-              </Alert> */}
             </motion.section>
             <TugasSectionPeserta />
           </>
         ) : (
-          <TugasSectionPanitia />
+          <Tabs defaultValue="tugas" className="w-full">
+            <TabsList className="w-full">
+              <TabsTrigger value="tugas" className="w-full">
+                Tugas
+              </TabsTrigger>
+              <TabsTrigger value="acara" className="w-full">
+                Acara
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="tugas">
+              <TugasSectionPanitia />
+            </TabsContent>
+            <TabsContent value="acara">
+              <KehadiranSectionPanitia />
+            </TabsContent>
+          </Tabs>
         ))}
     </Container>
   );
