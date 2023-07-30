@@ -19,7 +19,7 @@ export default function DayCard({
   return (
     <div
       className={cn(
-        "w-full py-4 px-12 bg-card/50 rounded-md backdrop-blur hover:cursor-pointer",
+        "w-full py-8 px-12 bg-card/50 rounded-md backdrop-blur hover:cursor-pointer",
         active && "backdrop-contrast-75 bg-card/30",
         !active && "hover:border-primary hover:border"
       )}
