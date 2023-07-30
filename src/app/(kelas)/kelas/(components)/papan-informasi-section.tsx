@@ -23,6 +23,7 @@ export default function PapanInformasiSection() {
   const posts = useQuery<Post[], Error>({
     queryKey: ["posts", "kelas"],
     queryFn: () => fetch(`/api/posts/kelas`).then((res) => res.json()),
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
   const { toast } = useToast();
 

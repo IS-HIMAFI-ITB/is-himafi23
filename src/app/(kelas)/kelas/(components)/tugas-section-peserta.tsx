@@ -23,7 +23,7 @@ export default function TugasSectionPeserta() {
       const data = await res.json();
       return data;
     },
-    refetchInterval: 1000 * 60 * 10, // 10 minutes
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
   const submissions = useQuery<Submission[], Error>({

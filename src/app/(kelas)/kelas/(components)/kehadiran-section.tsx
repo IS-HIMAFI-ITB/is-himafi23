@@ -45,6 +45,7 @@ export default function KehadiranSection() {
           fetch(`/api/event/users/${session.data?.user.nim}/${status}`).then(
             (res) => res.json()
           ),
+        refetchInterval: 1000 * 60 * 5, // 5 minutes
       };
     }),
   });
