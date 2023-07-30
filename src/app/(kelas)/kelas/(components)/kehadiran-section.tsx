@@ -292,7 +292,12 @@ export default function KehadiranSection() {
                 id="prose-alert-info-kelas"
                 className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
               >
-                <p>{elements[activeIndex]?.data.description}</p>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: elements[activeIndex].data
+                      .description as TrustedHTML,
+                  }}
+                />
               </div>
 
               <div className="flex pt-6 flex-col sm:flex-row mt-auto w-full gap-x-3 gap-y-2 items-center">
