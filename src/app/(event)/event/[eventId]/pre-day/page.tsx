@@ -111,6 +111,7 @@ export default function FormPage({ params }: { params: { eventId: string } }) {
     resolver: zodResolver(formSchema),
   });
 
+  // ini ntar diganti buat submit
   function onSubmit(data: z.infer<typeof formSchema>) {
     toast({
       title: "You submitted the following values:",
@@ -125,12 +126,13 @@ export default function FormPage({ params }: { params: { eventId: string } }) {
   if (status === "unauthenticated") return <Unauthenticated />;
   if (status === "loading") return <Loading />;
 
+  //(TW: panjang)
   return (
     <Container className="flex flex-col gap-4">
       <Card className="bg-background/80 backdrop-blur-sm">
         <CardHeader>
           <CardTitle>CHECK & RE-CHECK PRA-DAY {params.eventId}</CardTitle>
-          <CardDescription>Halo, massa Fisika'22 ^^</CardDescription>
+          <CardDescription>{`Halo, massa Fisika'22 ^^`}</CardDescription>
           <CardDescription>
             Bagaimana kabar kalian selama liburan kuliah ini? <br /> Siap untuk
             menghadapi kehidupan di jurusan? <br /> Semoga selalu sehat dan
