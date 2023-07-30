@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/toast/useToast";
 import { misi } from "./misi";
 import { VisiMisi } from "./visi-misi";
 import Timeline from "./timeline";
+import { Reveal } from "@/components/animation/reveal";
 
 const MotionButton = motion(Button);
 
@@ -126,56 +127,42 @@ export default function HeroSection() {
         id="hero"
         className="min-h-screen py-36 h-full flex justify-center"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 200 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
-          className="w-full flex flex-col justify-center items-center"
-        >
-          <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-[2.6rem] leading-[1] xs:text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
-            <span className="rotate-10 translate-x-6 text-foreground relative">
-              Visi dan Misi
-            </span>
-          </p>
-          <motion.p
-            className="mt-8 lg:text-xl text-base text-center md:max-w-none md:w-[700px]"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-            }}
-          >
-            “Intellektuelle Schule sebagai{" "}
-            <span className="font-semibold">kontinum ruangwaktu</span> dalam
-            pembudayaan kebijaksanaan dan intelektualitas melalui pergerakan
-            menuju kesadaran.”
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-              delay: 0.2,
-            }}
-          >
-            <VisiMisi className="w-[1000px] h-[200px] relative hidden lg:flex justify-center items-center" />
+        <motion.div className="w-full flex flex-col justify-center items-center">
+          <Reveal variant="slide">
+            <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-[2.6rem] leading-[1] xs:text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
+              <span className="rotate-10 translate-x-6 text-foreground relative">
+                Visi dan Misi
+              </span>
+            </p>
+          </Reveal>
+          <Reveal variant="slide">
+            <motion.p className="mt-8 lg:text-xl text-base text-center md:max-w-none md:w-[700px]">
+              “Intellektuelle Schule sebagai{" "}
+              <span className="font-semibold">kontinum ruangwaktu</span> dalam
+              pembudayaan kebijaksanaan dan intelektualitas melalui pergerakan
+              menuju kesadaran.”
+            </motion.p>
+          </Reveal>
+          <motion.div>
+            <Reveal variant="slide" className="overflow-visible">
+              <VisiMisi className="w-[1000px] h-[200px] relative hidden lg:flex justify-center items-center" />
+            </Reveal>
             <motion.div className="flex flex-col gap-4 lg:hidden">
               {misi.data.map((misi, index) => (
                 <div
                   className="flex flex-col items-center text-center mt-8 px-4 flex-auto"
                   key={index}
                 >
-                  <p className="text-sm xs:text-base sm:text-md font-semibold text-accent">
-                    {misi.title}
-                  </p>
-                  <p className="text-sm xs:text-base sm:text-md max-w-lg">
-                    {misi.description}
-                  </p>
+                  <Reveal variant="slide">
+                    <p className="text-sm xs:text-base sm:text-md font-semibold text-accent">
+                      {misi.title}
+                    </p>
+                  </Reveal>
+                  <Reveal variant="slide">
+                    <p className="text-sm xs:text-base sm:text-md max-w-lg">
+                      {misi.description}
+                    </p>
+                  </Reveal>
                 </div>
               ))}
             </motion.div>
@@ -186,7 +173,7 @@ export default function HeroSection() {
       {/*Timeline Posts */}
       <Container
         id="hero"
-        className="min-h-[calc(100vh-72.6px-4rem)] h-full flex justify-center w-max"
+        className="min-h-[calc(100vh-72.6px-4rem)] h-full flex justify-center"
       >
         <motion.div
           initial={{ opacity: 0, y: 80 }}

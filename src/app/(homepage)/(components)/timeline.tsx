@@ -65,7 +65,7 @@ export default function Timeline() {
   ]; // ini nanti diganti pake data dari database
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       {/*Create post area */}
       {status === "loading" && (
         <>
@@ -97,7 +97,10 @@ export default function Timeline() {
       )}
       {/*Posts List */}
       {postPlaceholder.map((post) => (
-        <div key={post.id} className="backdrop-blur-md rounded-md p-2">
+        <div
+          key={post.id}
+          className="flex flex-col backdrop-blur-md rounded-md p-2"
+        >
           <div className="flex items-start gap-4">
             <Avatar className="w-10 h-10">
               <AvatarImage src={post.image ?? undefined} />
