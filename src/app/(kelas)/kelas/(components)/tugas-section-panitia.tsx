@@ -87,7 +87,7 @@ export default function TugasSectionPanitia() {
     return (
       <>
         <div className="flex flex-row justify-between items-center my-4 gap-x-8">
-          <H2 className="border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] drop-shadow-glow before:text-accent before:-z-10">
+          <H2 className="border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] md:drop-shadow-glow before:text-accent before:-z-10">
             Tugas Peserta
           </H2>
           <Button className="w-max md:w-full md:max-w-max" variant={"outline"}>
@@ -106,7 +106,7 @@ export default function TugasSectionPanitia() {
     return (
       <>
         <div className="flex flex-row justify-between items-center my-4 gap-x-8">
-          <H2 className="border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] drop-shadow-glow before:text-accent before:-z-10">
+          <H2 className="border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] md:drop-shadow-glow before:text-accent before:-z-10">
             Tugas Peserta
           </H2>
           <Button className="w-max md:w-full md:max-w-max" variant={"outline"}>
@@ -155,7 +155,7 @@ export default function TugasSectionPanitia() {
       }}
     >
       <div className="flex flex-row justify-between items-center my-4 gap-x-8">
-        <H2 className="text-xl sm:text-3xl xs:text-2xl border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] drop-shadow-glow before:text-accent before:-z-10">
+        <H2 className="text-xl sm:text-3xl xs:text-2xl border-none w-full before:content-['Tugas_Peserta'] before:absolute before:ml-[0.1rem] before:mt-[0.1rem] md:drop-shadow-glow before:text-accent before:-z-10">
           Tugas Peserta
         </H2>
         <div className="flex flex-row gap-2 items-center">
@@ -229,7 +229,7 @@ export default function TugasSectionPanitia() {
       <div className="flex md:flex-row flex-col justify-between items-center gap-y-5 gap-x-8">
         <Link
           href={`/kelas/tugas/${tugas.data[tugasIndex].id}`}
-          className="w-full drop-shadow-glow hover:underline underline-offset-2"
+          className="w-full md:drop-shadow-glow hover:underline underline-offset-2"
         >
           <H2 className="border-none w-full p-0 text-accent">
             {tugas.data[tugasIndex].title}

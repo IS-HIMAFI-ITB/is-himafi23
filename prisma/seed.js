@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, TipeIzin, StatusIzin } = require("@prisma/client");
 const { Role } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -397,9 +397,130 @@ const akunPanit = [
 
 const load = async () => {
   try {
-    await prisma.user.createMany({
-      data: akunPanit,
-    });
+    // ! INI UNTUK BUAT NOTIFIKASI, BODY KURANG LEBIH KEK GINI
+    // ! {
+    // !  title: "judul",
+    // !  description: "deskripsi",
+    // !  type: "UMUM",
+    // !  createdAt: new Date(),
+    // !  receiver: ["10221006", "10221000", ...]
+    // !}
+    // await Promise.all(
+    //   ["10221000"].map((nim) =>
+    //     prisma.notification
+    //       .create({
+    //         data: {
+    //           title: "Izin diterima!",
+    //           description:
+    //             "Izin kamu untuk tidak mengikuti kegiatan wawancara kami terima.",
+    //           type: "TUGAS",
+    //           createdAt: new Date(),
+    //           receiver: {
+    //             connect: {
+    //               nim: nim,
+    //             },
+    //           },
+    //         },
+    //       })
+    //       .then((res) => console.log(res))
+    //   )
+    // );
+    // ! READ NOTIFICATIONS
+    // const params = { id: "9475ab02-4336-4b67-a0ec-944356417c5b" };
+    // await Promise.all(
+    //   [3, 5, 7].map((i) =>
+    //     prisma.notification.update({
+    //       where: {
+    //         id: i,
+    //       },
+    //       data: {
+    //         readBy: {
+    //           connect: {
+    //             id: params.id,
+    //           },
+    //         },
+    //       },
+    //     })
+    //   )
+    // ).then((res) => console.log(res));
+    // ! BUAT EVENT
+    // await prisma.event.create({
+    //   data: {
+    //     title: "Wawancara Anggota Baru",
+    //     description: "Lorem ipsum dolor sit amet",
+    //     date: new Date(),
+    //   },
+    // });
+    // ! HADIR EVENT
+    // const eventId = "clkncd9s10000i19ob7cyb7xo";
+    // const userId = "3b83175a-2798-4b1b-8d05-56cdb1ec8628";
+    // await prisma.event.update({
+    //   where: {
+    //     id: eventId,
+    //   },
+    //   data: {
+    //     hadir: {
+    //       connect: {
+    //         id: userId,
+    //       },
+    //     },
+    //   },
+    // });
+    // ! AMBIL EVENT YANG USER HADIRI
+    // const userId = "3b83175a-2798-4b1b-8d05-56cdb1ec8628";
+    // await prisma.event
+    //   .findMany({
+    //     where: {
+    //       hadir: {
+    //         some: {
+    //           id: userId,
+    //         },
+    //       },
+    //     },
+    //   })
+    //   .then((res) => console.log(res));
+    // ! AMBIL EVENT DIMANA USER IZIN
+    // const userId = "3b83175a-2798-4b1b-8d05-56cdb1ec8628";
+    // await prisma.event
+    //   .findMany({
+    //     where: {
+    //       izin: {
+    //         some: {
+    //           userId: userId,
+    //         },
+    //       },
+    //     },
+    //   })
+    //   .then((res) => console.log(res));
+    // ! BUAT IZIN
+    // const userId = "3b83175a-2798-4b1b-8d05-56cdb1ec8628";
+    // const eventId = "clknbcoj50000i1f8cm3zf0gv";
+    // await prisma.event.update({
+    //   where: {
+    //     id: eventId,
+    //   },
+    //   data: {
+    //     izin: {
+    //       create: {
+    //         bukti: "https://i.imgur.com/2ZQ4Q3o.jpg",
+    //         createdAt: new Date(),
+    //         keterangan: "Lorem ipsum dolor sit amet",
+    //         tipe: TipeIzin.FULL,
+    //         userId: userId,
+    //       },
+    //     },
+    //   },
+    // });
+    // ! MP UBAH STATUS IZIN
+    // const izinId = 1;
+    // await prisma.izin.update({
+    //   where: {
+    //     id: izinId,
+    //   },
+    //   data: {
+    //     status: StatusIzin.DITERIMA,
+    //   },
+    // });
   } catch (e) {
     console.error(e);
   } finally {

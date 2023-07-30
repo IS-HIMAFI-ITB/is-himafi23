@@ -178,7 +178,7 @@ export default function CreateTugas() {
           delay: 0,
         }}
       >
-        <Button variant={"outline"} className="mb-4 no-underline" asChild>
+        <Button variant={"outline"} className="no-underline" asChild>
           <Link href={`/kelas`}>
             <ArrowLeft className="mr-2" size={16} /> Kembali ke halaman kelas
           </Link>
