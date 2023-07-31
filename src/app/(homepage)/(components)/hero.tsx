@@ -4,15 +4,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 
+import { Reveal } from "@/components/animation/reveal";
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast/useToast";
 
 import { misi } from "./misi";
-import { VisiMisi } from "./visi-misi";
 import Timeline from "./timeline";
-import { Reveal } from "@/components/animation/reveal";
+import { VisiMisi } from "./visi-misi";
 
 const MotionButton = motion(Button);
 
@@ -55,7 +55,7 @@ export default function HeroSection() {
 
             <div className="flex flex-col gap-2">
               <motion.p
-                className="text-accent before:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
+                className="text-accent before:md:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
                 initial={{ opacity: 0, x: 400 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -124,7 +124,7 @@ export default function HeroSection() {
 
       {/*Visi Misi */}
       <Container
-        id="hero"
+        id="visi-misi"
         className="min-h-screen py-36 h-full flex justify-center"
       >
         <motion.div className="w-full flex flex-col justify-center items-center">

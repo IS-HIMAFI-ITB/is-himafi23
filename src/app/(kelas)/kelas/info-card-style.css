@@ -1,0 +1,13 @@
+#prose-alert-info-kelas::-webkit-scrollbar {
+  width: 4px;
+}
+
+#prose-alert-info-kelas::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.8);
+  border-radius: var(--radius);
+}
+
+#prose-alert-info-kelas::-webkit-scrollbar-track {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: var(--radius);
+}
