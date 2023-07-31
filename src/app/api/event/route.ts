@@ -21,10 +21,22 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { title, description, date } = (await req.json()) as {
+  const {
+    title,
+    description,
+    date,
+    presensiQuestionAnswer,
+    checkRecheckForm,
+    disabled,
+    enablePresensi,
+  } = (await req.json()) as {
     title: string;
     description: string;
     date: string;
+    presensiQuestionAnswer: string;
+    checkRecheckForm: string;
+    disabled: boolean;
+    enablePresensi: boolean;
   };
 
   const event = await prisma.event
@@ -33,6 +45,10 @@ export async function POST(req: NextRequest) {
         title,
         description,
         date: new Date(date),
+        presensiQuestionAnswer,
+        checkRecheckForm,
+        disabled,
+        enablePresensi,
       },
     })
     .catch((error) => {
