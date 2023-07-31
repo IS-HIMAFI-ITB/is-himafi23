@@ -26,8 +26,12 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     header: "Actions",
     cell: ({ row }) => {
       return (
-        <Button variant={"ghost"} size={"icon"}>
-          <PencilIcon size={16} />
+        <Button asChild variant={"ghost"} size={"icon"}>
+          <Link
+            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.nim}`}
+          >
+            <PencilIcon size={16} />
+          </Link>
         </Button>
       );
     },

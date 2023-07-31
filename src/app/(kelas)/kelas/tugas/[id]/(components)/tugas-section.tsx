@@ -12,7 +12,7 @@ import moment from "moment";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-
+import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -142,6 +142,20 @@ export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
               </a>
             ))}
         </div>
+      </div>
+      <div className="mt-4 -mb-2">
+        <p className="text-lg font-bold ">Feedback grader</p>
+
+        <Separator className="-mt-4" />
+
+        <p className="max-h-[200px] overflow-y-auto text-base">
+          {tugasSubmission?.feedback ?? "Belum ada feedback."}
+        </p>
+        <Separator />
+      </div>
+      <div className="mt-4">
+        {/*di disable ini kalau feedbacknya belum ada */}
+        <CommentForm />
       </div>
     </motion.article>
   );

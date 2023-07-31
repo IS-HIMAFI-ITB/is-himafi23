@@ -1,25 +1,27 @@
 "use client";
 
-import "moment/locale/id";
-
-import moment from "moment";
-import { useSession } from "next-auth/react";
-import { notFound } from "next/navigation";
-import React from "react";
-
 import Container from "@/components/layout/container";
-import Unauthenticated from "@/components/template/unauthenticated";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Submission, Tugas } from "@prisma/client";
+import TugasSectionNilai from "./(components)/tugas-nilai-section";
+import SubmissionSectionNilai from "./(components)/submission-nilai-section";
+import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
+import { Tugas, Submission, User } from "@prisma/client";
+import Unauthenticated from "@/components/template/unauthenticated";
+import { Skeleton } from "@/components/ui/skeleton";
+import { notFound } from "next/navigation";
+import { getUser } from "@/lib/client-fetch";
 
-import SubmissionSection from "./(components)/submission-section";
-import TugasSection from "./(components)/tugas-section";
-
-export default function TugasPage({ params }: { params: { id: string } }) {
-  moment.locale("id");
+export default function NilaiPage({
+  params,
+}: {
+  params: { id: string; nim: number };
+}) {
   const session = useSession();
+  const user = useQuery<User[], Error>({
+    queryKey: ["users", params.nim],
+    queryFn: async () => await getUser(params.nim),
+    refetchInterval: 1000 * 60 * 60, // 1 hour
+  });
 
   const tugas = useQuery<Tugas, Error>({
     queryKey: ["tugas", { id: params.id }],
@@ -31,11 +33,11 @@ export default function TugasPage({ params }: { params: { id: string } }) {
   const tugasSubmission = useQuery<Submission, Error>({
     queryKey: [
       "tugasSubmission",
-      { tugasId: params.id, userId: session.data?.user.id },
+      { tugasId: params.id, userId: user.data?.[0].id },
     ],
     queryFn: async () => {
       const res = await fetch(
-        `/api/submissions/${session.data?.user.id}/${params.id}`
+        `/api/submissions/${user.data?.[0].id}/${params.id}`
       );
       return res.json();
     },
@@ -60,7 +62,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
                 <Skeleton className="w-[300px] h-8" />
                 <Skeleton className="w-[300px] h-8" />
               </div>
-              <Skeleton className="w-full h-80" />
+
               <Skeleton className="w-[20ch] h-8" />
             </div>
             <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
@@ -68,11 +70,12 @@ export default function TugasPage({ params }: { params: { id: string } }) {
             <Skeleton className="w-full h-40" />
           </article>
 
-          <SubmissionSection
+          <SubmissionSectionNilai
             key={"loadingSubmission"}
             params={{ id: params.id }}
             tugas={tugas.data}
             tugasSubmission={tugasSubmission.data}
+            user={user.data?.[0]}
           />
         </Container>
       );
@@ -81,7 +84,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
     if (tugas.isSuccess && tugasSubmission.isLoading) {
       return (
         <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-          <TugasSection
+          <TugasSectionNilai
             key={"loadingTugas"}
             tugas={tugas.data}
             tugasSubmission={tugasSubmission.data}
@@ -92,9 +95,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
               <Skeleton className="w-[15ch] h-8" />
               <Skeleton className="w-[15ch] h-8" />
             </div>
-            <p className="text-lg font-bold mt-4 -mb-2">
-              File yang dikumpulkan
-            </p>
+
             <Skeleton className="w-full h-16" />
           </div>
         </Container>
@@ -114,7 +115,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
               <Skeleton className="w-[300px] h-8" />
               <Skeleton className="w-[300px] h-8" />
             </div>
-            <Skeleton className="w-full h-80" />
+
             <Skeleton className="w-[20ch] h-8" />
           </div>
           <p className="text-lg font-bold mt-4 -mb-2">Feedback grader</p>
@@ -128,7 +129,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
             <Skeleton className="w-[15ch] h-8" />
             <Skeleton className="w-[15ch] h-8" />
           </div>
-          <p className="text-lg font-bold mt-4 -mb-2">File yang dikumpulkan</p>
+
           <Skeleton className="w-full h-16" />
         </div>
       </Container>
@@ -141,12 +142,15 @@ export default function TugasPage({ params }: { params: { id: string } }) {
 
   return (
     <Container className="pt-12 pb-24 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-      <TugasSection tugas={tugas.data} tugasSubmission={tugasSubmission.data} />
-
-      <SubmissionSection
+      <TugasSectionNilai
+        tugas={tugas.data}
+        tugasSubmission={tugasSubmission.data}
+      />
+      <SubmissionSectionNilai
         params={{ id: params.id }}
         tugas={tugas.data}
         tugasSubmission={tugasSubmission.data}
+        user={user.data?.[0]}
       />
     </Container>
   );

@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 import DropFile from "@/components/drop-file";
-import { H3 } from "@/components/typography";
+import { H3, H4 } from "@/components/typography";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,18 +30,20 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
-import { Submission, Tugas } from "@prisma/client";
+import { Submission, Tugas, User } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Input } from "@/components/ui/input";
+import InputNilai from "./input-nilai";
 
-import SubmitTugasCard from "./submit-tugas-card";
-
-export default function SubmissionSection({
+export default function SubmissionSectionNilai({
   tugas,
   tugasSubmission,
+  user,
   params,
 }: {
   tugas: Tugas | undefined;
   tugasSubmission: Submission | undefined;
+  user: User | undefined;
   params: { id: string };
 }) {
   const [loading, setLoading] = useState(false);
@@ -58,64 +60,6 @@ export default function SubmissionSection({
   const queryClient = useQueryClient();
   moment.locale("id");
 
-  const deleteSubmission = useMutation({
-    mutationKey: ["deleteSubmission", { submissionId: tugasSubmission?.id }],
-    mutationFn: async () => {
-      setLoading(true);
-      toast({
-        title: "Menghapus submisi",
-      });
-      const res = await fetch(
-        `/api/submissions/${session?.data?.user.id}/${params.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: tugasSubmission?.id }),
-        }
-      )
-        .then((res) => res.json())
-        .catch((err) => {
-          throw new Error(err);
-        });
-
-      return res;
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        [
-          "tugasSubmission",
-          { tugasId: params.id, userId: session?.data?.user.id },
-        ],
-        undefined
-      );
-      setOpen(false);
-      setUploadedFileKey(undefined);
-      setAttachments(undefined);
-      toast({
-        title: "Berhasil menghapus submisi",
-        description: "Submisi kamu berhasil dihapus.",
-      });
-    },
-    onError: (err: Error) => {
-      toast({
-        title:
-          "Gagal menghapus file submisi, namun submisi kamu berhasil dihapus, silakan refresh halaman ini.",
-        description: err.message,
-      });
-    },
-    onSettled: () => {
-      setLoading(false);
-      queryClient.invalidateQueries({
-        queryKey: [
-          "tugasSubmission",
-          { tugasId: params.id, userId: session?.data?.user.id },
-        ],
-      });
-    },
-  });
-
   return (
     <motion.div
       className="sticky top-28 h-max flex flex-col gap-4"
@@ -129,8 +73,9 @@ export default function SubmissionSection({
         delay: 0.3,
       }}
     >
+      <H4 className="text-primary -mb-3">{user?.name}</H4>
       <div className="flex flex-row gap-4">
-        <H3>Nilai kamu</H3>
+        <H3>Nilai:</H3>
 
         <H3 className="text-accent">{tugasSubmission?.score ?? "???"}</H3>
       </div>
@@ -205,35 +150,9 @@ export default function SubmissionSection({
       )}
 
       {!tugasSubmission?.files && (
-        <AlertDialog open={open} onOpenChange={setOpen}>
-          <AlertDialogTrigger asChild>
-            <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
-              <div className="flex flex-row gap-6 items-center">
-                <UploadIcon
-                  size={24}
-                  className="group-hover/fileSubmitted:text-primary"
-                />
-
-                <p className="font-bold">Upload file/jawaban</p>
-              </div>
-            </Card>
-          </AlertDialogTrigger>
-
-          <SubmitTugasCard
-            loading={loading}
-            setLoading={setLoading}
-            uploadedFileKey={uploadedFileKey}
-            setUploadedFileKey={setUploadedFileKey}
-            attachments={attachments}
-            setAttachments={setAttachments}
-            edit={edit}
-            setEdit={setEdit}
-            variant="submit"
-            params={{ id: params.id }}
-            setOpen={setOpen}
-            tugasSubmission={tugasSubmission}
-          />
-        </AlertDialog>
+        <p className="text-sm mt-4 -mb-2 text-destructive">
+          File tidak tersedia
+        </p>
       )}
 
       {tugasSubmission?.files && (
@@ -312,57 +231,7 @@ export default function SubmissionSection({
         </>
       )}
 
-      {tugasSubmission && (
-        <div className="flex flex-row gap-2 items-center">
-          <AlertDialog open={open} onOpenChange={setOpen}>
-            <AlertDialogTrigger asChild>
-              <Button className="w-full" variant={"outline"}>
-                Ganti submisi
-              </Button>
-            </AlertDialogTrigger>
-
-            <SubmitTugasCard
-              loading={loading}
-              setLoading={setLoading}
-              uploadedFileKey={uploadedFileKey}
-              setUploadedFileKey={setUploadedFileKey}
-              attachments={attachments}
-              setAttachments={setAttachments}
-              edit={edit}
-              setEdit={setEdit}
-              params={{ id: params.id }}
-              setOpen={setOpen}
-              tugasSubmission={tugasSubmission}
-              variant="edit"
-            />
-          </AlertDialog>
-
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant={"destructive"} className="w-full">
-                Hapus submisi
-              </Button>
-            </AlertDialogTrigger>
-
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                Apakah kamu yakin ingin menghapus submisi kamu?
-              </AlertDialogHeader>
-
-              <AlertDialogFooter>
-                <AlertDialogAction>Batal</AlertDialogAction>
-
-                <AlertDialogCancel
-                  className="mt-3"
-                  onClick={() => deleteSubmission.mutate()}
-                >
-                  Hapus
-                </AlertDialogCancel>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      )}
+      {tugasSubmission ? <InputNilai /> : <p>Peserta tidak dapat dinilai</p>}
     </motion.div>
   );
 }
