@@ -12,13 +12,22 @@ import moment from "moment";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-import { Separator } from "@/components/ui/separator";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Role, Tugas } from "@prisma/client";
+import { Separator } from "@/components/ui/separator";
+import { Role, Submission, Tugas } from "@prisma/client";
 
-export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
+import { CommentForm } from "./comment-section";
+
+export default function TugasSection({
+  tugas,
+  tugasSubmission,
+}: {
+  tugas: Tugas | undefined;
+  tugasSubmission: Submission | undefined;
+}) {
   const session = useSession();
   return (
     <motion.article
