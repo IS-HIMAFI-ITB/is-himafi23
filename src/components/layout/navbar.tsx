@@ -242,13 +242,7 @@ export default function Navbar({
                   <NavbarLink isMobile href="/#visi-misi">
                     Visi dan Misi
                   </NavbarLink>
-                  <NavbarLink
-                    isMobile
-                    onClick={() => {
-                      toast({ title: "Coming Soon" });
-                    }}
-                    href="/#leaderboard"
-                  >
+                  <NavbarLink isMobile href="/leaderboard">
                     Leaderboard
                   </NavbarLink>
                 </NavbarContent>
@@ -282,14 +276,7 @@ export default function Navbar({
               <NavbarLink href="/">Home</NavbarLink>
               <NavbarLink href="/kelas">Kelas</NavbarLink>
               <NavbarLink href="/#visi-misi">Visi dan Misi</NavbarLink>
-              <NavbarLink
-                onClick={() => {
-                  toast({ title: "Coming Soon" });
-                }}
-                href=""
-              >
-                Leaderboard
-              </NavbarLink>
+              <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
             </NavbarItems>
             <NavbarSideMenu>
               {/* <ThemeSwitch /> */}
