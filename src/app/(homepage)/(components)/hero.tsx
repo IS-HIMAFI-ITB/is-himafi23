@@ -53,7 +53,7 @@ export default function HeroSection() {
 
             <div className="flex flex-col gap-2">
               <motion.p
-                className="text-accent before:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
+                className="text-accent before:md:drop-shadow-glow before:content-['COMING_SOON'] before:absolute before:ml-1 before:mt-1 before:md:ml-[6px] before:md:mt-[6px] before:text-foreground before:z-10 before:overflow-hidden before:whitespace-nowrap text-center text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-black tracking-tight"
                 initial={{ opacity: 0, x: 400 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -122,7 +122,7 @@ export default function HeroSection() {
 
       {/*Visi Misi */}
       <Container
-        id="hero"
+        id="visi-misi"
         className="min-h-screen py-36 h-full flex justify-center"
       >
         <motion.div
@@ -135,7 +135,7 @@ export default function HeroSection() {
           className="w-full flex flex-col justify-center items-center"
         >
           <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-[2.6rem] leading-[1] xs:text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
-            <span className="rotate-10 translate-x-6 text-foreground relative">
+            <span className="rotate-10 md:drop-shadow-glow translate-x-6 text-foreground relative">
               Visi dan Misi
             </span>
           </p>
@@ -168,7 +168,7 @@ export default function HeroSection() {
                   className="flex flex-col items-center text-center mt-8 px-4 flex-auto"
                   key={index}
                 >
-                  <p className="text-sm xs:text-base sm:text-md font-semibold text-accent">
+                  <p className="text-sm md:drop-shadow-glow xs:text-base sm:text-md font-semibold text-accent">
                     {misi.title}
                   </p>
                   <p className="text-sm xs:text-base sm:text-md max-w-lg">

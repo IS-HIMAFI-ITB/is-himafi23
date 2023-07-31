@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import TugasCard from "./tugas-card";
 
-export default function TugasSectionPeserta({ isVisible }: any) {
+export default function TugasSectionPeserta() {
   const session = useSession();
   const tugases = useQuery<Tugas[], Error>({
     queryKey: ["tugas"],
@@ -23,7 +23,7 @@ export default function TugasSectionPeserta({ isVisible }: any) {
       const data = await res.json();
       return data;
     },
-    refetchInterval: 1000 * 60 * 10, // 10 minutes
+    refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
 
   const submissions = useQuery<Submission[], Error>({
@@ -67,9 +67,10 @@ export default function TugasSectionPeserta({ isVisible }: any) {
   return (
     <AnimatePresence>
       <motion.section
-        className="flex flex-col gap-4 my-24"
+        className="flex flex-col gap-4"
         initial={{ opacity: 0, y: 200 }}
         whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ margin: "150px" }}
         transition={{
           duration: 0.8,
           ease: [0, 0.71, 0.2, 1.01],

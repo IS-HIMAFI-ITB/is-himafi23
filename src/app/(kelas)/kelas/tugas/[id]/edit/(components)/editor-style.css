@@ -1,0 +1,7 @@
+.mce-edit-focus {
+  @apply outline-none;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
+}

@@ -4,6 +4,7 @@ import "moment/locale/id";
 
 import moment from "moment";
 import { useSession } from "next-auth/react";
+import { notFound } from "next/navigation";
 import React from "react";
 
 import Container from "@/components/layout/container";
@@ -65,6 +66,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
           </article>
 
           <SubmissionSection
+            key={"loadingSubmission"}
             params={{ id: params.id }}
             tugas={tugas.data}
             tugasSubmission={tugasSubmission.data}
@@ -76,7 +78,7 @@ export default function TugasPage({ params }: { params: { id: string } }) {
     if (tugas.isSuccess && tugasSubmission.isLoading) {
       return (
         <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
-          <TugasSection tugas={tugas.data} />
+          <TugasSection key={"loadingTugas"} tugas={tugas.data} />
           <div className="sticky top-28 h-max flex flex-col gap-4">
             <Skeleton className="w-full h-8" />
             <div className="flex flex-row gap-4 items-center">
@@ -129,6 +131,10 @@ export default function TugasPage({ params }: { params: { id: string } }) {
         </div>
       </Container>
     );
+  }
+
+  if (tugas.isError || tugasSubmission.isError || tugas.data === null) {
+    return notFound();
   }
 
   return (
