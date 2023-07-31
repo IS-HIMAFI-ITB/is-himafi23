@@ -1,4 +1,4 @@
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, DownloadIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -93,6 +93,46 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
       const tipe = row.original.tipe;
 
       return tipe;
+    },
+  },
+  {
+    id: "bukti",
+    accessorKey: "bukti",
+    accessorFn: (row) => row.bukti,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Bukti
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const files = row.original.bukti;
+      if (!files) return <div className="w-max">-</div>;
+      return (
+        <div className="flex flex-col gap-2 justify-start">
+          {files.split("|").map((file) => {
+            return (
+              <a
+                key={file}
+                href={file}
+                className="flex flex-row w-max items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <DownloadIcon
+                  size={16}
+                  className="mr-2 shrink-0 group-hover:text-primary"
+                />{" "}
+                {files?.split("_").slice(1).join("_")}
+              </a>
+            );
+          })}
+        </div>
+      );
     },
   },
   {
