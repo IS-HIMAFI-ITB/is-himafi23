@@ -72,7 +72,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const alasan = row.original.keterangan;
 
-      return alasan;
+      return <div className="w-max">{alasan}</div>;
     },
   },
   {
