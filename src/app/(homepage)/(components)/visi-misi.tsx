@@ -86,7 +86,7 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
             }
           }}
         >
-          <p className="text-2xl font-semibold text-accent my-3">
+          <p className="text-2xl md:drop-shadow-glow font-semibold text-accent my-3">
             {misi.data[misiIndex].title}
           </p>
           <p className="text-xl">{misi.data[misiIndex].description}</p>

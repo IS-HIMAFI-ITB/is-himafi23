@@ -1,24 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, CalendarIcon, ClockIcon, LinkIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarIcon,
+  ClockIcon,
+  FileEdit,
+  LinkIcon,
+} from "lucide-react";
 import moment from "moment";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Tugas, Submission } from "@prisma/client";
-import { CommentForm } from "./comment-section";
+import { Role, Tugas } from "@prisma/client";
 
-export default function TugasSection({
-  tugas,
-  tugasSubmission,
-}: {
-  tugas: Tugas | undefined;
-  tugasSubmission: Submission | undefined;
-}) {
+export default function TugasSection({ tugas }: { tugas: Tugas | undefined }) {
+  const session = useSession();
   return (
     <motion.article
       className="prose lg:prose-lg dark:prose-invert"
@@ -31,11 +32,20 @@ export default function TugasSection({
         delay: 0,
       }}
     >
-      <Button variant={"outline"} className="mb-4 no-underline" asChild>
-        <Link href={`/kelas`}>
-          <ArrowLeft className="mr-2" size={16} /> Kembali ke halaman kelas
-        </Link>
-      </Button>
+      <div className="flex flex-row gap-2 items-center">
+        <Button variant={"outline"} className="no-underline" asChild>
+          <Link href={`/kelas`}>
+            <ArrowLeft className="mr-2" size={16} /> Kembali ke halaman kelas
+          </Link>
+        </Button>
+        {!(session.data?.user.role === Role.PESERTA) && (
+          <Button variant={"outline"} className="no-underline" asChild>
+            <Link href={`/kelas/tugas/${tugas?.id}/edit`}>
+              <FileEdit className="mr-2" size={16} /> Edit tugas
+            </Link>
+          </Button>
+        )}
+      </div>
       <h3 className="flex flex-row items-center gap-2">Tugas #{tugas?.id}</h3>
 
       <h1>{tugas?.title}</h1>
@@ -43,9 +53,9 @@ export default function TugasSection({
       <div className="not-prose -mt-4 flex flex-row flex-wrap items-center gap-4">
         <Badge
           variant={"secondary"}
-          className="flex flex-row gap-2 items-center font-normal px-4"
+          className="flex flex-row gap-1 items-center font-normal px-4"
         >
-          <CalendarIcon size={16} />
+          <CalendarIcon className="mr-1" size={16} />
 
           <p className="hidden text-sm xs:inline">Deadline</p>
 
@@ -109,7 +119,7 @@ export default function TugasSection({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Card className="px-5 py-4 w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
+                <Card className="px-5 py-4 w-max max-w-full flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
                   <LinkIcon
                     className="group-hover/download:text-primary"
                     size={24}
