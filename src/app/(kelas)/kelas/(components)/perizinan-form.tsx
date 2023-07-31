@@ -92,7 +92,7 @@ export default function PerizinanForm({
     ],
     mutationFn: (values: z.infer<typeof perizinanFormSchema>) => {
       console.log(values, `/event/users/${session.data?.user.nim}/izin`);
-      return fetch(`api/event/users/${session.data?.user.nim}/izin`, {
+      return fetch(`api/event/users/${undefined}/izin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId: eventDetails.data.id, ...values }),
