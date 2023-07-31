@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/prisma";
-import { TipeIzin } from "@prisma/client";
+import { StatusIzin, TipeIzin } from "@prisma/client";
 
 export async function DELETE(
   req: NextRequest,
@@ -20,10 +20,11 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { izinId: string } }
 ) {
-  const { keterangan, tipe, bukti } = (await req.json()) as {
+  const { keterangan, tipe, bukti, status } = (await req.json()) as {
     keterangan: string | undefined;
     tipe: TipeIzin | undefined;
     bukti: string | undefined;
+    status: StatusIzin | undefined;
   };
   const izin = await prisma.izin.update({
     where: {
@@ -33,6 +34,7 @@ export async function PATCH(
       keterangan,
       tipe,
       bukti,
+      status,
     },
   });
 

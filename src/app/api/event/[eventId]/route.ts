@@ -10,7 +10,11 @@ export async function GET(
     const events = await prisma.event.findMany({
       include: {
         hadir: true,
-        izin: true,
+        izin: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
@@ -38,18 +42,18 @@ export async function PATCH(
     title,
     description,
     date,
+    presensiQuestionAnswer,
+    checkRecheckForm,
     disabled,
     enablePresensi,
-    presensiQuestion,
-    presensiQuestionAnswer,
   } = (await req.json()) as {
     title: string | undefined;
     description: string | undefined;
-    date: Date | undefined;
+    date: string | undefined;
+    presensiQuestionAnswer: string | undefined;
+    checkRecheckForm: string | undefined;
     disabled: boolean | undefined;
     enablePresensi: boolean | undefined;
-    presensiQuestion: string | undefined;
-    presensiQuestionAnswer: string | undefined;
   };
 
   const event = await prisma.event.update({
@@ -62,7 +66,7 @@ export async function PATCH(
       date,
       disabled,
       enablePresensi,
-      presensiQuestion,
+      checkRecheckForm,
       presensiQuestionAnswer,
     },
   });
