@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="my-8">
-      <div className="flex flex-col-reverse gap-x-8 gap-y-2 md:flex-row items-center justify-between w-full mb-4">
+      <div className="flex flex-col-reverse gap-x-8 gap-y-2 md:flex-row items-center justify-between w-full">
         <Input
           placeholder="Cari NIM peserta"
           className="w-full md:max-w-sm"
@@ -158,6 +158,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="odd:bg-background/25 even:backdrop-brightness-125 hover:odd:bg-background/30 hover:even:bg-secondary/10"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

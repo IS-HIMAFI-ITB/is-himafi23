@@ -322,7 +322,7 @@ export default function EditEventForm({
                     <FormControl>
                       <Switch
                         className="h-full"
-                        checked={field.value}
+                        checked={!field.value}
                         onCheckedChange={field.onChange}
                         aria-readonly
                       />
