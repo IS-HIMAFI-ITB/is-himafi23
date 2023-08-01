@@ -115,7 +115,9 @@ export function DataTable<TData, TValue>({
               className="ml-auto"
               onClick={
                 () => {
-                  return;
+                  queryClient.invalidateQueries({
+                    queryKey: ["events"],
+                  });
                 }
                 // queryClient.invalidateQueries({
                 //   queryKey: ["tugasSubmission", { id: tugasId }],

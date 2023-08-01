@@ -322,6 +322,7 @@ export default function EditEventForm({
                     <FormControl>
                       <Switch
                         className="h-full"
+                        disabled
                         checked={!field.value}
                         defaultChecked={!field.value}
                         onCheckedChange={field.onChange}
