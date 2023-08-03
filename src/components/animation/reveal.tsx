@@ -18,9 +18,11 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
   const slideControls = useAnimation();
 
   useEffect(() => {
+    const useMainControls = mainControls;
+    const useSlideControls = slideControls;
     if (isInView) {
-      mainControls.start("visible");
-      slideControls.start("visible");
+      useMainControls.start("visible");
+      useSlideControls.start("visible");
     }
   }, [isInView]);
 
