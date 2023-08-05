@@ -3,66 +3,44 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import { notFound } from "next/navigation";
+import React from "react";
 
 import { H2, H3 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Submission, Tugas } from "@prisma/client";
+import { Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 import TugasCard from "./tugas-card";
 
 export default function TugasSectionPeserta() {
   const session = useSession();
-  const tugases = useQuery<Tugas[], Error>({
-    queryKey: ["tugas"],
-    queryFn: async () => {
-      const res = await fetch("/api/tugas");
-      const data = await res.json();
-      return data;
-    },
-    refetchInterval: 1000 * 60 * 5, // 5 minutes
+  const tugasDone = useQuery<Tugas[], Error>({
+    queryKey: ["tugas", "done", session.data?.user?.nim],
+    queryFn: () =>
+      fetch(`/api/users/${session.data?.user.nim}/tugas/done`).then((res) =>
+        res.json()
+      ),
   });
 
-  const submissions = useQuery<Submission[], Error>({
-    queryKey: ["submissions", { userId: session.data?.user.id }],
-    queryFn: async () => {
-      const res = await fetch(`/api/submissions/${session.data?.user.id}`);
-      const data = await res.json();
-      return data;
+  const tugasAssigned = useQuery<Tugas[], Error>({
+    queryKey: ["tugas", "assigned", session.data?.user?.nim],
+    queryFn: () => {
+      return fetch(`/api/users/${session.data?.user.nim}/tugas/assigned`).then(
+        (res) => res.json()
+      );
     },
   });
 
-  const [tugasAssigned, setTugasAssigned] = React.useState<Tugas[]>([]);
-  const [tugasDone, setTugasDone] = React.useState<Tugas[]>([]);
-  useEffect(() => {
-    if (!tugases.data || !submissions.data) return;
-    if (tugases.isLoading || submissions.isLoading) return;
-    if (tugases.isError || submissions.isError) return;
+  if (tugasAssigned.isError || tugasDone.isError) {
+    return notFound();
+  }
 
-    const tugasDone = tugases.data?.filter((tugas) => {
-      return submissions.data?.find((submission) => {
-        return submission.tugasId === tugas.id;
-      });
-    });
-    setTugasDone(tugasDone);
+  const isLoading = tugasAssigned.isLoading || tugasDone.isLoading;
 
-    const tugasAssigned = tugases.data?.filter((tugas) => {
-      return !submissions.data?.find((submission) => {
-        return submission.tugasId === tugas.id;
-      });
-    });
-    setTugasAssigned(tugasAssigned);
-  }, [
-    tugases.data,
-    submissions.data,
-    tugases.isLoading,
-    tugases.isError,
-    submissions.isLoading,
-    submissions.isError,
-  ]);
+  const tugasCount = tugasAssigned.data?.length! + tugasDone.data?.length!;
 
   return (
     <AnimatePresence>
@@ -81,22 +59,19 @@ export default function TugasSectionPeserta() {
           <H2 className="border-none -mb-2">Tugas Kamu</H2>
           <div className="flex flex-row gap-2 items-center">
             <p>Tugas selesai</p>
-            {tugases.isLoading || submissions.isLoading ? (
+            {isLoading ? (
               <Badge>
                 <Loader2Icon className="mr-2 animate-spin" size={16} />%
               </Badge>
             ) : (
               <Badge
                 variant={
-                  (tugasDone?.length! / tugases.data?.length!) * 100 < 75
+                  (tugasDone.data?.length! / tugasCount) * 100 < 75
                     ? "destructive"
                     : "default"
                 }
               >
-                {((tugasDone?.length! / tugases.data?.length!) * 100).toFixed(
-                  2
-                )}
-                %
+                {((tugasDone.data?.length! / tugasCount) * 100).toFixed(2)}%
               </Badge>
             )}
           </div>
@@ -107,11 +82,11 @@ export default function TugasSectionPeserta() {
             <TabsTrigger value="assigned">
               🕒 Ditugaskan
               <span className="ml-1 xs:inline hidden">
-                {submissions.isLoading || tugases.isLoading ? (
+                {isLoading ? (
                   <Loader2Icon className="animate-spin" size={12} />
                 ) : (
                   <b>
-                    ({tugasAssigned?.length}/{tugases.data?.length})
+                    ({tugasAssigned.data.length}/{tugasCount})
                   </b>
                 )}
               </span>
@@ -120,11 +95,11 @@ export default function TugasSectionPeserta() {
             <TabsTrigger value="done">
               ✅ Selesai
               <span className="ml-1 xs:inline hidden">
-                {submissions.isLoading || tugases.isLoading ? (
+                {tugasAssigned.isLoading || tugasDone.isLoading ? (
                   <Loader2Icon className="animate-spin" size={12} />
                 ) : (
                   <b>
-                    ({tugasDone?.length}/{tugases.data?.length})
+                    ({tugasDone.data.length}/{tugasCount})
                   </b>
                 )}
               </span>
@@ -132,8 +107,8 @@ export default function TugasSectionPeserta() {
           </TabsList>
 
           <TabsContent className="flex flex-col gap-3" value="assigned">
-            {tugases.isLoading && <TugasCard loading />}
-            {tugasAssigned?.length === 0 && !tugases.isLoading && (
+            {isLoading && <TugasCard loading />}
+            {tugasAssigned.data?.length === 0 && !isLoading && (
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -148,9 +123,9 @@ export default function TugasSectionPeserta() {
                 </Card>
               </motion.div>
             )}
-            {!(tugasAssigned?.length === 0) &&
-              !tugases.isLoading &&
-              tugasAssigned?.map((tugas, index) => {
+            {!(tugasAssigned.data?.length === 0) &&
+              !isLoading &&
+              tugasAssigned.data?.map((tugas, index) => {
                 return (
                   <motion.div
                     key={tugas.id}
@@ -170,7 +145,7 @@ export default function TugasSectionPeserta() {
 
           {/* TODO: Ini harus pakai pagination, klo ga bakal sampai bawah banget WKWWKWKWK */}
           <TabsContent className="flex flex-col gap-3" value="done">
-            {tugasDone?.length === 0 && (
+            {tugasDone.data?.length === 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -185,8 +160,8 @@ export default function TugasSectionPeserta() {
                 </Card>
               </motion.div>
             )}
-            {!(tugasDone?.length === 0) &&
-              tugasDone?.map((tugas, index) => {
+            {!(tugasDone.data?.length === 0) &&
+              tugasDone.data?.map((tugas, index) => {
                 return (
                   <motion.div
                     key={tugas.id}

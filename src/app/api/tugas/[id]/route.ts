@@ -14,6 +14,7 @@ export async function GET(
   if (!session) {
     throw new Error("Unauthorized");
   }
+
   const tugas = await prisma.tugas
     .findUnique({
       where: { id: Number(params.id) },
