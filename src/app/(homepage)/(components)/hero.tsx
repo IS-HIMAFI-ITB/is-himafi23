@@ -59,7 +59,7 @@ export default function HeroSection() {
             <hr className="fill-foreground h-[2px] bg-foreground text-foreground w-full xl:after:content-['✨'] after:absolute after:-mt-10 after:drop-shadow-glow after:rotate-12 after:ml-72 after:text-6xl mt-4" />
             <Reveal variant="slide" className="w-fit">
               <P className="font-semibold text-xl text-center mt-4">
-                "Menyusur angkasa merajut asa"
+                {`"Menyusur angkasa merajut asa"`}
               </P>
             </Reveal>
           </div>
