@@ -43,6 +43,7 @@ import { Separator } from "@/components/ui/separator";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { motion } from "framer-motion";
 import EditProfile from "./(components)/edit-profile";
+import { notFound } from "next/navigation";
 
 export default function ProfilePage({ params }: { params: { nim: number } }) {
   const session = useSession();
@@ -116,7 +117,7 @@ export default function ProfilePage({ params }: { params: { nim: number } }) {
       </Container>
     );
 
-  if (isError) return <H1>Error: {error?.message}</H1>;
+  if (isError || error || data[0] == null) return notFound();
 
   return (
     <Container className="min-h-[calc(100vh-72.6px-4rem)] h-full flex flex-col gap-3 justify-center w-max">
