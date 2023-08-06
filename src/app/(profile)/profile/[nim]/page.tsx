@@ -26,7 +26,7 @@ export default async function ProfilePage({
 
   if (!user) return notFound();
 
-  const session = getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   if (!session) return <Unauthenticated />;
 
   // TODO: Tambahin animasi pake ini
