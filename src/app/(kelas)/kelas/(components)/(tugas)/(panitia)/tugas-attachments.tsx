@@ -1,4 +1,5 @@
 import { LinkIcon } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 import { Card } from "@/components/ui/card";
@@ -13,7 +14,7 @@ export default function TugasAttachments({ tugas }: { tugas: Tugas }) {
         ?.split("|")
         .filter((element) => (element === "|" ? null : element))
         .map((attachment, i) => (
-          <a
+          <Link
             href={attachment.split("?judultugas=")[0]}
             key={i}
             target="_blank"
@@ -41,7 +42,7 @@ export default function TugasAttachments({ tugas }: { tugas: Tugas }) {
                 </p>
               </div>
             </Card>
-          </a>
+          </Link>
         ))}
     </div>
   );

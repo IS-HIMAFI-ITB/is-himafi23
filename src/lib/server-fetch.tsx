@@ -121,4 +121,44 @@ export async function getNoPresenceEvent(nim?: string) {
   return noPresence;
 }
 
+export async function getTugasAssigned(nim: string) {
+  const tugasAssigned = await prisma.tugas.findMany({
+    where: {
+      NOT: {
+        submissions: {
+          some: {
+            user: {
+              nim: nim,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      dueDate: "asc",
+    },
+  });
+
+  return tugasAssigned;
+}
+
+export async function getTugasDone(nim: string) {
+  const tugasDone = await prisma.tugas.findMany({
+    where: {
+      submissions: {
+        some: {
+          user: {
+            nim: nim,
+          },
+        },
+      },
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  return tugasDone;
+}
+
 // END OF SERVER SIDE METHODS

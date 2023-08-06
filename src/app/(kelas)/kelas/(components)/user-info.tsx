@@ -36,7 +36,7 @@ export default function UserInfo() {
         <div className="flex flex-col gap-2">
           {session.status === "loading" && <Skeleton className="w-24 h-4" />}
 
-          {session && (
+          {session.data && (
             <p className="line-clamp-1 font-semibold">
               {session?.data?.user.name}
             </p>
@@ -47,7 +47,7 @@ export default function UserInfo() {
               {session.status === "loading" && (
                 <Loader2Icon className="animate-spin" size={16} />
               )}{" "}
-              {session &&
+              {!(session.status === "loading") &&
                 (session?.data?.user.role === Role.PESERTA ? (
                   <p>{session.data.user.role}</p>
                 ) : (
@@ -71,7 +71,7 @@ export default function UserInfo() {
 
             {session.status === "loading" && <Skeleton className="w-24 h-4" />}
 
-            {session && (
+            {session.data && (
               <p className="line-clamp-1">{session?.data?.user.nim}</p>
             )}
           </div>

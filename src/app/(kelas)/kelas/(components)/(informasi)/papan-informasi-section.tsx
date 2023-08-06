@@ -2,6 +2,7 @@ import React from "react";
 
 import { H2 } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
+import PostsProvider from "@/context/posts-provider";
 import { prisma } from "@/prisma";
 
 import PapanInformasiPost from "./papan-informasi-post";
@@ -29,7 +30,9 @@ export default async function PapanInformasiSection() {
 
         <Separator />
       </div>
-      <PapanInformasiPost initialPosts={posts} />
+      <PostsProvider posts={posts}>
+        <PapanInformasiPost />
+      </PostsProvider>
     </>
   );
 }

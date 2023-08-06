@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TugasPanitiaContext } from "@/context/tugas-panitia-provider";
+import { useTugasIndexStore } from "@/lib/store";
 import { Submission, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -23,19 +25,16 @@ interface TugasSubmissionDetailProps extends Submission {
   };
 }
 
-export default function TugasSubmissionDetail({
-  tugasId,
-}: {
-  tugasId: number;
-}) {
+export default function TugasSubmissionDetail() {
+  const tugasData = useContext(TugasPanitiaContext);
+  const { tugasIndex, setTugasIndex } = useTugasIndexStore();
+  const tugasId = tugasData[tugasIndex].id;
+
   const submission = useQuery<TugasSubmissionDetailProps[], Error>({
     queryKey: ["tugasSubmission", { id: tugasId }],
     queryFn: () => getTugasSubmission(tugasId),
     refetchInterval: 1000 * 60 * 5, // 5 minutes
   });
-
-  // if (submission.status === "loading") return <div>Loading...</div>;
-  // if (submission.status === "error") return <div>Error...</div>;
 
   return (
     <>

@@ -9,8 +9,8 @@ import Unauthenticated from "@/components/template/unauthenticated";
 import KehadiranSection from "./(components)/(event)/kehadiran-section";
 import KehadiranSectionPanitia from "./(components)/(event)/kehadiran-section-panitia";
 import PapanInformasiSection from "./(components)/(informasi)/papan-informasi-section";
-import TugasSectionPanitia from "./(components)/(tugas)/tugas-section-panitia";
-import TugasSectionPeserta from "./(components)/(tugas)/tugas-section-peserta";
+import TugasSectionPanitia from "./(components)/(tugas)/(panitia)/tugas-section-panitia";
+import TugasSectionPeserta from "./(components)/(tugas)/(peserta)/tugas-section-peserta";
 import UserInfo from "./(components)/user-info";
 import ViewAs from "./(components)/view-as";
 
