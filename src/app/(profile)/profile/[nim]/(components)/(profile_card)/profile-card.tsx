@@ -12,7 +12,7 @@ export default function ProfileCard({ user }: { user: User }) {
   return (
     <Card className="w-full lg:w-[600px] xl:w-[900px] bg-background">
       <CardHeader>
-        <UserAvatar initialUser={user} />
+        <UserAvatar />
       </CardHeader>
 
       <CardContent>
@@ -20,7 +20,7 @@ export default function ProfileCard({ user }: { user: User }) {
           <div className="lg:flex">
             <H3 className="lg:text-2xl">{user.name}</H3>
 
-            <EditProfile user={user} />
+            <EditProfile />
           </div>
 
           <div className="flex gap-2">

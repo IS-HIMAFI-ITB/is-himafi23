@@ -1,6 +1,7 @@
 "use client";
 
 import { Camera } from "lucide-react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -19,8 +20,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { UserContext } from "@/context/user-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 
 //create form schema with a message
 const passSchema = z
@@ -40,7 +41,9 @@ const passSchema = z
     }
   });
 
-export default function EditProfileForm({ user }: { user: User }) {
+export default function EditProfileForm() {
+  const user = useContext(UserContext);
+
   const passForm = useForm<z.infer<typeof passSchema>>({
     resolver: zodResolver(passSchema),
     defaultValues: {

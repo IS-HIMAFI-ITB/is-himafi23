@@ -1,13 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserContext } from "@/context/user-provider";
 import { getUser } from "@/lib/client-fetch";
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
-export default function DetailsList({ user }: { user: User }) {
+export default function DetailsList() {
+  const user = useContext(UserContext);
+
   const { data, isLoading, isError, error } = useQuery<User[], Error>({
     queryKey: ["users", Number(user.nim)],
     queryFn: async () => await getUser(Number(user.nim)),
@@ -34,8 +37,8 @@ export default function DetailsList({ user }: { user: User }) {
     <div>
       {/* ntar bisa ditambah lagi */}
       <span>Nomor HP: </span>
-      {user.phoneNumber ? (
-        <span>{user.phoneNumber}</span>
+      {userData.phoneNumber ? (
+        <span>{userData.phoneNumber}</span>
       ) : (
         <span>Unavailable</span>
       )}

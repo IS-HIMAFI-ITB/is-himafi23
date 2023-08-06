@@ -1,13 +1,18 @@
 "use client";
 
+import { useContext } from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserContext } from "@/context/user-provider";
 import { getUser } from "@/lib/client-fetch";
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
-export default function Posts({ initialUser }: { initialUser: User }) {
+export default function Posts() {
+  const initialUser = useContext(UserContext);
+
   const { data, isLoading, isError, error } = useQuery<User[], Error>({
     queryKey: ["users", Number(initialUser.nim)],
     queryFn: async () => await getUser(Number(initialUser.nim)),

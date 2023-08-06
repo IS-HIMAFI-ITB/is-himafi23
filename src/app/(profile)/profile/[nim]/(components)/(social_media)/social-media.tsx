@@ -1,18 +1,17 @@
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User } from "@prisma/client";
 
-import DetailsList from "./details-list";
+import SocialMediaList from "./social-media-list";
 
-export default function AdditionalDetails({ user }: { user: User }) {
+export default function SocialMedia() {
   return (
     <Card className="bg-background">
       <CardHeader>
-        <CardTitle className="text-xl">Info</CardTitle>
+        <CardTitle>Social Media</CardTitle>
       </CardHeader>
       <CardContent>
-        <DetailsList user={user} />
+        <SocialMediaList />
       </CardContent>
     </Card>
   );
