@@ -10,7 +10,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
 import { H2 } from "@/components/typography";
 import {
@@ -33,6 +33,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast/useToast";
+import { useTugasIndexStore } from "@/lib/store";
 import { Tugas } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -51,7 +52,7 @@ export default function TugasSectionPanitia() {
     queryFn: () => getTugas(),
     refetchInterval: 1000 * 60 * 5, // 10 minutes
   });
-  const [tugasIndex, setTugasIndex] = useState<number>(0);
+  const { tugasIndex, setTugasIndex } = useTugasIndexStore();
   const { toast } = useToast();
 
   const deleteTugas = useMutation({
@@ -126,13 +127,13 @@ export default function TugasSectionPanitia() {
   function handleChangeNextPage() {
     if (tugasIndex === tugas.data!.length - 1) return;
 
-    setTugasIndex((prev) => prev + 1);
+    setTugasIndex(tugasIndex + 1);
   }
 
   function handleChangePrevPage() {
     if (tugasIndex === 0) return;
 
-    setTugasIndex((prev) => prev - 1);
+    setTugasIndex(tugasIndex - 1);
   }
 
   function canNavigate() {

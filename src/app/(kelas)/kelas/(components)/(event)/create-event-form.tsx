@@ -39,7 +39,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./local-accordion";
+} from "../local-accordion";
 
 const formSchema = z.object({
   title: z.string().max(50),

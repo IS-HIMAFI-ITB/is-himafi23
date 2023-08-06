@@ -1,18 +1,11 @@
-"use client";
-
 import { LinkIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Card } from "@/components/ui/card";
 import { Tugas } from "@prisma/client";
 
 export default function TugasAttachments({ tugas }: { tugas: Tugas }) {
-  const [attachments, setAttachments] = React.useState<string | null>(null);
-  useEffect(() => {
-    setAttachments(tugas.attachments);
-  }, [tugas.attachments]);
-
-  if (!attachments) return null;
+  if (!tugas.attachments) return null;
 
   return (
     <div className="not-prose w-full flex flex-row flex-wrap items-center gap-4">

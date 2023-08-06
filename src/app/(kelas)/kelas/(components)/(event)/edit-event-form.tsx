@@ -29,7 +29,7 @@ import { Event } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Editor } from "@tinymce/tinymce-react";
 
-import { AccordionContent } from "./local-accordion";
+import { AccordionContent } from "../local-accordion";
 
 const formSchema = z.object({
   title: z.string().max(50),

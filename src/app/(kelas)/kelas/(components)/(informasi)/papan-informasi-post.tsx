@@ -13,7 +13,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./local-accordion";
+} from "../local-accordion";
 
 export default function PapanInformasiPost({
   initialPosts,

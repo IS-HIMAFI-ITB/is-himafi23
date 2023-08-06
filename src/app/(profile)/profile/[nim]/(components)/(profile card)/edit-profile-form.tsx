@@ -1,36 +1,26 @@
 "use client";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Camera } from "lucide-react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
+import {
+  AlertDialogCancel,
+  AlertDialogHeader,
+} from "@/components/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Camera } from "lucide-react";
 
 //create form schema with a message
 const passSchema = z
@@ -50,7 +40,7 @@ const passSchema = z
     }
   });
 
-export default function EditProfile({ userData }: { userData: User[] }) {
+export default function EditProfileForm({ user }: { user: User }) {
   const passForm = useForm<z.infer<typeof passSchema>>({
     resolver: zodResolver(passSchema),
     defaultValues: {
@@ -70,8 +60,8 @@ export default function EditProfile({ userData }: { userData: User[] }) {
       <div className="flex justify-center gap-6 items-center">
         <div className="rounded-full relative group overflow-hidden">
           <Avatar className="w-20 h-20 text-3xl z-0 group-hover:cursor-pointer">
-            <AvatarImage src={userData[0].image ?? undefined} />
-            <AvatarFallback>{userData[0].name?.[0] ?? "?"}</AvatarFallback>
+            <AvatarImage src={user.image ?? undefined} />
+            <AvatarFallback>{user.name?.[0] ?? "?"}</AvatarFallback>
           </Avatar>
           <div className="bg-gray-200/60 w-full h-full hidden group-hover:flex justify-center absolute z-20 top-12 text-background group-hover:cursor-pointer">
             <Camera className="mt-0.5" />

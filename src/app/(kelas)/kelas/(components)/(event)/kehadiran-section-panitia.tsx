@@ -37,16 +37,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Event, Izin, StatusIzin, User } from "@prisma/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import CreateEventForm from "./create-event-form";
-import { DataTable } from "./data-table";
-import EditEventForm from "./edit-event-form";
-import { izinColumns } from "./izin-column";
+import { DataTable } from "../data-table";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./local-accordion";
+} from "../local-accordion";
+import CreateEventForm from "./create-event-form";
+import EditEventForm from "./edit-event-form";
+import { izinColumns } from "./izin-column";
 
 function CreateTitleForm({
   form,
