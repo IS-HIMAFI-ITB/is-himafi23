@@ -1,8 +1,6 @@
-import { getServerSession } from "next-auth";
 import React from "react";
 
 import Container from "@/components/layout/container";
-import Unauthenticated from "@/components/template/unauthenticated";
 
 import KehadiranSection from "./(components)/(event)/kehadiran-section";
 import KehadiranSectionPanitia from "./(components)/(event)/kehadiran-section-panitia";
@@ -13,10 +11,6 @@ import UserInfo from "./(components)/user-info";
 import ViewAs from "./(components)/view-as";
 
 export default async function KelasPage() {
-  const session = await getServerSession();
-
-  if (!session || !session.user) return <Unauthenticated />;
-
   return (
     <Container className="py-12">
       <section className="flex flex-col flex-wrap md:flex-row gap-y-8 gap-x-12 justify-between items-start mb-12">

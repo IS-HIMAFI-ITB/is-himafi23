@@ -1,7 +1,5 @@
-import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 
-import { authOptions } from "@/app/api/auth/auth-options";
 import AnimateSection from "@/components/animate-section";
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
@@ -34,9 +32,6 @@ export default async function ProfilePage({
   });
 
   if (!user) return notFound();
-
-  const session = await getServerSession(authOptions);
-  if (!session) return <Unauthenticated />;
 
   return (
     <Container className="min-h-[calc(100vh-72.6px-4rem)] h-full flex flex-col gap-3 justify-center w-max">
