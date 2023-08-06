@@ -25,6 +25,11 @@ export default function DetailsList({ user }: { user: User }) {
       </div>
     );
   }
+
+  if (isError) {
+    return <p>Error! {error?.message}</p>;
+  }
+
   return (
     <div>
       {/* ntar bisa ditambah lagi */}

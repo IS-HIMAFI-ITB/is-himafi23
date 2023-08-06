@@ -7,12 +7,16 @@ import { getUser } from "@/lib/client-fetch";
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
-export default function SocialMediaList({ user }: { user: User }) {
+export default function SocialMediaList({
+  initialUser,
+}: {
+  initialUser: User;
+}) {
   const { data, isLoading } = useQuery<User[], Error>({
-    queryKey: ["users", Number(user.nim)],
-    queryFn: async () => await getUser(Number(user.nim)),
+    queryKey: ["users", Number(initialUser.nim)],
+    queryFn: async () => await getUser(Number(initialUser.nim)),
     refetchInterval: 1000 * 60 * 60, // 1 hour
-    initialData: [user],
+    initialData: [initialUser],
   });
 
   const userData = data?.[0];

@@ -12,7 +12,7 @@ export default function SocialMedia({ user }: { user: User }) {
         <CardTitle>Social Media</CardTitle>
       </CardHeader>
       <CardContent>
-        <SocialMediaList user={user} />
+        <SocialMediaList initialUser={user} />
       </CardContent>
     </Card>
   );

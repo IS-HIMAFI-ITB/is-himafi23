@@ -1,10 +1,21 @@
-import { H3, H4 } from "@/components/typography";
-import { Separator } from "@/components/ui/separator";
-import { User } from "@prisma/client";
-import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
 
-export default function UserPosts({ data }: { data: User[] }) {
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getUser } from "@/lib/client-fetch";
+import { User } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
+
+export default function Posts({ initialUser }: { initialUser: User }) {
+  const { data, isLoading, isError, error } = useQuery<User[], Error>({
+    queryKey: ["users", Number(initialUser.nim)],
+    queryFn: async () => await getUser(Number(initialUser.nim)),
+    refetchInterval: 1000 * 60 * 60, // 1 hour
+    initialData: [initialUser],
+  });
+
+  const user = data?.[0];
   const postPlaceholder = [
     {
       id: 1,
@@ -34,23 +45,29 @@ export default function UserPosts({ data }: { data: User[] }) {
     },
   ]; // ini nanti diganti pake data dari database
 
+  if (isLoading) {
+    return <Skeleton className="w-full h-36" />;
+  }
+
+  if (isError) {
+    return <p>Error! {error?.message}</p>;
+  }
+
   return (
     <div className="flex flex-col gap-3">
       {postPlaceholder.map((post) => (
         <div key={post.id}>
           <div className="flex items-start gap-4">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={data[0].image ?? undefined} />
-              <AvatarFallback>{data[0].name?.[0] ?? "?"}</AvatarFallback>
+              <AvatarImage src={user.image ?? undefined} />
+              <AvatarFallback>{user.name?.[0] ?? "?"}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-2">
               <div className="flex gap-2 flex-wrap">
                 {" "}
                 {/* Profile Info */}
-                <p className="font-semibold text-sm lg:text-md">
-                  {data[0].name}
-                </p>
-                <p className="text-secondary/50 text-sm lg:text-md">{`@${data[0].nim}`}</p>
+                <p className="font-semibold text-sm lg:text-md">{user.name}</p>
+                <p className="text-secondary/50 text-sm lg:text-md">{`@${user.nim}`}</p>
                 <p className="font-bold text-secondary/50 text-sm lg:text-md">
                   {" "}
                   ·{" "}
