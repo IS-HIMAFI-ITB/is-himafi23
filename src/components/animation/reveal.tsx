@@ -38,10 +38,7 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
   }
 
   return (
-    <div
-      ref={ref}
-      className={cn("relative overflow-hidden ", width, className)}
-    >
+    <div ref={ref} className={cn("relative overflow-hidden", width, className)}>
       <motion.div
         variants={{
           hidden: { opacity: 0, y: 150 },
@@ -66,7 +63,7 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
           initial="hidden"
           animate={slideControls}
           transition={{ duration: 0.5, ease: "easeIn" }}
-          className="absolute top-4 bottom-4 left-0 right-0 bg-accent z-20"
+          className="absolute top-4 bottom-4 left-0 right-0 bg-accent h-full z-20"
         />
       ) : null}
     </div>
