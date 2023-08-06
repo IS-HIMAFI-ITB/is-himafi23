@@ -6,7 +6,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { nim: string } }
 ) {
-  console.log(req.url);
+  const url = req.url;
 
   const tugas = await prisma.tugas
     .findMany({
