@@ -1,5 +1,3 @@
-import "./info-card-style.css";
-
 import { getServerSession } from "next-auth";
 import React from "react";
 
