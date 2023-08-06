@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 interface Props {
   children: React.ReactNode;
   className?: string;
-  width?: "fit-content" | "100%";
+  width?: "fit" | "full";
   variant?: "default" | "slide";
 }
 
@@ -38,7 +38,10 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
   }
 
   return (
-    <div ref={ref} className={cn("relative overflow-hidden", width, className)}>
+    <div
+      ref={ref}
+      className={cn("relative overflow-hidden", `w-${width}`, className)}
+    >
       <motion.div
         variants={{
           hidden: { opacity: 0, y: 150 },

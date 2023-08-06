@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/hover-card";
 import { Link2 } from "lucide-react";
 
+import LeaderboardSearch from "./search-bar";
+
 export default function FirstLeaderboard() {
   const { data } = useSession();
   const profileboard = mockup.firstPhase; // ini ntar diganti pake data dari database
@@ -25,35 +27,38 @@ export default function FirstLeaderboard() {
 
   return (
     <div>
-      <div className="my-4 font-semibold text-end text-sm md:text-xl flex gap-2 justify-end items-center">
-        <p>Current rank: </p>
+      <div className="flex justify-between items-center gap-4">
+        <LeaderboardSearch boardData={sortedProfileboard} />
+        <div className="my-4 font-semibold text-end text-sm md:text-xl flex gap-2 justify-end items-center flex-none">
+          <p>Current rank: </p>
 
-        {userRank ? (
-          <HoverCard>
-            <HoverCardTrigger>
-              <Link href={`#${userRank}`}>
-                <Badge
-                  className={cn(
-                    "text-sm",
-                    userRank === 1 &&
-                      "bg-amber-300 text-black hover:bg-amber-400",
-                    userRank === 2 &&
-                      "bg-slate-300 text-black hover:bg-slate-400",
-                    userRank === 3 &&
-                      "bg-yellow-700 text-black hover:bg-yellow-800"
-                  )}
-                >
-                  {`#${userRank}`}
-                </Badge>
-              </Link>
-            </HoverCardTrigger>
-            <HoverCardContent className="flex w-40 text-center">
-              <p className="text-xs">Klik untuk melihat posisi mu</p>
-            </HoverCardContent>
-          </HoverCard>
-        ) : (
-          <p>Unranked</p>
-        )}
+          {userRank ? (
+            <HoverCard>
+              <HoverCardTrigger>
+                <Link href={`#${userRank}`}>
+                  <Badge
+                    className={cn(
+                      "text-sm",
+                      userRank === 1 &&
+                        "bg-amber-300 text-black hover:bg-amber-400",
+                      userRank === 2 &&
+                        "bg-slate-300 text-black hover:bg-slate-400",
+                      userRank === 3 &&
+                        "bg-yellow-700 text-black hover:bg-yellow-800"
+                    )}
+                  >
+                    {`#${userRank}`}
+                  </Badge>
+                </Link>
+              </HoverCardTrigger>
+              <HoverCardContent className="flex w-40 text-center">
+                <p className="text-xs">Klik untuk melihat posisi mu</p>
+              </HoverCardContent>
+            </HoverCard>
+          ) : (
+            <p>Unranked</p>
+          )}
+        </div>
       </div>
 
       {sortedProfileboard.map((profile, index) => (

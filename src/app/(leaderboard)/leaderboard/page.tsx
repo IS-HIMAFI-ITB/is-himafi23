@@ -11,6 +11,7 @@ import FirstLeaderboard from "./(components)/first-leaderboard";
 import SecondLeaderboard from "./(components)/second-leaderboard";
 import ThirdLeaderboard from "./(components)/third-leaderboard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Reveal } from "@/components/animation/reveal";
 
 export default function LeaderboardPage() {
   const { status } = useSession();
@@ -27,14 +28,20 @@ export default function LeaderboardPage() {
   return (
     <Container className="py-12">
       <div>
-        <div className="flex before:content-['Leaderboard'] before:absolute before:text-accent before:-z-20 before:text-5xl before:font-bold before:-translate-y-0.5 md:before:-translate-x-1 mb-2 justify-center md:justify-start">
-          <H1 className="text-5xl">Leaderboard</H1>
+        <div className="flex justify-center md:justify-start">
+          <Reveal variant="slide" width="fit">
+            <div className="flex before:content-['Leaderboard'] before:absolute before:text-accent before:-z-20 before:text-5xl before:font-bold before:-translate-y-0.5 md:before:-translate-x-1 mb-2 justify-center md:justify-start">
+              <H1 className="text-5xl">Leaderboard</H1>
+            </div>
+          </Reveal>
         </div>
         <div className="flex text-center md:text-start mb-6">
-          <p className="font-semibold">
-            Berikut adalah leaderboard untuk peserta Intellektuelle Schule
-            HIMAFI ITB 2023
-          </p>
+          <Reveal width="fit">
+            <p className="font-semibold">
+              Berikut adalah leaderboard untuk peserta Intellektuelle Schule
+              HIMAFI ITB 2023
+            </p>
+          </Reveal>
         </div>
         <Separator className="mb-6" />
 

@@ -48,7 +48,7 @@ export const AutoReveal = ({ children, className, width, variant }: Props) => {
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.5, ease: "easeIn" }}
-          className="absolute top-4 bottom-4 left-0 right-0 bg-accent z-20"
+          className="absolute top-4 bottom-4 left-0 right-0 bg-accent h-full z-20"
         />
       ) : null}
     </div>
