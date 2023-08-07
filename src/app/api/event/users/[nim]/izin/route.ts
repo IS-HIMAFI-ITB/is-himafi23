@@ -12,9 +12,23 @@ export async function GET(
       disabled: false,
       izin: {
         some: {
-          user: {
-            nim: params.nim,
-          },
+          AND: [
+            {
+              user: {
+                nim: params.nim,
+              },
+            },
+            {
+              OR: [
+                {
+                  status: "DITERIMA",
+                },
+                {
+                  status: "MENUNGGU",
+                },
+              ],
+            },
+          ],
         },
       },
     },

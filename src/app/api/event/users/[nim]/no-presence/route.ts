@@ -16,10 +16,17 @@ export async function GET(
           },
         },
         izin: {
-          none: {
-            user: {
-              nim: params.nim,
-            },
+          some: {
+            AND: [
+              {
+                user: {
+                  nim: params.nim,
+                },
+              },
+              {
+                status: "DITOLAK",
+              },
+            ],
           },
         },
       },

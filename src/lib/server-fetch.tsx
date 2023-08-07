@@ -161,4 +161,154 @@ export async function getTugasDone(nim: string) {
   return tugasDone;
 }
 
+export async function getEventHadir(nim: string) {
+  const eventHadir = await prisma.event.findMany({
+    where: {
+      disabled: false,
+      AND: [
+        {
+          hadir: {
+            some: {
+              nim: nim,
+            },
+          },
+        },
+        {
+          OR: [
+            {
+              izin: {
+                none: {
+                  user: {
+                    nim: nim,
+                  },
+                },
+              },
+            },
+            {
+              izin: {
+                some: {
+                  AND: [
+                    {
+                      user: {
+                        nim: nim,
+                      },
+                    },
+                    {
+                      status: "DITOLAK",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    include: {
+      hadir: {
+        where: {
+          nim: nim,
+        },
+      },
+      izin: {
+        where: {
+          user: {
+            nim: nim,
+          },
+        },
+      },
+    },
+  });
+
+  return eventHadir;
+}
+
+export async function getEventIzin(nim: string) {
+  const eventIzin = await prisma.event.findMany({
+    where: {
+      disabled: false,
+      izin: {
+        some: {
+          AND: [
+            {
+              user: {
+                nim: nim,
+              },
+            },
+            {
+              OR: [
+                {
+                  status: "DITERIMA",
+                },
+                {
+                  status: "MENUNGGU",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    include: {
+      hadir: {
+        where: {
+          nim: nim,
+        },
+      },
+      izin: {
+        where: {
+          user: {
+            nim: nim,
+          },
+        },
+      },
+    },
+  });
+
+  return eventIzin;
+}
+
+export async function getEventNoPresence(nim: string) {
+  const eventNoPresence = await prisma.event.findMany({
+    where: {
+      disabled: false,
+      hadir: {
+        none: {
+          nim: nim,
+        },
+      },
+      izin: {
+        some: {
+          AND: [
+            {
+              user: {
+                nim: nim,
+              },
+            },
+            {
+              status: "DITOLAK",
+            },
+          ],
+        },
+      },
+    },
+    include: {
+      hadir: {
+        where: {
+          nim: nim,
+        },
+      },
+      izin: {
+        where: {
+          user: {
+            nim: nim,
+          },
+        },
+      },
+    },
+  });
+
+  return eventNoPresence;
+}
+
 // END OF SERVER SIDE METHODS

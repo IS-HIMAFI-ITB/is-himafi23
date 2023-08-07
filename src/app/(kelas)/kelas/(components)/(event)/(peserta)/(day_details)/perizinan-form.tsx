@@ -33,11 +33,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast/useToast";
 import { UploadDropzone } from "@/components/upload-button";
+import { QueryEvent } from "@/hooks/useEventQuery";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Event, Izin, User } from "@prisma/client";
+import { Izin } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-type QueryEvent = Event & { izin: Izin[]; users: User[] };
 
 export default function PerizinanForm({
   eventDetails,
@@ -91,8 +90,7 @@ export default function PerizinanForm({
       { eventId: eventDetails.data.id, userId: session.data?.user.id },
     ],
     mutationFn: (values: z.infer<typeof perizinanFormSchema>) => {
-      console.log(values, `/event/users/${session.data?.user.nim}/izin`);
-      return fetch(`api/event/users/${undefined}/izin`, {
+      return fetch(`api/event/users/${session.data?.user.nim}/izin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId: eventDetails.data.id, ...values }),

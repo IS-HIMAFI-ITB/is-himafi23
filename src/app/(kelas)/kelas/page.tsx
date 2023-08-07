@@ -2,7 +2,7 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 
-import KehadiranSection from "./(components)/(event)/kehadiran-section";
+import KehadiranSection from "./(components)/(event)/(peserta)/kehadiran-section";
 import KehadiranSectionPanitia from "./(components)/(event)/kehadiran-section-panitia";
 import PapanInformasiSection from "./(components)/(informasi)/papan-informasi-section";
 import TugasSectionPanitia from "./(components)/(tugas)/(panitia)/tugas-section-panitia";

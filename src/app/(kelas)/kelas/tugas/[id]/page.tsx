@@ -9,7 +9,6 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 import Unauthenticated from "@/components/template/unauthenticated";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Submission, Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";

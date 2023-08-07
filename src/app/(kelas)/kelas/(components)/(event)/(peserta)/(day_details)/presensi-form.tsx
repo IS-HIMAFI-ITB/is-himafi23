@@ -9,7 +9,7 @@ import { z } from "zod";
 import {
   AlertDialogCancel,
   AlertDialogFooter,
-  AlertDialogHeader
+  AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,28 +18,27 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/useToast";
+import { QueryEvent } from "@/hooks/useEventQuery";
+import { useOpenDialogStore } from "@/lib/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Event, Izin, User } from "@prisma/client";
 import {
   AlertDialogDescription,
-  AlertDialogTitle
+  AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type QueryEvent = Event & { izin: Izin[]; users: User[] };
-
 export default function PresensiForm({
   eventDetails,
-  onOpenChange,
 }: {
   eventDetails: QueryEvent;
-  onOpenChange: (open: boolean) => void;
 }) {
   const [loading, setLoading] = useState(false);
+  const { value: openPresensiDialog, setValue: setOpenPresensiDialog } =
+    useOpenDialogStore();
   const presensiFormSchema = z.object({
     kodePresensi: z
       .string({ required_error: "Tidak boleh kosong." })
@@ -88,7 +87,7 @@ export default function PresensiForm({
         "no-presence",
         { userId: session.data?.user.id },
       ]);
-      onOpenChange(false);
+      setOpenPresensiDialog(false);
       toast({ title: "Berhasil melakukan presensi" });
     },
     onError: (error: Error) => {
