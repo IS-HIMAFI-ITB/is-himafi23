@@ -15,20 +15,33 @@ export async function GET(
             nim: params.nim,
           },
         },
-        izin: {
-          some: {
-            AND: [
-              {
+        OR: [
+          {
+            izin: {
+              some: {
+                AND: [
+                  {
+                    user: {
+                      nim: params.nim,
+                    },
+                  },
+                  {
+                    status: "DITOLAK",
+                  },
+                ],
+              },
+            },
+          },
+          {
+            izin: {
+              none: {
                 user: {
                   nim: params.nim,
                 },
               },
-              {
-                status: "DITOLAK",
-              },
-            ],
+            },
           },
-        },
+        ],
       },
       include: {
         hadir: {
@@ -37,6 +50,9 @@ export async function GET(
           },
         },
         izin: {
+          orderBy: {
+            createdAt: "desc",
+          },
           where: {
             user: {
               nim: params.nim,
@@ -49,5 +65,6 @@ export async function GET(
       throw new Error(error);
     });
 
+  console.log("no-presence", events);
   return NextResponse.json(events);
 }

@@ -23,6 +23,12 @@ export default function DayCard({
 
   if (!mounted) return null;
 
+  const izinRequirement =
+    event.status === "izin" ||
+    (event.data.izin.length > 0 &&
+      event.status === "no-presence" &&
+      event.data.izin[0].status === "DITOLAK");
+
   return (
     <div
       className={cn(
@@ -61,17 +67,12 @@ export default function DayCard({
             )}
 
             <div className="flex flex-row gap-2 items-center">
-              {event.status === "izin" ||
-                (event.status === "no-presence" &&
-                  event.data.izin[0].status === "DITOLAK" && (
-                    <Badge variant={"outline"}>
-                      Izin{" "}
-                      {event.data.izin[0].tipe
-                        .split("_")
-                        .join(" ")
-                        .toLowerCase()}
-                    </Badge>
-                  ))}
+              {izinRequirement && (
+                <Badge variant={"outline"}>
+                  Izin{" "}
+                  {event.data.izin[0].tipe.split("_").join(" ").toLowerCase()}
+                </Badge>
+              )}
 
               <Badge
                 variant={
@@ -86,9 +87,7 @@ export default function DayCard({
                     : "destructive"
                 }
               >
-                {event.status === "izin" ||
-                (event.status === "no-presence" &&
-                  event.data.izin[0].status === "DITOLAK")
+                {izinRequirement
                   ? `Izin ${event.data.izin[0].status.toLowerCase()}`
                   : event.status === "hadir"
                   ? "Hadir full"

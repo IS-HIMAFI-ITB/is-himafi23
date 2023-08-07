@@ -39,6 +39,9 @@ export async function GET(
         },
       },
       izin: {
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           user: {
             nim: params.nim,
@@ -48,6 +51,7 @@ export async function GET(
     },
   });
 
+  console.log("izin", events);
   return NextResponse.json(events);
 }
 

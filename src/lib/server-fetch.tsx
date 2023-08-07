@@ -211,6 +211,9 @@ export async function getEventHadir(nim: string) {
         },
       },
       izin: {
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           user: {
             nim: nim,
@@ -256,6 +259,9 @@ export async function getEventIzin(nim: string) {
         },
       },
       izin: {
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           user: {
             nim: nim,
@@ -277,20 +283,33 @@ export async function getEventNoPresence(nim: string) {
           nim: nim,
         },
       },
-      izin: {
-        some: {
-          AND: [
-            {
+      OR: [
+        {
+          izin: {
+            some: {
+              AND: [
+                {
+                  user: {
+                    nim: nim,
+                  },
+                },
+                {
+                  status: "DITOLAK",
+                },
+              ],
+            },
+          },
+        },
+        {
+          izin: {
+            none: {
               user: {
                 nim: nim,
               },
             },
-            {
-              status: "DITOLAK",
-            },
-          ],
+          },
         },
-      },
+      ],
     },
     include: {
       hadir: {
@@ -299,6 +318,9 @@ export async function getEventNoPresence(nim: string) {
         },
       },
       izin: {
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           user: {
             nim: nim,

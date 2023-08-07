@@ -144,6 +144,9 @@ export default function PerizinanForm({
           disabled={
             moment(new Date(eventDetails.data.date)).diff(new Date()) <
               14399999 || eventDetails.status === "izin"
+            // (eventDetails.data.izin.length > 0 &&
+            //   eventDetails.status === "no-presence" &&
+            //   eventDetails.data.izin[0].status === "DITOLAK")
           }
           size={"sm"}
           variant={"outline"}
