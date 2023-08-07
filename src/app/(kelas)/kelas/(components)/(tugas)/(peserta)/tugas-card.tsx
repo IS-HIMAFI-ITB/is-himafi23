@@ -1,9 +1,11 @@
+"use client";
+
 import "moment/locale/id";
 
 import { CalendarIcon, ClockIcon } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
-import React from "react";
+import { useEffect, useState } from "react";
 
 import { H3 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +29,14 @@ type TugasCardProps = {
 type Props = LoadingTugasCardProps | TugasCardProps;
 
 export default function TugasCard({ loading, tugas, done }: Props) {
+  // only render on client side (or when mounted) to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   moment.locale("id");
   if (loading) {
     return (
