@@ -1,17 +1,9 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/prisma";
 import { Role } from "@prisma/client";
 
-import { authOptions } from "../auth/auth-options";
-
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const result = await prisma.tugas
     .findMany({
       orderBy: {
@@ -26,11 +18,6 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   const body = await req.json();
 
   const result = await prisma.tugas
