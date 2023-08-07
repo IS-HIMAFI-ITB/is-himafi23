@@ -65,6 +65,5 @@ export async function GET(
       throw new Error(error);
     });
 
-  console.log("no-presence", events);
   return NextResponse.json(events);
 }

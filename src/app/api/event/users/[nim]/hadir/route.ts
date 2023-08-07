@@ -66,7 +66,6 @@ export async function GET(
       },
     },
   });
-  console.log("hadir", events);
   return NextResponse.json(events);
 }
 

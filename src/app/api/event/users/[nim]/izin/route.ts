@@ -51,7 +51,6 @@ export async function GET(
     },
   });
 
-  console.log("izin", events);
   return NextResponse.json(events);
 }
 
