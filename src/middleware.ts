@@ -20,7 +20,9 @@ export default withAuth(
           params.req.nextUrl.pathname.startsWith("/kelas") ||
           params.req.nextUrl.pathname.startsWith("/event") ||
           params.req.nextUrl.pathname.startsWith("/leaderboard") ||
-          params.req.nextUrl.pathname.startsWith("/profile")
+          params.req.nextUrl.pathname.startsWith("/profile") ||
+          (params.req.nextUrl.pathname.startsWith("/api") &&
+            !params.req.nextUrl.pathname.startsWith("/api/auth"))
         ) {
           return !!token;
         }
