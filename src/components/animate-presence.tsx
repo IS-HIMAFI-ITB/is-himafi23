@@ -1,12 +1,12 @@
 "use client";
 
-import { AnimatePresence as AP } from "framer-motion";
+import { AnimatePresence as AP, AnimatePresenceProps } from "framer-motion";
 import React from "react";
 
-export default function AnimatePresence({
-  children,
-}: {
+interface Props extends AnimatePresenceProps {
   children: React.ReactNode;
-}) {
-  return <AP>{children}</AP>;
+}
+
+export default function AnimatePresence(props: Props) {
+  return <AP {...props}>{props.children}</AP>;
 }
