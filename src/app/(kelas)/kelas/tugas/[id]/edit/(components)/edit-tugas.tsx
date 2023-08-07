@@ -275,7 +275,7 @@ export default function EditTugas({
               .filter((element) => (element === "|" ? null : element))
               .map((attachment, i) => (
                 <div key={i} className="flex flex-row gap-1">
-                  <a
+                  <Link
                     href={attachment.split("?judultugas=")[0]}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -302,7 +302,7 @@ export default function EditTugas({
                         </p>
                       </div>
                     </Card>
-                  </a>
+                  </Link>
                   <div className="h-full w-fit flex flex-col justify-start items-start">
                     <XCircleIcon
                       onClick={() => {

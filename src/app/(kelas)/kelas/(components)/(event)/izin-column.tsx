@@ -1,4 +1,5 @@
 import { ArrowUpDown, DownloadIcon } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -116,7 +117,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
         <div className="flex flex-col gap-2 justify-start">
           {files.split("|").map((file) => {
             return (
-              <a
+              <Link
                 key={file}
                 href={file}
                 className="flex flex-row w-max items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
@@ -128,7 +129,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
                   className="mr-2 shrink-0 group-hover:text-primary"
                 />{" "}
                 {files?.split("_").slice(1).join("_")}
-              </a>
+              </Link>
             );
           })}
         </div>

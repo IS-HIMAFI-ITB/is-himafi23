@@ -1,16 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, CalendarIcon, ClockIcon, LinkIcon } from "lucide-react";
+import { ArrowLeft, CalendarIcon, ClockIcon } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
 import React from "react";
-import { Separator } from "@/components/ui/separator";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Tugas, Submission } from "@prisma/client";
-import { CommentForm } from "../../../(components)/comment-section";
+import { Separator } from "@/components/ui/separator";
+import { Submission, Tugas } from "@prisma/client";
+
 import { FeedbackForm } from "./feedback-section";
 
 export default function TugasSectionNilai({

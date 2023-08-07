@@ -8,31 +8,20 @@ import {
   ClockIcon,
   DownloadIcon,
   ExternalLink,
-  UploadIcon,
 } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 import DropFile from "@/components/drop-file";
 import { H3, H4 } from "@/components/typography";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
 import { Submission, Tugas, User } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Input } from "@/components/ui/input";
+import { useQueryClient } from "@tanstack/react-query";
+
 import InputNilai from "./input-nilai";
 
 export default function SubmissionSectionNilai({
@@ -156,7 +145,7 @@ export default function SubmissionSectionNilai({
       )}
 
       {tugasSubmission?.files && (
-        <a
+        <Link
           href={`https://uploadthing.com/f/${tugasSubmission.files}`}
           className="flex flex-row gap-6 items-center"
         >
@@ -202,7 +191,7 @@ export default function SubmissionSectionNilai({
               </div>
             </div>
           </Card>
-        </a>
+        </Link>
       )}
 
       {tugasSubmission?.links && (
@@ -213,7 +202,7 @@ export default function SubmissionSectionNilai({
               className="py-3 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform"
             >
               <div className="flex flex-col gap-1">
-                <a
+                <Link
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -224,7 +213,7 @@ export default function SubmissionSectionNilai({
                     className="group-hover/fileSubmitted:text-primary shrink-0"
                   />
                   <p className="font-semibold line-clamp-1">{link}</p>
-                </a>
+                </Link>
               </div>
             </Card>
           ))}
