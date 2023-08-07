@@ -12,9 +12,15 @@ export async function GET() {
     throw new Error("Unauthorized");
   }
 
-  const result = await prisma.tugas.findMany().catch((err: Error) => {
-    throw new Error(err.message);
-  });
+  const result = await prisma.tugas
+    .findMany({
+      orderBy: {
+        dueDate: "desc",
+      },
+    })
+    .catch((err: Error) => {
+      throw new Error(err.message);
+    });
 
   return NextResponse.json(result, { status: 200 });
 }
