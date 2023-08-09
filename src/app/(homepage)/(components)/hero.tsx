@@ -42,17 +42,17 @@ export default function HeroSection() {
           </Reveal>
           <div className="flex flex-col items-center md:items-start">
             <Reveal variant="slide">
-              <H1 className="relative text-center md:text-start before:content-['INTELLEKTUELLE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-3xl min-[450px]:text-5xl lg:text-6xl ">
+              <H1 className="relative text-center md:text-start before:content-['INTELLEKTUELLE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-30 text-3xl min-[450px]:text-5xl lg:text-6xl ">
                 INTELLEKTUELLE
               </H1>
             </Reveal>
             <Reveal variant="slide" className="w-fit ">
-              <H1 className="relative text-center md:text-start before:content-['SCHULE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-2xl min-[450px]:text-4xl lg:text-5xl">
+              <H1 className="relative text-center md:text-start before:content-['SCHULE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-30 text-2xl min-[450px]:text-4xl lg:text-5xl">
                 SCHULE
               </H1>
             </Reveal>
             <Reveal variant="slide" className="w-fit">
-              <p className="relative text-center md:text-start before:content-['2023'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-xl font-semibold before:font-semibold w-full">
+              <p className="relative text-center md:text-start before:content-['2023'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-30 text-xl font-semibold before:font-semibold w-full">
                 2023
               </p>
             </Reveal>
