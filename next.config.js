@@ -13,6 +13,7 @@ const nextConfig = {
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     TINYMCE_API_KEY: process.env.TINYMCE_API_KEY,
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   },
 };
 

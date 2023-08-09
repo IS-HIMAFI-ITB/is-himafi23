@@ -3,6 +3,7 @@
 import { LinkIcon, Loader2Icon, XCircleIcon } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -269,7 +270,7 @@ export default function PerizinanForm({
                     .filter((element) => (element === "|" ? null : element))
                     .map((attachment, i) => (
                       <div key={i} className="flex flex-row w-full gap-1">
-                        <a
+                        <Link
                           href={attachment.split("?judultugas=")[0]}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -296,7 +297,7 @@ export default function PerizinanForm({
                               </p>
                             </div>
                           </Card>
-                        </a>
+                        </Link>
                         <div className="h-full w-fit flex flex-col justify-start items-start">
                           <XCircleIcon
                             onClick={() => {

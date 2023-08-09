@@ -28,7 +28,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
       return (
         <Button asChild variant={"ghost"} size={"icon"}>
           <Link
-            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.nim}`}
+            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.id}`}
           >
             <PencilIcon size={16} />
           </Link>
@@ -82,7 +82,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
       const files = row.original.files;
       if (!files) return <div className="w-max">-</div>;
       return (
-        <a
+        <Link
           href={`https://uploadthing.com/f/${files}`}
           className="flex flex-row items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
           target="_blank"
@@ -93,7 +93,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
             className="mr-2 shrink-0 group-hover:text-primary"
           />{" "}
           {files?.split("_").slice(1).join("_")}
-        </a>
+        </Link>
       );
     },
   },

@@ -12,7 +12,9 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import React, { useContext, useState } from "react";
 
 import DropFile from "@/components/drop-file";
 import { H3 } from "@/components/typography";
@@ -28,22 +30,42 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
+import { SubmissionDetailsContext } from "@/context/submission-details-provider";
+import { TugasDetailsContext } from "@/context/tugas-details-provider";
 import { Submission, Tugas } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import SubmitTugasCard from "./submit-tugas-card";
 
-export default function SubmissionSection({
-  tugas,
-  tugasSubmission,
-  params,
-}: {
-  tugas: Tugas | undefined;
-  tugasSubmission: Submission | undefined;
-  params: { id: string };
-}) {
+export default function SubmissionSection() {
+  const initialTugasData = useContext(TugasDetailsContext);
+  const initialSubmissionData = useContext(SubmissionDetailsContext);
+  const params = useParams();
+  const session = useSession();
+
+  const { data: tugas } = useQuery<Tugas, Error>({
+    queryKey: ["tugas", { id: params.id }],
+    queryFn: async () => {
+      const res = await fetch(`/api/tugas/${params.id}`);
+      return res.json();
+    },
+    initialData: initialTugasData,
+  });
+  const { data: tugasSubmission } = useQuery<Submission, Error>({
+    queryKey: [
+      "tugasSubmission",
+      { tugasId: params.id, userId: session.data?.user.id },
+    ],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/submissions/${session.data?.user.id}/${params.id}`
+      );
+      return res.json();
+    },
+    initialData: initialSubmissionData,
+  });
+
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
@@ -54,7 +76,6 @@ export default function SubmissionSection({
     tugasSubmission?.links ?? undefined
   );
   const { toast } = useToast();
-  const session = useSession();
   const queryClient = useQueryClient();
   moment.locale("id");
 
@@ -237,7 +258,7 @@ export default function SubmissionSection({
       )}
 
       {tugasSubmission?.files && (
-        <a
+        <Link
           href={`https://uploadthing.com/f/${tugasSubmission.files}`}
           className="flex flex-row gap-6 items-center"
         >
@@ -283,7 +304,7 @@ export default function SubmissionSection({
               </div>
             </div>
           </Card>
-        </a>
+        </Link>
       )}
 
       {tugasSubmission?.links && (
@@ -294,7 +315,7 @@ export default function SubmissionSection({
               className="py-3 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform"
             >
               <div className="flex flex-col gap-1">
-                <a
+                <Link
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -305,7 +326,7 @@ export default function SubmissionSection({
                     className="group-hover/fileSubmitted:text-primary shrink-0"
                   />
                   <p className="font-semibold line-clamp-1">{link}</p>
-                </a>
+                </Link>
               </div>
             </Card>
           ))}

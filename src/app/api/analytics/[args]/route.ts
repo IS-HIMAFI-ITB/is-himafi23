@@ -1,7 +1,5 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-import { authOptions } from "@/app/api/auth/auth-options";
 import { prisma } from "@/prisma";
 import { Role } from "@prisma/client";
 
@@ -9,10 +7,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { args: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
+  const url = req.url;
   if (params.args === "peserta") {
     const pesertaCount = await prisma.user.count({
       where: {

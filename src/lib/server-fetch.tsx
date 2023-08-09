@@ -21,104 +21,44 @@ export async function getUser(take?: number) {
   return result;
 }
 
-export async function getHadirEvent(nim?: string) {
-  const hadir = await prisma.event.findMany({
+export async function getUserById(id: string) {
+  const result = await prisma.user.findUnique({
     where: {
-      disabled: false,
-      hadir: {
-        some: {
-          nim: nim,
-        },
-      },
-    },
-    include: {
-      hadir: {
-        where: {
-          nim: nim,
-        },
-      },
-      izin: {
-        where: {
-          user: {
-            nim: nim,
-          },
-        },
-      },
+      id: id,
     },
   });
 
-  return hadir;
+  return result;
 }
 
-export async function getIzinEvent(nim?: string) {
-  const izin = await prisma.event.findMany({
-    where: {
-      disabled: false,
-      izin: {
-        some: {
-          user: {
-            nim: nim,
-          },
-        },
-      },
-    },
-    include: {
-      hadir: {
-        where: {
-          nim: nim,
-        },
-      },
-      izin: {
-        where: {
-          user: {
-            nim: nim,
-          },
-        },
-      },
-    },
-  });
-
-  return izin;
-}
-
-export async function getNoPresenceEvent(nim?: string) {
-  const noPresence = await prisma.event
-    .findMany({
-      where: {
-        disabled: false,
-        hadir: {
-          none: {
-            nim: nim,
-          },
-        },
-        izin: {
-          none: {
-            user: {
-              nim: nim,
-            },
-          },
-        },
-      },
-      include: {
-        hadir: {
-          where: {
-            nim: nim,
-          },
-        },
-        izin: {
-          where: {
-            user: {
-              nim: nim,
-            },
-          },
-        },
-      },
+export async function getTugasById(id: string) {
+  const tugas = await prisma.tugas
+    .findUnique({
+      where: { id: Number(id) },
     })
-    .catch((error) => {
-      throw new Error(error);
+    .catch((err) => {
+      throw new Error(err);
     });
 
-  return noPresence;
+  return tugas;
+}
+
+export async function getTugasSubmission(userId: string, tugasId: string) {
+  const submissions = await prisma.submission
+    .findFirst({
+      where: {
+        userId: userId,
+        tugasId: Number(tugasId),
+      },
+      orderBy: {
+        submittedAt: "desc",
+      },
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+
+  return submissions;
 }
 
 export async function getTugasAssigned(nim: string) {

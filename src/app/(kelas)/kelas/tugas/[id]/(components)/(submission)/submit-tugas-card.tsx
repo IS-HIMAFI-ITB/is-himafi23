@@ -8,6 +8,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -212,7 +213,7 @@ export default function SubmitTugasCard({
           {uploadedFileKey ? "Uploaded file" : "No uploaded file"}
         </p>
         {uploadedFileKey && (
-          <a
+          <Link
             href={`https://uploadthing.com/f/${uploadedFileKey}`}
             className="flex flex-row gap-2 items-center hover:text-primary"
           >
@@ -220,7 +221,7 @@ export default function SubmitTugasCard({
             <span className="line-clamp-1">
               {uploadedFileKey?.split("_").slice(1).join("_")}
             </span>
-          </a>
+          </Link>
         )}
       </Card>
       <Card className="p-6 space-y-4">
@@ -235,7 +236,7 @@ export default function SubmitTugasCard({
                 key={attachment}
                 className="flex flex-row justify-between items-center w-full"
               >
-                <a
+                <Link
                   href={`//${attachment
                     .replace("https://", "")
                     .replace("http://", "")}`}
@@ -252,7 +253,7 @@ export default function SubmitTugasCard({
                         .split("/")[0]
                     }
                   </span>
-                </a>
+                </Link>
                 <XIcon
                   onClick={() => {
                     if (attachments.split("|").length === 1) {
