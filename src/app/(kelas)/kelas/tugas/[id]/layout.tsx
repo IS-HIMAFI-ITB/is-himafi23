@@ -1,11 +1,17 @@
-import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import React from "react";
 
-import Unauthenticated from "@/components/template/unauthenticated";
-import SubmissionDetailsProvider from "@/context/submission-details-provider";
 import TugasDetailsProvider from "@/context/tugas-details-provider";
-import { getTugasById, getTugasSubmission } from "@/lib/server-fetch";
+import { getTugasById } from "@/lib/server-fetch";
+import { prisma } from "@/prisma";
+
+export async function generateStaticParams() {
+  const tugas = await prisma.tugas.findMany();
+
+  return tugas.map((tugas) => ({
+    id: tugas.id.toString(),
+  }));
+}
 
 export default async function TugasLayout({
   children,
@@ -14,19 +20,9 @@ export default async function TugasLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const session = await getServerSession();
-  if (!session) return <Unauthenticated />;
-
   const tugas = await getTugasById(params.id);
-  const tugasSubmission = await getTugasSubmission(session.user.id, params.id);
 
   if (!tugas) return notFound();
 
-  return (
-    <TugasDetailsProvider tugas={tugas}>
-      <SubmissionDetailsProvider submission={tugasSubmission ?? undefined}>
-        {children}
-      </SubmissionDetailsProvider>
-    </TugasDetailsProvider>
-  );
+  return <TugasDetailsProvider tugas={tugas}>{children}</TugasDetailsProvider>;
 }

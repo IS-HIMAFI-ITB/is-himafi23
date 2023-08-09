@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
+import { notFound, useParams } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -41,6 +42,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast/useToast";
 import {
   Tooltip,
@@ -51,7 +53,7 @@ import {
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tugas } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Editor } from "@tinymce/tinymce-react";
 
 const attachmentSchema = z.object({
@@ -70,28 +72,38 @@ const formSchema = z.object({
 });
 
 export default function EditTugas({
-  tugas,
-  params,
+  initialData,
 }: {
-  tugas: Tugas;
-  params: { id: string };
+  initialData: Tugas | null;
 }) {
   const queryClient = useQueryClient();
   const titleEditorRef = useRef<any>(null);
   const descriptionEditorRef = useRef<any>(null);
-  const [attachments, setAttachments] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
+  const params = useParams();
+
+  const {
+    data: tugas,
+    isLoading,
+    isError,
+  } = useQuery<Tugas | null, Error>({
+    queryKey: ["tugas", { id: params.id }],
+    queryFn: () => {
+      return fetch(`/api/tugas/${params.id}`).then((res) => res.json());
+    },
+    initialData: initialData,
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: tugas.description,
-      title: tugas.title,
-      attachments: tugas.attachments,
-      dueDate: tugas.dueDate ? new Date(tugas.dueDate.toString()) : undefined,
-      dueTime: tugas.dueDate
-        ? moment(tugas.dueDate).format("HH:mm")
+      description: tugas?.description,
+      title: tugas?.title,
+      attachments: tugas?.attachments,
+      dueDate: tugas?.dueDate ? new Date(tugas?.dueDate.toString()) : undefined,
+      dueTime: tugas?.dueDate
+        ? moment(tugas?.dueDate).format("HH:mm")
         : undefined,
     },
   });
@@ -136,10 +148,10 @@ export default function EditTugas({
     const formattedBody = getFormattedBody(values);
     // order of the object is important
     const oldData = {
-      description: tugas.description,
-      title: tugas.title,
-      attachments: tugas.attachments,
-      dueDate: new Date(tugas.dueDate),
+      description: tugas?.description,
+      title: tugas?.title,
+      attachments: tugas?.attachments,
+      dueDate: tugas && new Date(tugas.dueDate),
     };
 
     if (JSON.stringify(formattedBody) === JSON.stringify(oldData)) {
@@ -184,6 +196,43 @@ export default function EditTugas({
     );
 
     attachmentForm.reset({ title: "", url: "" }, { keepValues: false });
+  }
+
+  if (!tugas || isError) return notFound();
+  if (isLoading) {
+    return (
+      <Container className="py-12 grid gap-x-24 gap-y-12 lg:grid-cols-[65%_25%] grid-cols-1">
+        <article className="prose lg:prose-lg dark:prose-invert">
+          <h3 className="flex flex-row items-center gap-2">
+            Tugas #{params.id}
+          </h3>
+
+          <div className="flex flex-col gap-4">
+            <Skeleton className="min-w-[200px] w-full h-12" />
+            <div className="not-prose mt-4 flex flex-row flex-wrap items-center gap-4">
+              <Skeleton className="w-[300px] h-8" />
+              <Skeleton className="w-[300px] h-8" />
+            </div>
+            <Skeleton className="w-full h-80" />
+            <Skeleton className="w-[20ch] h-8" />
+          </div>
+        </article>
+
+        <div className="sticky top-28 h-max flex flex-col gap-4">
+          <Skeleton className="w-full h-8" />
+          <div className="flex flex-row gap-4 items-center">
+            <Skeleton className="w-[15ch] h-8" />
+            <Skeleton className="w-[15ch] h-8" />
+          </div>
+          <Skeleton className="w-full h-8 mt-4 -mb-2" />
+          <Skeleton className="w-full h-16" />
+          <Skeleton className="w-full h-8 mt-4 -mb-2" />
+
+          <Separator />
+          <Skeleton className="w-full h-40" />
+        </div>
+      </Container>
+    );
   }
 
   return (

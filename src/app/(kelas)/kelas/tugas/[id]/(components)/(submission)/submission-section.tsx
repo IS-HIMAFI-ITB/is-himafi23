@@ -33,14 +33,39 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/toast/useToast";
 import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { TugasDetailsContext } from "@/context/tugas-details-provider";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Submission, Tugas } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import SubmitTugasCard from "./submit-tugas-card";
 
 export default function SubmissionSection() {
-  const tugas = useContext(TugasDetailsContext);
-  const tugasSubmission = useContext(SubmissionDetailsContext);
+  const initialTugasData = useContext(TugasDetailsContext);
+  const initialSubmissionData = useContext(SubmissionDetailsContext);
   const params = useParams();
+  const session = useSession();
+
+  const { data: tugas } = useQuery<Tugas, Error>({
+    queryKey: ["tugas", { id: params.id }],
+    queryFn: async () => {
+      const res = await fetch(`/api/tugas/${params.id}`);
+      return res.json();
+    },
+    initialData: initialTugasData,
+  });
+  const { data: tugasSubmission } = useQuery<Submission, Error>({
+    queryKey: [
+      "tugasSubmission",
+      { tugasId: params.id, userId: session.data?.user.id },
+    ],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/submissions/${session.data?.user.id}/${params.id}`
+      );
+      return res.json();
+    },
+    initialData: initialSubmissionData,
+  });
+
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
@@ -51,7 +76,6 @@ export default function SubmissionSection() {
     tugasSubmission?.links ?? undefined
   );
   const { toast } = useToast();
-  const session = useSession();
   const queryClient = useQueryClient();
   moment.locale("id");
 

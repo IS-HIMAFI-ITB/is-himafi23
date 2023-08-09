@@ -18,7 +18,6 @@ export default function DayList() {
   if (!query) return null;
 
   const elements = query.elements;
-  if (!elements) return null;
 
   switch (elements.length) {
     case 0:

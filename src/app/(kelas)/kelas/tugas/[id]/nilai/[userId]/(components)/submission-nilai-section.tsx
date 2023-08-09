@@ -2,7 +2,6 @@
 
 import "moment/locale/id";
 
-import { motion } from "framer-motion";
 import {
   CalendarIcon,
   ClockIcon,
@@ -10,47 +9,52 @@ import {
   ExternalLink,
 } from "lucide-react";
 import moment from "moment";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useParams } from "next/navigation";
+import React, { useContext } from "react";
 
-import DropFile from "@/components/drop-file";
+import AnimateSection from "@/components/animate-section";
 import { H3, H4 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/toast/useToast";
-import { Submission, Tugas, User } from "@prisma/client";
-import { useQueryClient } from "@tanstack/react-query";
+import { SubmissionDetailsContext } from "@/context/submission-details-provider";
+import { TugasDetailsContext } from "@/context/tugas-details-provider";
+import UserProvider, { UserContext } from "@/context/user-provider";
+import { formatDate, formatTime } from "@/lib/utils";
+import { Submission, Tugas } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 
 import InputNilai from "./input-nilai";
 
-export default function SubmissionSectionNilai({
-  tugas,
-  tugasSubmission,
-  user,
-  params,
-}: {
-  tugas: Tugas | undefined;
-  tugasSubmission: Submission | undefined;
-  user: User | undefined;
-  params: { id: string };
-}) {
-  const [loading, setLoading] = useState(false);
-  const [edit, setEdit] = useState<string | undefined>(undefined);
-  const [open, setOpen] = useState(false);
-  const [uploadedFileKey, setUploadedFileKey] = useState<string | undefined>(
-    tugasSubmission?.files ?? undefined
-  );
-  const [attachments, setAttachments] = useState<string | undefined>(
-    tugasSubmission?.links ?? undefined
-  );
-  const { toast } = useToast();
-  const session = useSession();
-  const queryClient = useQueryClient();
-  moment.locale("id");
+export default function SubmissionSection() {
+  const params = useParams();
+  const initialTugasData = useContext(TugasDetailsContext);
+  const initialSubmissionData = useContext(SubmissionDetailsContext);
+  const user = useContext(UserContext);
+
+  const { data: tugas } = useQuery<Tugas, Error>({
+    queryKey: ["tugas", { id: params.id }],
+    queryFn: async () => {
+      const res = await fetch(`/api/tugas/${params.id}`);
+      return res.json();
+    },
+    initialData: initialTugasData,
+  });
+
+  const { data: tugasSubmission } = useQuery<Submission, Error>({
+    queryKey: [
+      "tugasSubmission",
+      { tugasId: params.id, userId: params.userId },
+    ],
+    queryFn: async () => {
+      const res = await fetch(`/api/submissions/${params.userId}/${params.id}`);
+      return res.json();
+    },
+    initialData: initialSubmissionData,
+  });
 
   return (
-    <motion.div
+    <AnimateSection
       className="sticky top-28 h-max flex flex-col gap-4"
       // diganti karena ada overflow sebelumnya
       initial={{ opacity: 0 }}
@@ -103,37 +107,18 @@ export default function SubmissionSectionNilai({
       {tugasSubmission?.submittedAt && (
         <div className="flex flex-row flex-wrap gap-2 items-center">
           <p className="text-sm">Dikumpulkan </p>
+
           <div className="flex flex-row flex-wrap gap-1 items-center">
             <CalendarIcon className="xs:ml-2" size={12} />{" "}
             <p className="text-sm">
-              {moment(tugasSubmission.submittedAt).format("L")}
+              {formatDate(tugasSubmission.submittedAt, "L")}
             </p>
           </div>
+
           <div className="flex flex-row flex-wrap gap-1 items-center">
             <ClockIcon className="ml-2" size={12} />
-            <p className="text-sm">
-              {moment(new Date(tugasSubmission.submittedAt)).format(
-                `HH:mm ${
-                  moment(tugasSubmission?.submittedAt).format("Z") === "+07:00"
-                    ? "[WIB]"
-                    : moment(tugasSubmission?.submittedAt).format("Z") ===
-                      "+08:00"
-                    ? "[WITA]"
-                    : `[GMT] ${moment(tugasSubmission?.submittedAt).format(
-                        "Z"
-                      )}`
-                }`
-              )}
-              {/* {`${
-                (new Date(tugasSubmission.submittedAt).getHours() < 10
-                  ? "0"
-                  : "") + new Date().getHours()
-              }:${
-                (new Date(tugasSubmission.submittedAt).getMinutes() < 10
-                  ? "0"
-                  : "") + new Date().getMinutes()
-              }`} */}
-            </p>
+
+            <p className="text-sm">{formatTime(tugasSubmission.submittedAt)}</p>
           </div>
         </div>
       )}
@@ -176,18 +161,6 @@ export default function SubmissionSectionNilai({
                       .split(".")[1]
                   }
                 </Badge>
-                {/* <CalendarIcon className="xs:ml-2" size={12} />{" "}
-                  <p className="text-sm">
-                    {moment(tugasSubmission.submittedAt).format("L")}
-                  </p>
-                  <ClockIcon className="ml-2" size={12} />
-                  <p className="text-sm">
-                    {`${new Date(
-                      tugasSubmission.submittedAt
-                    ).getHours()}:${new Date(
-                      tugasSubmission.submittedAt
-                    ).getMinutes()}`}
-                  </p> */}
               </div>
             </div>
           </Card>
@@ -221,6 +194,6 @@ export default function SubmissionSectionNilai({
       )}
 
       {tugasSubmission ? <InputNilai /> : <p>Peserta tidak dapat dinilai</p>}
-    </motion.div>
+    </AnimateSection>
   );
 }

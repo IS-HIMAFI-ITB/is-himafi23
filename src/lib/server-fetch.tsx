@@ -21,6 +21,16 @@ export async function getUser(take?: number) {
   return result;
 }
 
+export async function getUserById(id: string) {
+  const result = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return result;
+}
+
 export async function getTugasById(id: string) {
   const tugas = await prisma.tugas
     .findUnique({

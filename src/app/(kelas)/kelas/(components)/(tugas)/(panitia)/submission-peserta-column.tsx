@@ -28,7 +28,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
       return (
         <Button asChild variant={"ghost"} size={"icon"}>
           <Link
-            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.nim}`}
+            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.id}`}
           >
             <PencilIcon size={16} />
           </Link>

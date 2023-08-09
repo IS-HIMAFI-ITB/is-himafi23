@@ -21,7 +21,6 @@ export default function DayDetails() {
   if (!query) return null;
 
   const elements = query.elements;
-  if (!elements) return null;
 
   if (query.isLoading) {
     return (
@@ -31,7 +30,7 @@ export default function DayDetails() {
         </div>
 
         <div
-          id="prose-alert-info-kelas"
+          id="day-card-container"
           className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto"
         >
           <Skeleton className="w-full h-16" />
@@ -49,7 +48,7 @@ export default function DayDetails() {
           </div>
 
           <div
-            id="prose-alert-info-kelas"
+            id="day-card-container"
             className="prose prose-invert prose-sm md:prose-base max-h-48 md:max-h-48 overflow-y-auto pr-6"
           >
             <p>
@@ -68,7 +67,7 @@ export default function DayDetails() {
           </div>
 
           <div
-            id="prose-alert-info-kelas"
+            id="day-card-container"
             className="prose prose-invert prose-sm md:prose-base max-h-64 overflow-y-auto pr-6"
           >
             <div

@@ -1,27 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Separator } from "@/components/ui/separator";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast/useToast";
-import { useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserProvider, { UserContext } from "@/context/user-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const FormSchema = z.object({
   content: z
@@ -35,8 +31,7 @@ const FormSchema = z.object({
 });
 
 export function CommentForm() {
-  const { data, status } = useSession();
-  const userData = data?.user;
+  const userData = useContext(UserContext);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
