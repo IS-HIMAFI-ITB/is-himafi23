@@ -55,7 +55,7 @@ const LeaderboardSearch: React.FC<LeaderboardSearchProps> = ({ boardData }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-2 w-96 flex-shrink"
+        className="flex gap-2 xs:w-96 flex-shrink"
       >
         <FormField
           control={form.control}

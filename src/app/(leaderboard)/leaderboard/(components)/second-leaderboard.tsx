@@ -26,7 +26,7 @@ export default function SecondLeaderboard() {
 
   return (
     <div>
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex flex-col xs:flex-row xs:justify-between items-center xs:gap-4">
         <LeaderboardSearch boardData={sortedProfileboard} />
         <div className="my-4 font-semibold text-end text-sm md:text-xl flex gap-2 justify-end items-center flex-none">
           <p>Current rank: </p>
@@ -106,9 +106,9 @@ export default function SecondLeaderboard() {
                           {profile.name}
                         </p>
 
-                        <div className="flex gap-4">
+                        <div className="flex gap-2">
                           <p className="text-foreground/40 text-xs md:text-base">{`@${profile.nim}`}</p>
-                          <div className="md:hidden flex gap-4 items-center justify-end">
+                          <div className="md:hidden flex gap-3 items-center justify-end">
                             <p className="text-xs">Total Nilai:</p>
                             <p className="-ml-2 text-accent text-xs">
                               {profile.score}

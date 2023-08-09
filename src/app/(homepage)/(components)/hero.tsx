@@ -42,12 +42,12 @@ export default function HeroSection() {
           </Reveal>
           <div className="flex flex-col items-center md:items-start">
             <Reveal variant="slide">
-              <H1 className="relative text-center md:text-start before:content-['INTELLEKTUELLE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-5xl md:text-6xl lg:text-6xl ">
+              <H1 className="relative text-center md:text-start before:content-['INTELLEKTUELLE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-3xl min-[450px]:text-5xl lg:text-6xl ">
                 INTELLEKTUELLE
               </H1>
             </Reveal>
             <Reveal variant="slide" className="w-fit ">
-              <H1 className="relative text-center md:text-start before:content-['SCHULE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-4xl md:text-5xl lg:text-5xl">
+              <H1 className="relative text-center md:text-start before:content-['SCHULE'] before:absolute before:text-accent before:translate-x-0.5 before:-translate-y-0.5 before:-z-10 z-50 text-2xl min-[450px]:text-4xl lg:text-5xl">
                 SCHULE
               </H1>
             </Reveal>
@@ -58,7 +58,7 @@ export default function HeroSection() {
             </Reveal>
             <hr className="fill-foreground h-[2px] bg-foreground text-foreground w-full xl:after:content-['✨'] after:absolute after:-mt-10 after:drop-shadow-glow after:rotate-12 after:ml-72 after:text-6xl mt-4" />
             <Reveal variant="slide" className="w-fit">
-              <P className="font-semibold text-xl text-center mt-4">
+              <P className="font-semibold text-md min-[450px]:text-xl text-center mt-4">
                 {`"Menyusur angkasa merajut asa"`}
               </P>
             </Reveal>

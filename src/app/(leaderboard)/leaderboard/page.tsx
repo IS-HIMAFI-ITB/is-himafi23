@@ -30,8 +30,8 @@ export default function LeaderboardPage() {
       <div>
         <div className="flex justify-center md:justify-start">
           <Reveal variant="slide" width="fit">
-            <div className="flex before:content-['Leaderboard'] before:absolute before:text-accent before:-z-20 before:text-5xl before:font-bold before:-translate-y-0.5 md:before:-translate-x-1 mb-2 justify-center md:justify-start">
-              <H1 className="text-5xl">Leaderboard</H1>
+            <div className="flex before:content-['Leaderboard'] before:absolute before:text-accent before:-z-20 before:text-4xl before:md:text-5xl before:font-bold before:-translate-y-0.5 md:before:-translate-x-1 mb-2 justify-center md:justify-start">
+              <H1 className="text-4xl md:text-5xl">Leaderboard</H1>
             </div>
           </Reveal>
         </div>
@@ -46,10 +46,16 @@ export default function LeaderboardPage() {
         <Separator className="mb-6" />
 
         <Tabs defaultValue="1">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="1">Tahap Pencerahan</TabsTrigger>
-            <TabsTrigger value="2">Tahap Penguatan</TabsTrigger>
-            <TabsTrigger value="3">Tahap Berkarya</TabsTrigger>
+          <TabsList className="h-fit w-full flex flex-col xs:flex-row xs:justify-between">
+            <TabsTrigger value="1" className="text-xs w-full md:text-base">
+              Tahap Pencerahan
+            </TabsTrigger>
+            <TabsTrigger value="2" className="text-xs w-full md:text-base">
+              Tahap Penguatan
+            </TabsTrigger>
+            <TabsTrigger value="3" className="text-xs w-full md:text-base">
+              Tahap Berkarya
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="1">
             <FirstLeaderboard />
