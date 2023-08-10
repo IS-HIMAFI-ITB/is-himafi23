@@ -30,7 +30,9 @@ export default function FeedbackSection() {
 
   if (isLoading)
     return (
-      <p className="max-h-[200px] overflow-y-auto text-base">Loading...</p>
+      <p className="max-h-[200px] w-full overflow-y-auto text-base">
+        Loading...
+      </p>
     );
 
   if (!tugasSubmission) return notFound();
@@ -39,7 +41,7 @@ export default function FeedbackSection() {
 
   if (!feedbacks || feedbacks.length === 0)
     return (
-      <div className="max-h-[200px] overflow-y-auto flex flex-col gap-3 text-base my-3">
+      <div className="max-h-[200px] w-full overflow-y-auto flex flex-col gap-3 text-base my-3">
         <p className="prose prose-sm prose-invert">Belum ada feedback.</p>
       </div>
     );
@@ -47,7 +49,7 @@ export default function FeedbackSection() {
   return (
     <div
       id="text-area-style"
-      className="max-h-[200px] overflow-y-auto flex flex-col gap-6 text-base my-3 py-3"
+      className="max-h-[200px] w-full overflow-y-auto flex flex-col gap-6 text-base my-3 py-3"
     >
       {feedbacks.map((feedback) => (
         <div

@@ -64,7 +64,9 @@ export function CommentForm() {
       });
     },
     onSuccess: () => {
-      form.reset();
+      form.reset({
+        content: "",
+      });
       toast({
         title: "Pesan terkirim!",
       });

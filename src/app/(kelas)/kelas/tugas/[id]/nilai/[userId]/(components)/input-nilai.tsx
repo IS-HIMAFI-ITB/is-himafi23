@@ -84,7 +84,9 @@ export default function InputNilai() {
       });
     },
     onSettled: () => {
-      form.reset();
+      form.reset({
+        nilai: 0,
+      });
       setLoading(false);
       queryClient.invalidateQueries([
         "tugasSubmission",
@@ -121,7 +123,7 @@ export default function InputNilai() {
             </FormItem>
           )}
         />
-        <Button disabled={loading} type="submit">
+        <Button disabled={loading} type="submit" className="w-full">
           {loading ? <Loader2Icon className="animate-spin" /> : "Submit"}
         </Button>
       </form>

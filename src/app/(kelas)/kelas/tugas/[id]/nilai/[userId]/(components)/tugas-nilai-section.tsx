@@ -12,7 +12,7 @@ import TugasDetails from "./tugas-details";
 export default async function TugasSection() {
   return (
     <AnimateSection
-      className="prose lg:prose-lg dark:prose-invert"
+      className="prose max-w-none lg:prose-lg dark:prose-invert w-full"
       initial={{ opacity: 0, y: 200 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
@@ -31,7 +31,7 @@ export default async function TugasSection() {
         <TugasAttachments />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <p className="text-lg font-bold mb-2">Feedback grader</p>
 
         <Separator />

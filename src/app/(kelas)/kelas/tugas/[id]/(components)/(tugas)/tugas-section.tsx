@@ -18,7 +18,7 @@ export default async function TugasSection({
 }) {
   return (
     <AnimateSection
-      className="prose lg:prose-lg dark:prose-invert"
+      className="prose lg:prose-lg dark:prose-invert max-w-none w-full"
       initial={{ opacity: 0, y: 200 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
@@ -37,7 +37,7 @@ export default async function TugasSection({
         <TugasAttachments />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <p className="not-prose text-lg font-bold ">Comments</p>
 
         <Separator />
@@ -47,7 +47,7 @@ export default async function TugasSection({
         <Separator className="mb-4" />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <CommentForm />
       </div>
     </AnimateSection>

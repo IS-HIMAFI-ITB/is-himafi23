@@ -88,7 +88,9 @@ export function CommentForm() {
       });
     },
     onSettled: () => {
-      form.reset();
+      form.reset({
+        content: "",
+      });
       queryClient.invalidateQueries({
         queryKey: [
           "tugasSubmission",
