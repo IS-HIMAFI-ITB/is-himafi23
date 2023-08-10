@@ -2,17 +2,17 @@
 
 import React, { createContext } from "react";
 
-import { Submission } from "@prisma/client";
+import { SubmissionQuery } from "@/types/query-type";
 
-export const SubmissionDetailsContext = createContext(
-  undefined as Submission | undefined
-);
+export const SubmissionDetailsContext = createContext<
+  SubmissionQuery | undefined
+>(undefined);
 
 export default function SubmissionDetailsProvider({
   submission,
   children,
 }: {
-  submission: Submission | undefined;
+  submission: SubmissionQuery;
   children: React.ReactNode;
 }) {
   return (

@@ -35,6 +35,18 @@ export async function getTugasById(id: string) {
   const tugas = await prisma.tugas
     .findUnique({
       where: { id: Number(id) },
+      include: {
+        comments: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                nim: true,
+              },
+            },
+          },
+        },
+      },
     })
     .catch((err) => {
       throw new Error(err);
@@ -52,6 +64,18 @@ export async function getTugasSubmission(userId: string, tugasId: string) {
       },
       orderBy: {
         submittedAt: "desc",
+      },
+      include: {
+        feedback: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                nim: true,
+              },
+            },
+          },
+        },
       },
     })
     .catch((err) => {

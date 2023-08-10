@@ -1,6 +1,8 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2Icon } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -16,6 +18,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast/useToast";
+import { SubmissionDetailsContext } from "@/context/submission-details-provider";
+import { SubmissionQuery } from "@/types/query-type";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const FormSchema = z.object({
   nilai: z.coerce
@@ -26,19 +32,70 @@ const FormSchema = z.object({
 
 export default function InputNilai() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const initialSubmissionData = useContext(SubmissionDetailsContext);
+  const params = useParams();
+  const [loading, setLoading] = useState(false);
+
+  const { data: submission, isLoading } = useQuery<SubmissionQuery, Error>({
+    queryKey: [
+      "tugasSubmission",
+      { tugasId: params.id, userId: params.userId },
+    ],
+    queryFn: async () => {
+      const res = await fetch(`/api/submissions/${params.userId}/${params.id}`);
+      return res.json();
+    },
+    initialData: initialSubmissionData,
+  });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  const nilai = useMutation({
+    mutationFn: (data: z.infer<typeof FormSchema>) => {
+      return fetch(`/api/submissions/nilai`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: submission?.id,
+          score: data.nilai,
+        }),
+      });
+    },
+    onMutate: () => {
+      setLoading(true);
+      toast({
+        title: "Memberikan nilai...",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Berhasil memberikan nilai",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Gagal memberikan nilai",
+        description: error.message,
+      });
+    },
+    onSettled: () => {
+      form.reset();
+      setLoading(false);
+      queryClient.invalidateQueries([
+        "tugasSubmission",
+        { tugasId: params.id, userId: params.userId },
+      ]);
+      queryClient.invalidateQueries(["tugasSubmission", { id: params.id }]);
+    },
+  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    nilai.mutate(data);
   }
 
   return (
@@ -64,7 +121,9 @@ export default function InputNilai() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? <Loader2Icon className="animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );

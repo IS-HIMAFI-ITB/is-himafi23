@@ -3,11 +3,11 @@ import React from "react";
 import AnimateSection from "@/components/animate-section";
 import { Separator } from "@/components/ui/separator";
 
+import { FeedbackForm } from "./(feedback)/feedback-form";
+import FeedbackSection from "./(feedback)/feedback-section";
 import TugasNavigation from "./(navigation)/tugas-navigation";
-import { FeedbackForm } from "./feedback-section";
 import TugasAttachments from "./tugas-attachments";
 import TugasDetails from "./tugas-details";
-import TugasFeedback from "./tugas-feedback";
 
 export default async function TugasSection() {
   return (
@@ -31,12 +31,12 @@ export default async function TugasSection() {
         <TugasAttachments />
       </div>
 
-      <div className="mt-4 -mb-2">
-        <p className="text-lg font-bold ">Feedback grader</p>
+      <div className="mt-4">
+        <p className="text-lg font-bold mb-2">Feedback grader</p>
 
-        <Separator className="-mt-4" />
+        <Separator />
 
-        <TugasFeedback />
+        <FeedbackSection />
 
         <Separator />
       </div>

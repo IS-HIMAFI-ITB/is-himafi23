@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Submission, User } from "@prisma/client";
+import { Post, Submission, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface TugasSubmissionDetailProps extends Submission {
@@ -18,6 +18,7 @@ interface TugasSubmissionDetailProps extends Submission {
   tugas: {
     dueDate: Date;
   };
+  feedback: Post[];
 }
 
 export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
@@ -191,18 +192,6 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     cell: ({ row }) => {
       const score = row.original.score;
       return <div className="w-max min-w-[10px]">{score ?? "-"}/100</div>;
-    },
-  },
-  {
-    accessorKey: "feedback",
-    header: "Feedback",
-    cell: ({ row }) => {
-      const feedback = row.original.feedback;
-      return (
-        <div className="max-w-[10ch] min-w-[10px]">
-          {feedback ? feedback : "-"}
-        </div>
-      );
     },
   },
 ];
