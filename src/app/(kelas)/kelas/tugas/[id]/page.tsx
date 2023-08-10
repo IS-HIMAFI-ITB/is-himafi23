@@ -4,9 +4,7 @@ import moment from "moment";
 import React from "react";
 
 import Container from "@/components/layout/container";
-import SubmissionDetailsProvider from "@/context/submission-details-provider";
 
-import SubmissionSection from "./(components)/(submission)/submission-section";
 import SubmissionWrapper from "./(components)/(submission)/submission-wrapper";
 import TugasSection from "./(components)/(tugas)/tugas-section";
 

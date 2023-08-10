@@ -33,10 +33,17 @@ export default function FeedbackSection() {
 
   if (isLoading)
     return (
-      <p className="max-h-[200px] overflow-y-auto text-base">Loading...</p>
+      <p className="max-h-[200px] overflow-y-auto text-base my-4 prose prose-sm prose-invert">
+        Loading...
+      </p>
     );
 
-  if (!tugasSubmission) return null;
+  if (!tugasSubmission)
+    return (
+      <p className="max-h-[200px] overflow-y-auto text-base my-4 prose prose-sm prose-invert">
+        Belum mengumpulkan.
+      </p>
+    );
 
   const feedbacks = tugasSubmission.feedback;
 

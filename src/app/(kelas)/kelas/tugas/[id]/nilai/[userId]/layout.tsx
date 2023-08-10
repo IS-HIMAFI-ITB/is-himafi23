@@ -6,7 +6,7 @@ import UserProvider from "@/context/user-provider";
 import { getTugasSubmission, getUserById } from "@/lib/server-fetch";
 import { prisma } from "@/prisma";
 
-export async function generateStaticParams() {
+export async function staticParams() {
   const tugas = await prisma.tugas.findMany();
   const users = await prisma.user.findMany();
 
@@ -19,6 +19,11 @@ export async function generateStaticParams() {
 
   return params;
 }
+
+export const generateStaticParams =
+  process.env.NODE_ENV === "production" ? staticParams : undefined;
+export const dynamic =
+  process.env.NODE_ENV === "production" ? "auto" : "force-dynamic";
 
 export default async function NilaiTugasLayout({
   children,

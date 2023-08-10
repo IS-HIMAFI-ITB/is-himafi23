@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useContext } from "react";
 
@@ -13,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function TugasComment() {
   const params = useParams();
-  const user = useSession().data?.user;
   const initialData = useContext(TugasDetailsContext);
   const { data: tugasDetails, isLoading } = useQuery<TugasQuery, Error>({
     queryKey: ["tugas", { id: params.id }],
