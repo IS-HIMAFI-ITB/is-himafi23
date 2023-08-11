@@ -18,7 +18,7 @@ export default function Home() {
           size={"lg"}
           className="mt-8 bg-foreground text-background hover:bg-foreground/90 hover:text-background/90"
         >
-          <a href={"/"}>The Beginning of Time</a>
+          <Link href={"/"}>The Beginning of Time</Link>
         </Button>
       </div>
       {/* <div className="flex flex-col items-center justify-center">

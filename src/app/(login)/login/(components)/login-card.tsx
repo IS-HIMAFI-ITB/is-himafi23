@@ -187,7 +187,17 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
               className="text-xs -mb-5 px-0 opacity-70 justify-self-end transition"
               asChild
             >
-              <Link href={""}>Forgot Password</Link>
+              <Button
+                variant={"link"}
+                onClick={() =>
+                  toast({
+                    title:
+                      "Silakan hubungi contact person untuk reset password",
+                  })
+                }
+              >
+                Forgot Password
+              </Button>
             </Button>
           </CardContent>
           <CardFooter>

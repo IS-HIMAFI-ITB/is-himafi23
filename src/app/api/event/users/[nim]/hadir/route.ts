@@ -9,11 +9,44 @@ export async function GET(
   const events = await prisma.event.findMany({
     where: {
       disabled: false,
-      hadir: {
-        some: {
-          nim: params.nim,
+      AND: [
+        {
+          hadir: {
+            some: {
+              nim: params.nim,
+            },
+          },
         },
-      },
+        {
+          OR: [
+            {
+              izin: {
+                none: {
+                  user: {
+                    nim: params.nim,
+                  },
+                },
+              },
+            },
+            {
+              izin: {
+                some: {
+                  AND: [
+                    {
+                      user: {
+                        nim: params.nim,
+                      },
+                    },
+                    {
+                      status: "DITOLAK",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
     include: {
       hadir: {
@@ -22,6 +55,9 @@ export async function GET(
         },
       },
       izin: {
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           user: {
             nim: params.nim,
@@ -40,6 +76,8 @@ export async function POST(
   const { eventId } = (await req.json()) as {
     eventId: string;
   };
+
+  if (!params.nim) return NextResponse.error();
 
   const event = await prisma.event.update({
     where: {

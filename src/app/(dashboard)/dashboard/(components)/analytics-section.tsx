@@ -121,7 +121,12 @@ export default function AnalyticsSection({
               return (
                 <div key={user.id} className="flex flex-row gap-4 items-center">
                   <Avatar>
-                    <AvatarImage src={user.image ?? undefined} />
+                    <AvatarImage
+                      src={
+                        user.image ??
+                        "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                      }
+                    />
                     <AvatarFallback>{user.name[0]}</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col gap-px">

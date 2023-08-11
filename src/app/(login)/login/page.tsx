@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 import hero from "@/../public/images/error-background.png";
@@ -23,9 +20,9 @@ export default function Home() {
         />
         <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
       </section>
-      <motion.div className="h-screen flex flex-col justify-center items-center md:items-start">
+      <div className="h-screen flex flex-col justify-center items-center md:items-start">
         <LoginCard className="shrink md:shrink-0 md:w-[600px] md:h-screen" />
-      </motion.div>
+      </div>
     </section>
   );
 }

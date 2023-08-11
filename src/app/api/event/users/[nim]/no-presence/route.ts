@@ -15,13 +15,33 @@ export async function GET(
             nim: params.nim,
           },
         },
-        izin: {
-          none: {
-            user: {
-              nim: params.nim,
+        OR: [
+          {
+            izin: {
+              some: {
+                AND: [
+                  {
+                    user: {
+                      nim: params.nim,
+                    },
+                  },
+                  {
+                    status: "DITOLAK",
+                  },
+                ],
+              },
             },
           },
-        },
+          {
+            izin: {
+              none: {
+                user: {
+                  nim: params.nim,
+                },
+              },
+            },
+          },
+        ],
       },
       include: {
         hadir: {
@@ -30,6 +50,9 @@ export async function GET(
           },
         },
         izin: {
+          orderBy: {
+            createdAt: "desc",
+          },
           where: {
             user: {
               nim: params.nim,
