@@ -275,8 +275,8 @@ export default function CreateTugas() {
                         size={24}
                       />
 
-                      <div className="flex flex-col gap-1">
-                        <p className="font-semibold line-clamp-1">
+                      <div className="flex flex-col gap-1 max-w-full">
+                        <p className="font-semibold line-clamp-1 max-w-full">
                           {attachment.split("?judultugas=")[1]}
                         </p>
 
