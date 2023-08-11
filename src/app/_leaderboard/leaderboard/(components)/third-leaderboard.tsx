@@ -1,19 +1,21 @@
 "use client";
-import mockup from "./mockup.json";
-import { Card, CardHeader } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { Link2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader } from "@/components/ui/card";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Link2 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+
+import mockup from "./mockup.json";
 import LeaderboardSearch from "./search-bar";
 
 export default function ThirdLeaderboard() {
@@ -145,7 +147,9 @@ export default function ThirdLeaderboard() {
             <HoverCardContent className="flex w-80 flex-auto">
               <div className="flex justify-between text-start space-x-4">
                 <Avatar>
-                  <AvatarImage src={profile?.image ?? undefined} />
+                  <AvatarImage
+                    src={profile?.image ?? "@/../public/images/profile.png"}
+                  />
                   <AvatarFallback>{profile?.name?.[0] ?? "?"}</AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">

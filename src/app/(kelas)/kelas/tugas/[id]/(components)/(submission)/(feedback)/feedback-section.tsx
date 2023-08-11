@@ -4,7 +4,8 @@ import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React, { useContext } from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import profile from "@/../public/images/profile.png";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { formatDate, formatTime } from "@/lib/utils";
@@ -66,6 +67,10 @@ export default function FeedbackSection() {
         >
           <div className="lg:hidden">
             <Avatar>
+              <AvatarImage
+                src={"@/../public/images/profile.png"}
+                alt="profile"
+              />
               <AvatarFallback>
                 {feedback.author?.name?.split(" ")[0][0]}
               </AvatarFallback>
