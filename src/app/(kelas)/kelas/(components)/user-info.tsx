@@ -27,6 +27,7 @@ export default function UserInfo() {
       <Card className="p-4 flex flex-row gap-4 justify-center items-center">
         <Avatar className="md:w-12 md:h-12">
           <AvatarImage
+            className="bg-cover"
             src={
               session?.data?.user.image ??
               "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"

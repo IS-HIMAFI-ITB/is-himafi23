@@ -82,7 +82,7 @@ export default function Timeline() {
       {status === "authenticated" && (
         <div>
           <div className="flex items-start gap-4">
-            <Avatar className="w-10 h-10">
+            <Avatar>
               <AvatarImage
                 src={
                   data.user.image ??
@@ -107,8 +107,9 @@ export default function Timeline() {
           className="flex flex-col backdrop-blur-md rounded-md p-2"
         >
           <div className="flex items-start gap-4">
-            <Avatar className="w-10 h-10">
+            <Avatar>
               <AvatarImage
+                className="bg-cover"
                 src={
                   post.image ??
                   "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"

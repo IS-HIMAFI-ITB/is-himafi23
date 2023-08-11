@@ -153,6 +153,7 @@ export default function FirstLeaderboard() {
               <div className="flex justify-between text-start space-x-4">
                 <Avatar>
                   <AvatarImage
+                    className="bg-cover"
                     src={
                       profile?.image ??
                       "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"

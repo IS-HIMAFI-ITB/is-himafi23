@@ -154,6 +154,7 @@ export default function UserAction({
                 <NavigationMenuTrigger className="bg-transparent hover:text-foreground hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent">
                   <Avatar className={cn("w-9 h-9", className)} {...props}>
                     <AvatarImage
+                      className="bg-cover"
                       src={
                         data.user?.image ??
                         "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"

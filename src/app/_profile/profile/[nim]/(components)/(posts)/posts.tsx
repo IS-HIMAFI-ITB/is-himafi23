@@ -63,8 +63,9 @@ export default function Posts() {
       {postPlaceholder.map((post) => (
         <div key={post.id}>
           <div className="flex items-start gap-4">
-            <Avatar className="w-10 h-10">
+            <Avatar>
               <AvatarImage
+                className="bg-cover"
                 src={
                   user.image ??
                   "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"

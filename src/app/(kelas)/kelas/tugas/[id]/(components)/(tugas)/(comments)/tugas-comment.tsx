@@ -51,6 +51,7 @@ export default function TugasComment() {
           <div>
             <Avatar>
               <AvatarImage
+                className="bg-cover"
                 src={
                   "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
                 }
