@@ -3,7 +3,7 @@
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast/useToast";
-import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { SubmissionQuery } from "@/types/query-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -36,7 +35,6 @@ const FormSchema = z.object({
 
 export function CommentForm() {
   const { data, status } = useSession();
-  const initialSubmissionData = useContext(SubmissionDetailsContext);
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const queryClient = useQueryClient();
@@ -52,7 +50,6 @@ export function CommentForm() {
       const res = await fetch(`/api/submissions/${userData?.id}/${params.id}`);
       return res.json();
     },
-    initialData: initialSubmissionData,
   });
 
   const replyFeedback = useMutation({
@@ -109,6 +106,53 @@ export function CommentForm() {
       });
     }
     replyFeedback.mutate(data);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-row gap-2">
+        <Avatar>
+          <AvatarImage
+            className="bg-cover"
+            src={
+              userData?.image ??
+              "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+            }
+          />
+          <AvatarFallback>{userData?.name?.[0] ?? "?"}</AvatarFallback>
+        </Avatar>
+
+        <div className="flex flex-col gap-2 w-full">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="">
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Masukkan tanggapan feedback di sini"
+                        className="resize-none backdrop-blur-sm bg-slate-950/30"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="w-full mt-2 flex justify-end">
+                <Button disabled variant={"default"}>
+                  <Loader2Icon className="animate-spin" />
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
+      </div>
+    );
   }
 
   if (!submissionData) return null;

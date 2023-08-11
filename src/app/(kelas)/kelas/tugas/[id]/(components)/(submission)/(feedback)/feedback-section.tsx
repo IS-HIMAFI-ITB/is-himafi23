@@ -2,12 +2,11 @@
 
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import React, { useContext } from "react";
+import React from "react";
 
 import profile from "@/../public/images/profile.png";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { formatDate, formatTime } from "@/lib/utils";
 import { SubmissionQuery } from "@/types/query-type";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 export default function FeedbackSection() {
   const params = useParams();
   const session = useSession();
-  const initialSubmissionData = useContext(SubmissionDetailsContext);
   const { data: tugasSubmission, isLoading } = useQuery<SubmissionQuery, Error>(
     {
       queryKey: [
@@ -28,22 +26,21 @@ export default function FeedbackSection() {
         );
         return res.json();
       },
-      initialData: initialSubmissionData,
     }
   );
 
   if (isLoading)
     return (
-      <p className="max-h-[200px] overflow-y-auto text-base my-4 prose prose-sm prose-invert">
-        Loading...
-      </p>
+      <div className="max-h-[200px] overflow-y-auto flex flex-col gap-3 text-base my-3">
+        <p className="prose prose-sm prose-invert">Loading...</p>
+      </div>
     );
 
   if (!tugasSubmission)
     return (
-      <p className="max-h-[200px] overflow-y-auto text-base my-4 prose prose-sm prose-invert">
-        Belum mengumpulkan.
-      </p>
+      <div className="max-h-[200px] overflow-y-auto flex flex-col gap-3 text-base my-3">
+        <p className="prose prose-sm prose-invert">Belum mengumpulkan.</p>
+      </div>
     );
 
   const feedbacks = tugasSubmission.feedback;

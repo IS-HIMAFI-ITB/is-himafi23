@@ -32,7 +32,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
-import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { TugasDetailsContext } from "@/context/tugas-details-provider";
 import { SubmissionQuery } from "@/types/query-type";
 import { Tugas } from "@prisma/client";
@@ -44,7 +43,6 @@ import SubmitTugasCard from "./submit-tugas-card";
 
 export default function SubmissionSection() {
   const initialTugasData = useContext(TugasDetailsContext);
-  const initialSubmissionData = useContext(SubmissionDetailsContext);
   const params = useParams();
   const session = useSession();
 
@@ -56,19 +54,20 @@ export default function SubmissionSection() {
     },
     initialData: initialTugasData,
   });
-  const { data: tugasSubmission } = useQuery<SubmissionQuery, Error>({
-    queryKey: [
-      "tugasSubmission",
-      { tugasId: params.id, userId: session.data?.user.id },
-    ],
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/submissions/${session.data?.user.id}/${params.id}`
-      );
-      return res.json();
-    },
-    initialData: initialSubmissionData,
-  });
+  const { data: tugasSubmission, isLoading } = useQuery<SubmissionQuery, Error>(
+    {
+      queryKey: [
+        "tugasSubmission",
+        { tugasId: params.id, userId: session.data?.user.id },
+      ],
+      queryFn: async () => {
+        const res = await fetch(
+          `/api/submissions/${session.data?.user.id}/${params.id}`
+        );
+        return res.json();
+      },
+    }
+  );
 
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState<string | undefined>(undefined);
@@ -140,6 +139,72 @@ export default function SubmissionSection() {
       });
     },
   });
+
+  if (isLoading) {
+    return (
+      <motion.div
+        className="sticky top-28 h-max flex flex-col gap-4"
+        // diganti karena ada overflow sebelumnya
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 0.8,
+          ease: [0, 0.71, 0.2, 1.01],
+          delay: 0.3,
+        }}
+      >
+        <div className="flex flex-row gap-4">
+          <H3>Nilai kamu</H3>
+
+          <H3 className="text-accent">...</H3>
+        </div>
+
+        <div className="flex flex-row flex-wrap gap-2 items-center">
+          <Badge className="w-max">...</Badge>
+          <Badge className="w-max">...</Badge>
+        </div>
+
+        <p className="text-lg font-bold mt-4 -mb-2">Jawaban yang dikumpulkan</p>
+        <div className="flex flex-row flex-wrap gap-2 items-center">
+          <p className="text-sm">Loading... </p>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <CalendarIcon className="xs:ml-2" size={12} />{" "}
+            <p className="text-sm">...</p>
+          </div>
+          <div className="flex flex-row flex-wrap gap-1 items-center">
+            <ClockIcon className="ml-2" size={12} />
+            <p className="text-sm">...</p>
+          </div>
+        </div>
+
+        <Card className="py-4 px-6 group/fileSubmitted hover:cursor-pointer hover:border hover:border-primary hover:scale-105 transition-transform">
+          <div className="flex flex-row gap-6 items-center">
+            <UploadIcon
+              size={24}
+              className="group-hover/fileSubmitted:text-primary"
+            />
+
+            <p className="font-bold">Loading...</p>
+          </div>
+        </Card>
+
+        <div className="mt-4">
+          <p className="text-lg font-bold mb-2">Feedback grader</p>
+
+          <Separator />
+
+          <FeedbackSection />
+
+          <Separator />
+        </div>
+
+        <div className="mt-2">
+          <CommentForm />
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
