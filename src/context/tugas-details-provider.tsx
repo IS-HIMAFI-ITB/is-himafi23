@@ -2,15 +2,15 @@
 
 import React, { createContext } from "react";
 
-import { Tugas } from "@prisma/client";
+import { TugasQuery } from "@/types/query-type";
 
-export const TugasDetailsContext = createContext({} as Tugas);
+export const TugasDetailsContext = createContext<TugasQuery>({} as TugasQuery);
 
 export default function TugasDetailsProvider({
   tugas,
   children,
 }: {
-  tugas: Tugas;
+  tugas: TugasQuery;
   children: React.ReactNode;
 }) {
   return (

@@ -5,16 +5,20 @@ import Unauthenticated from "@/components/template/unauthenticated";
 import { Separator } from "@/components/ui/separator";
 import SubmissionDetailsProvider from "@/context/submission-details-provider";
 
-import { CommentForm } from "./(feedback)/comment-section";
-import TugasFeedback from "./(feedback)/tugas-feedback";
+import { CommentForm } from "./(comments)/comment-section";
+import TugasComment from "./(comments)/tugas-comment";
 import TugasNavigation from "./(navigation)/tugas-navigation";
 import TugasAttachments from "./tugas-attachments";
 import TugasDetails from "./tugas-details";
 
-export default async function TugasSection() {
+export default async function TugasSection({
+  params,
+}: {
+  params: { id: string };
+}) {
   return (
     <AnimateSection
-      className="prose lg:prose-lg dark:prose-invert"
+      className="prose lg:prose-lg dark:prose-invert max-w-none w-full"
       initial={{ opacity: 0, y: 200 }}
       whileInView={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
@@ -33,17 +37,17 @@ export default async function TugasSection() {
         <TugasAttachments />
       </div>
 
-      <div className="mt-4 -mb-2">
-        <p className="text-lg font-bold ">Feedback grader</p>
-
-        <Separator className="-mt-4" />
-
-        <TugasFeedback />
+      <div className="mt-4 w-full">
+        <p className="not-prose text-lg font-bold ">Comments</p>
 
         <Separator />
+
+        <TugasComment />
+
+        <Separator className="mb-4" />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <CommentForm />
       </div>
     </AnimateSection>
