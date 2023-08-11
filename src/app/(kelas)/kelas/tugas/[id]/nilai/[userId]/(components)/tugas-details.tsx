@@ -1,7 +1,6 @@
 "use client";
 
 import { CalendarIcon, ClockIcon } from "lucide-react";
-import moment from "moment";
 import { useParams } from "next/navigation";
 import React, { useContext } from "react";
 
@@ -53,7 +52,8 @@ export default function TugasDetails() {
           <p className="hidden text-sm xs:inline">Deadline</p>
 
           <p className="text-sm">
-            {formatDate(tugas.dueDate, "LL")} pukul {formatTime(tugas.dueDate)}
+            {formatDate(tugas.dueDate, "DD-MM-YYYY")} pukul{" "}
+            {formatTime(tugas.dueDate)}
           </p>
         </Badge>
 

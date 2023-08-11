@@ -6,7 +6,7 @@ import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TugasPanitiaContext } from "@/context/tugas-panitia-provider";
 import { useTugasIndexStore } from "@/lib/store";
-import { Submission, User } from "@prisma/client";
+import { Post, Submission, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { columns } from "./submission-peserta-column";
@@ -23,6 +23,7 @@ interface TugasSubmissionDetailProps extends Submission {
   tugas: {
     dueDate: Date;
   };
+  feedback: Post[];
 }
 
 export default function TugasSubmissionDetail() {

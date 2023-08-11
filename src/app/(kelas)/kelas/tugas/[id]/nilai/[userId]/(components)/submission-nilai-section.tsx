@@ -9,8 +9,9 @@ import {
   ExternalLink,
 } from "lucide-react";
 import moment from "moment";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import React, { useContext } from "react";
 
 import AnimateSection from "@/components/animate-section";
@@ -21,7 +22,8 @@ import { SubmissionDetailsContext } from "@/context/submission-details-provider"
 import { TugasDetailsContext } from "@/context/tugas-details-provider";
 import UserProvider, { UserContext } from "@/context/user-provider";
 import { formatDate, formatTime } from "@/lib/utils";
-import { Submission, Tugas } from "@prisma/client";
+import { SubmissionQuery } from "@/types/query-type";
+import { Role, Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 import InputNilai from "./input-nilai";
@@ -31,6 +33,10 @@ export default function SubmissionSection() {
   const initialTugasData = useContext(TugasDetailsContext);
   const initialSubmissionData = useContext(SubmissionDetailsContext);
   const user = useContext(UserContext);
+  const session = useSession();
+
+  if (!session) redirect("/login");
+  if (session.data?.user.role === Role.PESERTA) redirect("/unauthorized");
 
   const { data: tugas } = useQuery<Tugas, Error>({
     queryKey: ["tugas", { id: params.id }],
@@ -41,7 +47,7 @@ export default function SubmissionSection() {
     initialData: initialTugasData,
   });
 
-  const { data: tugasSubmission } = useQuery<Submission, Error>({
+  const { data: tugasSubmission } = useQuery<SubmissionQuery, Error>({
     queryKey: [
       "tugasSubmission",
       { tugasId: params.id, userId: params.userId },

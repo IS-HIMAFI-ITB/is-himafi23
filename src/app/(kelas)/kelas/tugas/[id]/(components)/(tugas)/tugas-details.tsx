@@ -52,7 +52,7 @@ export default function TugasDetails() {
           <p className="hidden text-sm xs:inline">Deadline</p>
 
           <p className="text-sm">
-            {moment(tugas.dueDate).format("LL")} pukul{" "}
+            {moment(tugas.dueDate).format("DD-MM-YYYY")},{" "}
             {moment(tugas.dueDate).format(
               `HH:mm ${
                 moment(tugas.dueDate).format("Z") === "+07:00"

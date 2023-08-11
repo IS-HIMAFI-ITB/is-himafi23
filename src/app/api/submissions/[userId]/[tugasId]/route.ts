@@ -22,6 +22,16 @@ export async function GET(
             dueDate: true,
           },
         },
+        feedback: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                nim: true,
+              },
+            },
+          },
+        },
       },
     });
     return NextResponse.json(submissions, { status: 200 });
@@ -35,6 +45,18 @@ export async function GET(
       },
       orderBy: {
         submittedAt: "desc",
+      },
+      include: {
+        feedback: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                nim: true,
+              },
+            },
+          },
+        },
       },
     })
     .catch((err) => {

@@ -30,12 +30,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast/useToast";
 import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { TugasDetailsContext } from "@/context/tugas-details-provider";
-import { Submission, Tugas } from "@prisma/client";
+import { SubmissionQuery } from "@/types/query-type";
+import { Tugas } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { CommentForm } from "./(feedback)/comment-section";
+import FeedbackSection from "./(feedback)/feedback-section";
 import SubmitTugasCard from "./submit-tugas-card";
 
 export default function SubmissionSection() {
@@ -52,7 +56,7 @@ export default function SubmissionSection() {
     },
     initialData: initialTugasData,
   });
-  const { data: tugasSubmission } = useQuery<Submission, Error>({
+  const { data: tugasSubmission } = useQuery<SubmissionQuery, Error>({
     queryKey: [
       "tugasSubmission",
       { tugasId: params.id, userId: session.data?.user.id },
@@ -384,6 +388,20 @@ export default function SubmissionSection() {
           </AlertDialog>
         </div>
       )}
+
+      <div className="mt-4">
+        <p className="text-lg font-bold mb-2">Feedback grader</p>
+
+        <Separator />
+
+        <FeedbackSection />
+
+        <Separator />
+      </div>
+
+      <div className="mt-2">
+        <CommentForm />
+      </div>
     </motion.div>
   );
 }
