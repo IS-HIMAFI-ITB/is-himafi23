@@ -47,16 +47,7 @@ interface LoginCardProps {
  * @example {nim: 10221001, password: "password"}
  */
 const loginSchema = z.object({
-  nim: z.union([
-    z.coerce
-      .number()
-      .gte(10221000, "Format NIM salah")
-      .lte(10222150, "Format NIM salah"),
-    z.coerce
-      .number()
-      .gte(16022001, "Format NIM salah")
-      .lte(16022999, "Format NIM salah"),
-  ]),
+  nim: z.coerce.number(),
   password: z.string().nonempty("Password must not be empty"),
 });
 
