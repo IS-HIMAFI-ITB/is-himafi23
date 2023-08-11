@@ -1,19 +1,19 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 
 import { Reveal } from "@/components/animation/reveal";
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
+import { H1, P } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast/useToast";
 
 import { misi } from "./misi";
 import Timeline from "./timeline";
 import { VisiMisi } from "./visi-misi";
-import { H1, P } from "@/components/typography";
 
 const MotionButton = motion(Button);
 
@@ -115,7 +115,7 @@ export default function HeroSection() {
       </Container>
 
       {/*Timeline Posts */}
-      <Container
+      {/* <Container
         id="hero"
         className="min-h-[calc(100vh-72.6px-4rem)] h-full flex justify-center"
       >
@@ -129,7 +129,7 @@ export default function HeroSection() {
         >
           <Timeline />
         </motion.div>
-      </Container>
+      </Container> */}
     </>
   );
 }
