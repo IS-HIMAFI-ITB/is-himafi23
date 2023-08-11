@@ -8,6 +8,7 @@ import { PanitiaSubmissionDetails } from "@/context/panitia-submission-details-p
 import { TugasPanitiaContext } from "@/context/tugas-panitia-provider";
 import { useTugasIndexStore } from "@/lib/store";
 import { SubmissionDetailQuery } from "@/types/query-type";
+import { Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 import { columns } from "./submission-peserta-column";
@@ -19,11 +20,25 @@ async function getTugasSubmission(tugasId: number) {
   return data;
 }
 
+async function getTugas() {
+  const res = await fetch("/api/tugas");
+  const data = await res.json();
+  return data;
+}
+
 export default function TugasSubmissionDetail() {
   const tugasData = useContext(TugasPanitiaContext);
   const initialSubmission = useContext(PanitiaSubmissionDetails);
   const { tugasIndex, setTugasIndex } = useTugasIndexStore();
-  const tugasId = tugasData[tugasIndex].id;
+
+  const tugas = useQuery<Tugas[], Error>({
+    queryKey: ["tugas"],
+    queryFn: () => getTugas(),
+    refetchInterval: 1000 * 60 * 5, // 10 minutes
+    initialData: tugasData,
+  });
+
+  const tugasId = tugas.data![tugasIndex].id;
 
   const submission = useQuery<SubmissionDetailQuery[], Error>({
     queryKey: ["tugasSubmission", { id: tugasId }],
