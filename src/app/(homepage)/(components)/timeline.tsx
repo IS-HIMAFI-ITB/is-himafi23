@@ -1,15 +1,15 @@
 "use client";
 
-import { H3, H4 } from "@/components/typography";
-import { Separator } from "@/components/ui/separator";
-import { User } from "@prisma/client";
-import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Logo from "@/components/logo";
 import { useSession } from "next-auth/react";
-import { stat } from "fs";
-import { TextareaForm } from "./text-area";
+import Image from "next/image";
+
+import Logo from "@/components/logo";
+import { H3 } from "@/components/typography";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
+import { TextareaForm } from "./text-area";
 
 export default function Timeline() {
   const { data, status } = useSession();
@@ -83,7 +83,12 @@ export default function Timeline() {
         <div>
           <div className="flex items-start gap-4">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={data.user.image ?? undefined} />
+              <AvatarImage
+                src={
+                  data.user.image ??
+                  "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                }
+              />
               <AvatarFallback>{data.user.name?.[0] ?? "?"}</AvatarFallback>
             </Avatar>
 
@@ -103,7 +108,12 @@ export default function Timeline() {
         >
           <div className="flex items-start gap-4">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={post.image ?? undefined} />
+              <AvatarImage
+                src={
+                  post.image ??
+                  "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                }
+              />
               <AvatarFallback>{post.name?.[0] ?? "?"}</AvatarFallback>
             </Avatar>
             {/* Profile Picture, ntar ganti pake avatar asli */}

@@ -4,7 +4,7 @@ import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
@@ -26,6 +26,13 @@ export default function UserInfo() {
     <>
       <Card className="p-4 flex flex-row gap-4 justify-center items-center">
         <Avatar className="md:w-12 md:h-12">
+          <AvatarImage
+            src={
+              session?.data?.user.image ??
+              "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+            }
+            alt="avatar"
+          />
           <AvatarFallback>
             {session?.data?.user.name?.split(" ")[0][0] ?? (
               <Loader2Icon className="animate-spin" size={16} />

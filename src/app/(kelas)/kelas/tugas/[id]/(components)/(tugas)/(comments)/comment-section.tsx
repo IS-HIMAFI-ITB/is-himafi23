@@ -99,7 +99,12 @@ export function CommentForm() {
   return (
     <div className="flex flex-row gap-2 mt-2">
       <Avatar className="w-10 h-10">
-        <AvatarImage src={userData?.image ?? undefined} />
+        <AvatarImage
+          src={
+            userData?.image ??
+            "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+          }
+        />
         <AvatarFallback>{userData?.name?.[0] ?? "?"}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col gap-2 w-full">

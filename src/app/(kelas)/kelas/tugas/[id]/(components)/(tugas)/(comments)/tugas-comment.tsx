@@ -50,7 +50,11 @@ export default function TugasComment() {
         >
           <div>
             <Avatar>
-              <AvatarImage src={"@/../public/images/profile.png"} />
+              <AvatarImage
+                src={
+                  "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                }
+              />
               <AvatarFallback>
                 {comment.author?.name?.split(" ")[0][0]}
               </AvatarFallback>

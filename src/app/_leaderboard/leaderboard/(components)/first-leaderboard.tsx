@@ -89,7 +89,12 @@ export default function FirstLeaderboard() {
                     <div className="flex justify-between items-center">
                       <div className="w-4/5 md:w-max grid lg:flex gap-4 items-center">
                         <Avatar className="w-8 h-8 hidden lg:flex">
-                          <AvatarImage src={profile?.image ?? undefined} />
+                          <AvatarImage
+                            src={
+                              profile?.image ??
+                              "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                            }
+                          />
                           <AvatarFallback>
                             {profile?.name?.[0] ?? "?"}
                           </AvatarFallback>
@@ -148,7 +153,10 @@ export default function FirstLeaderboard() {
               <div className="flex justify-between text-start space-x-4">
                 <Avatar>
                   <AvatarImage
-                    src={profile?.image ?? "@/../public/images/profile.png"}
+                    src={
+                      profile?.image ??
+                      "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                    }
                   />
                   <AvatarFallback>{profile?.name?.[0] ?? "?"}</AvatarFallback>
                 </Avatar>
