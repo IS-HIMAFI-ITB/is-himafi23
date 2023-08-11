@@ -2,17 +2,11 @@
 
 import React, { createContext } from "react";
 
-import { Tugas } from "@prisma/client";
+import { Submission, Tugas } from "@prisma/client";
 
-interface TugasContextType {
-  tugasAssigned: Tugas[];
-  tugasDone: Tugas[];
-}
+type TugasContextType = (Tugas & { submissions: Submission[] })[] | null;
 
-export const TugasPesertaContext = createContext({
-  tugasAssigned: [],
-  tugasDone: [],
-} as TugasContextType);
+export const TugasPesertaContext = createContext(null as TugasContextType);
 
 export default function TugasPesertaProvider({
   tugas,

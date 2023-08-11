@@ -1,4 +1,3 @@
-import { getServerSession } from "next-auth";
 import React from "react";
 
 import AnimatePresence from "@/components/animate-presence";
@@ -7,7 +6,7 @@ import Unauthenticated from "@/components/template/unauthenticated";
 import { H2 } from "@/components/typography";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import TugasPesertaProvider from "@/context/tugas-peserta-provider";
-import { getTugasAssigned, getTugasDone } from "@/lib/server-fetch";
+import { prisma } from "@/prisma";
 
 import TugasAssigned from "./(tabs-content)/tugas-assigned";
 import TugasDone from "./(tabs-content)/tugas-done";
@@ -15,15 +14,15 @@ import TabsListTugas from "./(tabs-list)/tabs-list-tugas";
 import TugasSelesaiBadge from "./tugas-selesai-badge";
 
 export default async function TugasSectionPeserta() {
-  const session = await getServerSession();
-  if (!session || !session.user) return <Unauthenticated />;
-
   // This acts as initial data for the query
-  const tugasDone = await getTugasDone(session.user.nim);
-  const tugasAssigned = await getTugasAssigned(session.user.nim);
+  const tugas = await prisma.tugas.findMany({
+    include: {
+      submissions: true,
+    },
+  });
 
   return (
-    <TugasPesertaProvider tugas={{ tugasDone, tugasAssigned }}>
+    <TugasPesertaProvider tugas={tugas}>
       <AnimatePresence>
         <AnimateSection
           className="flex flex-col gap-4"

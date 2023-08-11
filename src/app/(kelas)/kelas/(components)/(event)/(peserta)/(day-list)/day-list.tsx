@@ -19,6 +19,73 @@ export default function DayList() {
 
   const elements = query.elements;
 
+  if (query.isError) {
+    return (
+      <div
+        className="w-full py-4 px-12 bg-card/30 border-primary/5 border rounded-md backdrop-blur hover:cursor-pointer hover:backdrop-contrast-75 hover:bg-card/30"
+        onClick={() =>
+          toast({
+            title: "You are clicking an unknown event!",
+            description:
+              "Who knows what will happen to our universe now 😬😬😬😬",
+          })
+        }
+      >
+        <div className="flex flex-col gap-4 justify-start w-full">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row flex-wrap items-start md:items-center justify-start gap-x-4 gap-y-2 h-full">
+              <p className="text-base font-semibold">
+                Error! Cannot load the events.
+              </p>
+
+              <div className="flex flex-row gap-2 items-center">
+                <Badge>???</Badge>
+              </div>
+            </div>
+
+            <p className="text-sm line-clamp-2 opacity-70">
+              Please refresh the page or try again later.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (query.isLoading) {
+    return (
+      <div
+        className="w-full py-4 px-12 bg-card/30 border-primary/5 border rounded-md backdrop-blur hover:cursor-pointer hover:backdrop-contrast-75 hover:bg-card/30"
+        onClick={() =>
+          toast({
+            title: "You are clicking an unknown event!",
+            description:
+              "Who knows what will happen to our universe now 😬😬😬😬",
+          })
+        }
+      >
+        <div className="flex flex-col gap-4 justify-start w-full">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row flex-wrap items-start md:items-center justify-start gap-x-4 gap-y-2 h-full">
+              <p className="text-base font-semibold">
+                Loading every possibilities...
+              </p>
+
+              <div className="flex flex-row gap-2 items-center">
+                <Badge>???</Badge>
+              </div>
+            </div>
+
+            <p className="text-sm line-clamp-2 opacity-70">
+              We are uncertain about the future, but we are sure that it will
+              come.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   switch (elements.length) {
     case 0:
       return (

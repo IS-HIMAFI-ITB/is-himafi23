@@ -10,7 +10,7 @@ export type QueryEvent = Event & { izin: Izin[]; hadir: User[] };
 export function useEventQuery({
   initialData,
 }: {
-  initialData: QueryEvent[][];
+  initialData?: QueryEvent[][];
 }) {
   const session = useSession();
   const [hadir, izin, noPresence] = useQueries({
@@ -24,7 +24,7 @@ export function useEventQuery({
             (res) => res.json()
           ),
         refetchInterval: 1000 * 60 * 5, // 5 minutes
-        initialData: initialData[i] ?? undefined,
+        initialData: initialData ? initialData[i] ?? undefined : undefined,
       };
     }),
   });

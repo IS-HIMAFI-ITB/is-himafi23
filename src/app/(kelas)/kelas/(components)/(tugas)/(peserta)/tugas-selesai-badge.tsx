@@ -2,7 +2,7 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { TugasPesertaContext } from "@/context/tugas-peserta-provider";
@@ -10,8 +10,25 @@ import { Tugas } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 export default function TugasSelesaiBadge() {
-  const initialData = useContext(TugasPesertaContext);
+  // only render on client side (or when mounted) to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const session = useSession();
+
+  const initialAllData = useContext(TugasPesertaContext);
+  const initialDoneData = initialAllData?.filter((tugas) =>
+    tugas.submissions.filter(
+      (submission) => submission.userId === session.data?.user?.id
+    )
+  );
+  const initialAssignedData = initialAllData?.filter((tugas) =>
+    tugas.submissions.filter(
+      (submission) => submission.userId !== session.data?.user?.id
+    )
+  );
 
   const tugasDone = useQuery<Tugas[], Error>({
     queryKey: ["tugas", "done", session.data?.user?.nim],
@@ -19,7 +36,7 @@ export default function TugasSelesaiBadge() {
       fetch(`/api/users/${session.data?.user.nim}/tugas/done`).then((res) =>
         res.json()
       ),
-    initialData: initialData.tugasDone,
+    initialData: initialDoneData,
   });
 
   const tugasAssigned = useQuery<Tugas[], Error>({
@@ -29,8 +46,10 @@ export default function TugasSelesaiBadge() {
         (res) => res.json()
       );
     },
-    initialData: initialData.tugasAssigned,
+    initialData: initialAssignedData,
   });
+
+  if (!mounted) return null;
 
   const tugasCount =
     (tugasAssigned.data?.length ?? 0) + (tugasDone.data?.length ?? 0);
