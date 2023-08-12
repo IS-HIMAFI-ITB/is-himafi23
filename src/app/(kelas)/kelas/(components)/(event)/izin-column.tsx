@@ -55,7 +55,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const user = row.original.user;
 
-      return user.name;
+      return <div className="w-max">{user.name}</div>;
     },
   },
   {
@@ -75,7 +75,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const alasan = row.original.keterangan;
 
-      return <div className="max-w-4xl">{alasan}</div>;
+      return <div className="max-w-7xl">{alasan}</div>;
     },
   },
   {
@@ -122,7 +122,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
               <Link
                 key={file}
                 href={file}
-                className="flex flex-row w-max items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
+                className="flex flex-row w-max max-w-xl items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
