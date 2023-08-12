@@ -46,6 +46,7 @@ import {
 } from "../local-accordion";
 import CreateEventForm from "./create-event-form";
 import EditEventForm from "./edit-event-form";
+import { hadirColumns } from "./hadir-column";
 import { izinColumns } from "./izin-column";
 
 function CreateTitleForm({
@@ -374,6 +375,14 @@ export default function KehadiranSectionPanitia() {
                           fetching={event.isFetching}
                           data={eventItem.izin}
                           columns={izinColumns}
+                        />
+                      </TabsContent>
+                      <TabsContent value="hadir">
+                        <DataTable
+                          lastFetchTime={event.dataUpdatedAt}
+                          fetching={event.isFetching}
+                          data={eventItem.hadir}
+                          columns={hadirColumns}
                         />
                       </TabsContent>
                     </Tabs>
