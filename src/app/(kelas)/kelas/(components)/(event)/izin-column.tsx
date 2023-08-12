@@ -9,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/toast/useToast";
 import { Izin, User } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface IzinDetailProps extends Izin {
@@ -73,7 +75,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const alasan = row.original.keterangan;
 
-      return <div className="w-max">{alasan}</div>;
+      return <div className="max-w-4xl">{alasan}</div>;
     },
   },
   {
@@ -93,7 +95,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const tipe = row.original.tipe;
 
-      return tipe;
+      return tipe.split("_").join(" ");
     },
   },
   {
@@ -151,18 +153,56 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      return (
-        <Select defaultValue={row.original.status}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Status Izin" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="DITERIMA">Diterima</SelectItem>
-            <SelectItem value="DITOLAK">Ditolak</SelectItem>
-            <SelectItem value="MENUNGGU">Menunggu</SelectItem>
-          </SelectContent>
-        </Select>
-      );
+      function ValueChangeHandler() {
+        const izinId = row.original.id;
+        const { toast } = useToast();
+        const izin = useMutation({
+          mutationFn: (data: string) => {
+            return fetch(`/api/izin/${izinId}`, {
+              method: "PATCH",
+              body: JSON.stringify({ status: data }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          },
+          onMutate: () => {
+            toast({
+              title: "Mengubah status izin...",
+            });
+          },
+          onSuccess: () => {
+            toast({
+              title: `Berhasil mengubah status izin ${row.original.user.name}`,
+            });
+          },
+          onError: (err: Error) => {
+            toast({
+              title: "Gagal mengubah status izin",
+              description: err.message,
+              variant: "destructive",
+            });
+          },
+        });
+
+        return (
+          <Select
+            defaultValue={row.original.status}
+            onValueChange={izin.mutate}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Status Izin" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="DITERIMA">Diterima</SelectItem>
+              <SelectItem value="DITOLAK">Ditolak</SelectItem>
+              <SelectItem value="MENUNGGU">Menunggu</SelectItem>
+            </SelectContent>
+          </Select>
+        );
+      }
+
+      return <ValueChangeHandler />;
     },
   },
 ];
