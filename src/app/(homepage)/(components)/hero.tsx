@@ -1,12 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 
 import { Reveal } from "@/components/animation/reveal";
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
+import { H1, P } from "@/components/typography";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast/useToast";
 

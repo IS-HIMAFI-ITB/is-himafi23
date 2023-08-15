@@ -70,7 +70,13 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className="flex flex-row w-max items-center gap-2">
           <Avatar>
-            <AvatarImage src={profile.image ?? undefined} alt={profile.name} />
+            <AvatarImage
+              src={
+                profile.image ??
+                "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+              }
+              alt={profile.name}
+            />
             <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <span>{profile.name}</span>

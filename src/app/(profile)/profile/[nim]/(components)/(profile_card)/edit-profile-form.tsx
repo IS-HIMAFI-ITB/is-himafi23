@@ -63,7 +63,13 @@ export default function EditProfileForm() {
       <div className="flex justify-center gap-6 items-center">
         <div className="rounded-full relative group overflow-hidden">
           <Avatar className="w-20 h-20 text-3xl z-0 group-hover:cursor-pointer">
-            <AvatarImage src={user.image ?? undefined} />
+            <AvatarImage
+              className="bg-cover"
+              src={
+                user.image ??
+                "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+              }
+            />
             <AvatarFallback>{user.name?.[0] ?? "?"}</AvatarFallback>
           </Avatar>
           <div className="bg-gray-200/60 w-full h-full hidden group-hover:flex justify-center absolute z-20 top-12 text-background group-hover:cursor-pointer">

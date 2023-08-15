@@ -33,7 +33,13 @@ export default function UserAvatar() {
 
   return (
     <Avatar className="w-20 h-20 text-3xl">
-      <AvatarImage src={user.image ?? undefined} />
+      <AvatarImage
+        className="bg-cover"
+        src={
+          user.image ??
+          "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+        }
+      />
 
       <AvatarFallback>{user.name?.[0] ?? "?"}</AvatarFallback>
     </Avatar>

@@ -10,18 +10,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Post, Submission, User } from "@prisma/client";
+import { SubmissionDetailQuery } from "@/types/query-type";
 import { ColumnDef } from "@tanstack/react-table";
 
-interface TugasSubmissionDetailProps extends Submission {
-  user: User;
-  tugas: {
-    dueDate: Date;
-  };
-  feedback: Post[];
-}
-
-export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
+export const columns: ColumnDef<SubmissionDetailQuery>[] = [
   {
     id: "actions",
     header: "Actions",
@@ -29,7 +21,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
       return (
         <Button asChild variant={"ghost"} size={"icon"}>
           <Link
-            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user.id}`}
+            href={`/kelas/tugas/${row.original.tugasId}/nilai/${row.original.user?.id}`}
           >
             <PencilIcon size={16} />
           </Link>
@@ -39,7 +31,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
   },
   {
     accessorKey: "nim",
-    accessorFn: (row) => row.user.nim, // row.original.user.nim.split("@")[0]
+    accessorFn: (row) => row.user?.nim, // row.original.user?.nim.split("@")[0]
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -53,13 +45,13 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     cell: ({ row }) => {
       const user = row.original.user;
 
-      return user.nim;
+      return user?.nim;
     },
   },
   {
     id: "nama",
     accessorKey: "nama",
-    accessorFn: (row) => row.user.name,
+    accessorFn: (row) => row.user?.name,
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -73,7 +65,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     cell: ({ row }) => {
       const user = row.original.user;
 
-      return <div className="w-max">{user.name}</div>;
+      return <div className="w-max">{user?.name}</div>;
     },
   },
   {
@@ -152,7 +144,7 @@ export const columns: ColumnDef<TugasSubmissionDetailProps>[] = [
     ),
     cell: ({ row }) => {
       const submittedAt = row.original.submittedAt;
-      const dueDate = row.original.tugas.dueDate;
+      const dueDate = row.original.tugas?.dueDate;
 
       const isTelat = moment(submittedAt).isAfter(dueDate);
       return (

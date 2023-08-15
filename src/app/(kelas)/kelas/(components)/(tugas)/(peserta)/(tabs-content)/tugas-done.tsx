@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import AnimateSection from "@/components/animate-section";
 import { H3 } from "@/components/typography";
@@ -13,8 +13,19 @@ import { useQuery } from "@tanstack/react-query";
 import TugasCard from "../tugas-card";
 
 export default function TugasDone() {
+  // only render on client side (or when mounted) to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const session = useSession();
-  const initialData = useContext(TugasPesertaContext).tugasDone;
+  const initialAllData = useContext(TugasPesertaContext);
+  const initialData = initialAllData?.filter((tugas) =>
+    tugas.submissions.filter(
+      (submission) => submission.userId === session.data?.user?.id
+    )
+  );
   const tugasDone = useQuery<Tugas[], Error>({
     queryKey: ["tugas", "done", session.data?.user?.nim],
     queryFn: () => {
@@ -22,11 +33,17 @@ export default function TugasDone() {
         (res) => res.json()
       );
     },
-    initialData: initialData,
+    initialData,
   });
+
+  if (!mounted) return null;
 
   if (tugasDone.isLoading) {
     return <TugasCard loading />;
+  }
+
+  if (tugasDone.isError) {
+    return <p>Error!</p>;
   }
 
   switch (tugasDone.data?.length) {

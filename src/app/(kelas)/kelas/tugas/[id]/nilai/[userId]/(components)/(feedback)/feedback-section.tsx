@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { notFound, useParams } from "next/navigation";
 import React, { useContext } from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SubmissionDetailsContext } from "@/context/submission-details-provider";
 import { UserContext } from "@/context/user-provider";
@@ -58,6 +58,12 @@ export default function FeedbackSection() {
         >
           <div>
             <Avatar>
+              <AvatarImage
+                className="bg-cover"
+                src={
+                  "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+                }
+              />
               <AvatarFallback>
                 {feedback.author?.name?.split(" ")[0][0]}
               </AvatarFallback>

@@ -30,9 +30,10 @@ export const ourFileRouter = {
 
       console.log("file url", file.url);
     }),
-  fileUploader: f({ blob: { maxFileSize: "4MB", maxFileCount: 1 } })
+  fileUploader: f({ blob: { maxFileSize: "8MB", maxFileCount: 1 } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
+      // return { userNim: "123" };
       // This code runs on your server before upload
       const user = await getServerSession(authOptions);
 

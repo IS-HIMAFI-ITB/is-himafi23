@@ -275,14 +275,14 @@ export default function PerizinanForm({
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Card className="px-5 py-4 w-max flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
+                          <Card className="px-5 py-4 w-max max-w-full flex flex-row gap-4 items-center group/download hover:cursor-pointer hover:border-primary">
                             <LinkIcon
                               className="group-hover/download:text-primary"
                               size={24}
                             />
 
-                            <div className="flex flex-col gap-1">
-                              <p className="font-semibold line-clamp-1">
+                            <div className="flex flex-col gap-1 max-w-full">
+                              <p className="font-semibold line-clamp-1 max-w-full">
                                 {attachment.split("_").slice(1).join("_")}
                               </p>
 

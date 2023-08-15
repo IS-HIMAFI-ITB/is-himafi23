@@ -2,9 +2,9 @@
 
 import { Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
@@ -19,13 +19,29 @@ import { useViewAsStore } from "@/lib/store";
 import { Role } from "@prisma/client";
 
 export default function UserInfo() {
-  const session = useSession();
+  // only render on client side (or when mounted) to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  const session = useSession();
   const { viewAs, setViewAs } = useViewAsStore();
+
+  if (!mounted) return null;
+
   return (
     <>
       <Card className="p-4 flex flex-row gap-4 justify-center items-center">
         <Avatar className="md:w-12 md:h-12">
+          <AvatarImage
+            className="bg-cover"
+            src={
+              session?.data?.user.image ??
+              "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
+            }
+            alt="avatar"
+          />
           <AvatarFallback>
             {session?.data?.user.name?.split(" ")[0][0] ?? (
               <Loader2Icon className="animate-spin" size={16} />

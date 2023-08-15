@@ -9,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/toast/useToast";
 import { Izin, User } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface IzinDetailProps extends Izin {
@@ -17,6 +19,73 @@ interface IzinDetailProps extends Izin {
 }
 
 export const izinColumns: ColumnDef<IzinDetailProps>[] = [
+  {
+    id: "status",
+    accessorKey: "status",
+    accessorFn: (row) => row.status,
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Status
+        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      function ValueChangeHandler() {
+        const izinId = row.original.id;
+        const { toast } = useToast();
+        const izin = useMutation({
+          mutationFn: (data: string) => {
+            return fetch(`/api/izin/${izinId}`, {
+              method: "PATCH",
+              body: JSON.stringify({ status: data }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          },
+          onMutate: () => {
+            toast({
+              title: "Mengubah status izin...",
+            });
+          },
+          onSuccess: () => {
+            toast({
+              title: `Berhasil mengubah status izin ${row.original.user.name}`,
+            });
+          },
+          onError: (err: Error) => {
+            toast({
+              title: "Gagal mengubah status izin",
+              description: err.message,
+              variant: "destructive",
+            });
+          },
+        });
+
+        return (
+          <Select
+            defaultValue={row.original.status}
+            onValueChange={izin.mutate}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Status Izin" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="DITERIMA">Diterima</SelectItem>
+              <SelectItem value="DITOLAK">Ditolak</SelectItem>
+              <SelectItem value="MENUNGGU">Menunggu</SelectItem>
+            </SelectContent>
+          </Select>
+        );
+      }
+
+      return <ValueChangeHandler />;
+    },
+  },
   {
     accessorKey: "nim",
     accessorFn: (row) => row.user.nim, // row.original.user.nim.split("@")[0]
@@ -53,7 +122,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const user = row.original.user;
 
-      return user.name;
+      return <div className="w-max">{user.name}</div>;
     },
   },
   {
@@ -73,7 +142,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const alasan = row.original.keterangan;
 
-      return <div className="w-max">{alasan}</div>;
+      return <div className="max-w-7xl min-w-[25rem]">{alasan}</div>;
     },
   },
   {
@@ -93,7 +162,7 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
     cell: ({ row }) => {
       const tipe = row.original.tipe;
 
-      return tipe;
+      return tipe.split("_").join(" ");
     },
   },
   {
@@ -115,12 +184,12 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
       if (!files) return <div className="w-max">-</div>;
       return (
         <div className="flex flex-col gap-2 justify-start">
-          {files.split("|").map((file) => {
+          {files.split("|").map((file, i) => {
             return (
               <Link
                 key={file}
                 href={file}
-                className="flex flex-row w-max items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
+                className="flex flex-row w-max max-w-xl items-center gap-2 overflow-hidden group hover:underline underline-offset-2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -128,40 +197,11 @@ export const izinColumns: ColumnDef<IzinDetailProps>[] = [
                   size={16}
                   className="mr-2 shrink-0 group-hover:text-primary"
                 />{" "}
-                {files?.split("_").slice(1).join("_")}
+                Download file bukti {i + 1}
               </Link>
             );
           })}
         </div>
-      );
-    },
-  },
-  {
-    id: "status",
-    accessorKey: "status",
-    accessorFn: (row) => row.status,
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        className="p-0 group hover:text-underline hover:bg-transparent hover:text-foreground"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Status
-        <ArrowUpDown className="ml-2 h-4 w-4 group-hover:text-primary" />
-      </Button>
-    ),
-    cell: ({ row }) => {
-      return (
-        <Select defaultValue={row.original.status}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Status Izin" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="DITERIMA">Diterima</SelectItem>
-            <SelectItem value="DITOLAK">Ditolak</SelectItem>
-            <SelectItem value="MENUNGGU">Menunggu</SelectItem>
-          </SelectContent>
-        </Select>
       );
     },
   },
