@@ -4,7 +4,7 @@ import "./styles.css";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { wrap } from "popmotion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -54,6 +54,14 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
+
+  useEffect(() => {
+    const autoPaginate = paginate;
+    const timer = setTimeout(() => {
+      autoPaginate(1);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [page]);
 
   return (
     <div className={cn(className)}>

@@ -14,6 +14,8 @@ import { useToast } from "@/components/ui/toast/useToast";
 import { misi } from "./misi";
 import Timeline from "./timeline";
 import { VisiMisi } from "./visi-misi";
+import { H1, P } from "@/components/typography";
+import { Dokumentasi } from "./image-slider";
 
 const MotionButton = motion(Button);
 
@@ -114,8 +116,25 @@ export default function HeroSection() {
         </motion.div>
       </Container>
 
+      <Container
+        id="dokumentasi"
+        className="min-h-screen py-36 h-full flex justify-center"
+      >
+        <motion.div className="w-full flex flex-col items-center">
+          <Reveal variant="slide">
+            <p className="before:content-['\_\_\_\_\_\_\_\_\_\_\_\_\_'] before:md:inline before:text-accent before:absolute before:-translate-y-2 text-[2.6rem] leading-[1] xs:text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight before:z-0 before:-rotate-2">
+              <span className="rotate-10 translate-x-6 text-foreground relative">
+                Dokumentasi
+              </span>
+            </p>
+          </Reveal>
+
+          <Dokumentasi className="lg:w-[1000px] h-[200px] relative flex justify-center items-center" />
+        </motion.div>
+      </Container>
+
       {/*Timeline Posts */}
-      {/* <Container
+      <Container
         id="hero"
         className="min-h-[calc(100vh-72.6px-4rem)] h-full flex justify-center"
       >
@@ -129,7 +148,7 @@ export default function HeroSection() {
         >
           <Timeline />
         </motion.div>
-      </Container> */}
+      </Container>
     </>
   );
 }
