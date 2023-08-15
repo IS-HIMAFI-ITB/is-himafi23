@@ -1,6 +1,6 @@
 .next,
 .prev {
-  top: calc(50% - 20px);
+  top: calc(50% - 0px);
   position: absolute;
   border-radius: 30px;
   width: 40px;
@@ -22,4 +22,8 @@
 .prev {
   left: 120px;
   transform: scale(-1);
+}
+
+.image {
+  top: calc(50% + 60px);
 }
