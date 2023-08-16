@@ -1,3 +1,5 @@
+"use client";
+
 import "./styles.css";
 
 import { AnimatePresence, motion } from "framer-motion";
