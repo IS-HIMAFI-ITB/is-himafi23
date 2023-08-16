@@ -100,9 +100,9 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
       <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
         <CardHeader>
           {/* <ThemeSwitch /> */}
-          <div className="flex justify-center items-center">
+          <Link href={"/"} className="flex justify-center items-center">
             <Logo className="mb-12" width={100} height={100} />
-          </div>
+          </Link>
           <Skeleton className="w-[80px] h-[30px]" />
           <Skeleton className="w-[150px] h-[20px]" />
         </CardHeader>
@@ -143,9 +143,9 @@ const LoginCard: React.FC<LoginCardProps> = ({ className }) => {
     <Card className={twMerge("flex-col p-6 overflow-y-auto", className)}>
       <CardHeader>
         {/* <ThemeSwitch /> */}
-        <div className="flex justify-center items-center">
+        <Link href={"/"} className="flex justify-center items-center">
           <Logo className="mb-12" width={100} height={100} />
-        </div>
+        </Link>
         <CardTitle>Log In</CardTitle>
         <CardDescription>Enter your login details</CardDescription>
       </CardHeader>
