@@ -10,12 +10,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/prisma";
 
-import FormIdentitas from "./(components)/(form)/form-identitas";
-import EkspektasiDay from "./(components)/(section)/ekspektasi-day";
-import KesiapanDay from "./(components)/(section)/kesiapan-day";
-import KondisiTubuh from "./(components)/(section)/kondisi-tubuh";
-import FormProvider from "./(components)/form-provider";
-import UserInfo from "./(components)/user-info";
+import FormProvider from "./_components/form-provider";
+import FormIdentitas from "./_components/form/form-identitas";
+import EkspektasiDay from "./_components/section/ekspektasi-day";
+import KesiapanDay from "./_components/section/kesiapan-day";
+import KondisiTubuh from "./_components/section/kondisi-tubuh";
+import UserInfo from "./_components/user-info";
 
 export async function generateStaticParams() {
   const events = await prisma.event.findMany();

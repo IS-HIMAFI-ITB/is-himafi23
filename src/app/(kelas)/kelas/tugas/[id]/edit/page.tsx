@@ -5,7 +5,7 @@ import Unauthenticated from "@/components/template/unauthenticated";
 import { prisma } from "@/prisma";
 import { Role } from "@prisma/client";
 
-import EditTugas from "./(components)/edit-tugas";
+import EditTugas from "./_components/edit-tugas";
 
 export async function generateStaticParams() {
   const tugas = await prisma.tugas.findMany();
