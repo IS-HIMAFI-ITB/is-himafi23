@@ -1,26 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import React from "react";
 
 import { Reveal } from "@/components/animation/reveal";
 import Container from "@/components/layout/container";
 import Logo from "@/components/logo";
 import { H1, P } from "@/components/typography";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast/useToast";
 
+import { Dokumentasi } from "./image-slider";
 import { misi } from "./misi";
 import Timeline from "./timeline";
 import { VisiMisi } from "./visi-misi";
-import { H1, P } from "@/components/typography";
-import { Dokumentasi } from "./image-slider";
-
-const MotionButton = motion(Button);
 
 export default function HeroSection() {
-  const { toast } = useToast();
   console.log("hayo ngapain kamu inspect element");
   return (
     <>
