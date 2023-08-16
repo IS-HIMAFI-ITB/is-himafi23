@@ -4,7 +4,7 @@ import { MenuIcon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import logo from "@/../public/logo-bulet.svg";
 import {
@@ -35,7 +35,6 @@ import {
 
 import ThemeSwitch from "../theme-switch";
 import { ButtonProps, buttonVariants } from "../ui/button";
-import { useToast } from "../ui/toast/useToast";
 import UserAction from "../user-action";
 
 interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -92,14 +91,14 @@ const NavbarBrand = ({
   ...props
 }: NavbarBrandProps) => {
   return (
-    <span className="flex flex-row gap-4 md:w-1/4 items-center">
+    <Link href={"/"} className="flex flex-row gap-4 md:w-1/4 items-center">
       <Image
         {...props}
         alt={alt}
         className={cn("hover:cursor-pointer", className)}
       />
       {children}
-    </span>
+    </Link>
   );
 };
 
@@ -208,7 +207,14 @@ export default function Navbar({
 }: NavbarProps) {
   const { width } = useWindowDimensions();
   const isMobile = width! <= 900 ?? undefined;
-  const { toast } = useToast();
+
+  // only render on client side (or when mounted) to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <NavbarContainer className="h-[76px]" />;
 
   switch (isMobile) {
     case true:
