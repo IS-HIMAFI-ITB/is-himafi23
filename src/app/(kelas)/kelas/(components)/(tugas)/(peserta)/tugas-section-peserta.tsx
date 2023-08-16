@@ -1,7 +1,7 @@
 import React from "react";
 
-import AnimatePresence from "@/components/animate-presence";
-import AnimateSection from "@/components/animate-section";
+import AnimatePresence from "@/components/animation/animate-presence";
+import { MotionSection } from "@/components/animation/motion-element";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { H2 } from "@/components/typography";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
@@ -24,7 +24,7 @@ export default async function TugasSectionPeserta() {
   return (
     <TugasPesertaProvider tugas={tugas}>
       <AnimatePresence>
-        <AnimateSection
+        <MotionSection
           className="flex flex-col gap-4"
           initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ export default async function TugasSectionPeserta() {
               <TugasDone />
             </TabsContent>
           </Tabs>
-        </AnimateSection>
+        </MotionSection>
       </AnimatePresence>
     </TugasPesertaProvider>
   );

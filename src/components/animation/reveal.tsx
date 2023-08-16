@@ -1,8 +1,12 @@
+"use client";
+
+import { useAnimation, useInView } from "framer-motion";
 import React, { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
-4;
+
+import { MotionDiv } from "@/components/animation/motion-element";
 import { cn } from "@/lib/utils";
 
+4;
 interface Props {
   children: React.ReactNode;
   className?: string;
@@ -24,7 +28,7 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
       useMainControls.start("visible");
       useSlideControls.start("visible");
     }
-  }, [isInView]);
+  }, [isInView, mainControls, slideControls]);
 
   let showSlider, delayControls;
 
@@ -42,7 +46,7 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
       ref={ref}
       className={cn("relative overflow-hidden", `w-${width}`, className)}
     >
-      <motion.div
+      <MotionDiv
         variants={{
           hidden: { opacity: 0, y: 150 },
           visible: { opacity: 1, y: 0 },
@@ -56,9 +60,9 @@ export const Reveal = ({ children, className, width, variant }: Props) => {
         }}
       >
         {children}
-      </motion.div>
+      </MotionDiv>
       {showSlider ? (
-        <motion.div
+        <MotionDiv
           variants={{
             hidden: { left: 0 },
             visible: { left: "100%" },

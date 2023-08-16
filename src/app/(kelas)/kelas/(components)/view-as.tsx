@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import AnimateSection from "@/components/animate-section";
+import { MotionSection } from "@/components/animation/motion-element";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useViewAsStore } from "@/lib/store";
 import { Role } from "@prisma/client";
@@ -26,7 +26,7 @@ export default function ViewAs({
     case Role.PESERTA:
       return (
         <>
-          <AnimateSection
+          <MotionSection
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
@@ -37,9 +37,9 @@ export default function ViewAs({
             className="grid grid-cols-1 gap-6 max-h-full my-12"
           >
             {papanInformasi}
-          </AnimateSection>
+          </MotionSection>
 
-          <AnimateSection
+          <MotionSection
             initial={{ opacity: 0, y: 200 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ margin: "130px" }}
@@ -51,7 +51,7 @@ export default function ViewAs({
             className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-full my-12"
           >
             {kehadiranPeserta}
-          </AnimateSection>
+          </MotionSection>
 
           {tugasPeserta}
         </>

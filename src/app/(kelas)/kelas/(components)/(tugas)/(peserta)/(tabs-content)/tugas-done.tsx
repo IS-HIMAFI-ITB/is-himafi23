@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import React, { useContext, useEffect, useState } from "react";
 
-import AnimateSection from "@/components/animate-section";
+import { MotionSection } from "@/components/animation/motion-element";
 import { H3 } from "@/components/typography";
 import { Card } from "@/components/ui/card";
 import { TugasPesertaContext } from "@/context/tugas-peserta-provider";
@@ -49,7 +49,7 @@ export default function TugasDone() {
   switch (tugasDone.data?.length) {
     case 0:
       return (
-        <AnimateSection
+        <MotionSection
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -61,12 +61,12 @@ export default function TugasDone() {
           <Card className="flex flex-col h-[150px] justify-center items-center px-10 py-6">
             <H3>Yay! Tugas kamu selesai semua 🎉</H3>
           </Card>
-        </AnimateSection>
+        </MotionSection>
       );
 
     default:
       return tugasDone.data.map((tugas, index) => (
-        <AnimateSection
+        <MotionSection
           key={tugas.id}
           initial={{ opacity: 0, y: 200 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ export default function TugasDone() {
           }}
         >
           <TugasCard tugas={tugas} />
-        </AnimateSection>
+        </MotionSection>
       ));
   }
 }

@@ -1,9 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 
-import Logo from "@/components/logo";
 import { H3 } from "@/components/typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

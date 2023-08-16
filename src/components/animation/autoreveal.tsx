@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
-4;
+import React from "react";
+
+import { MotionDiv } from "@/components/animation/motion-element";
 import { cn } from "@/lib/utils";
 
+4;
 interface Props {
   children: React.ReactNode;
   className?: string;
@@ -24,7 +25,7 @@ export const AutoReveal = ({ children, className, width, variant }: Props) => {
 
   return (
     <div className={cn("relative overflow-hidden ", width, className)}>
-      <motion.div
+      <MotionDiv
         variants={{
           hidden: { opacity: 0, y: 150 },
           visible: { opacity: 1, y: 0 },
@@ -38,9 +39,9 @@ export const AutoReveal = ({ children, className, width, variant }: Props) => {
         }}
       >
         {children}
-      </motion.div>
+      </MotionDiv>
       {showSlider ? (
-        <motion.div
+        <MotionDiv
           variants={{
             hidden: { left: 0 },
             visible: { left: "100%" },

@@ -3,11 +3,13 @@
 import "./styles.css";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { wrap } from "popmotion";
 import { useEffect, useState } from "react";
-import { images } from "./imagemockup";
+
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+
+import { images } from "./imagemockup";
 
 interface DokumentasiProps {
   className?: string;
@@ -62,6 +64,7 @@ export const Dokumentasi: React.FC<DokumentasiProps> = ({ className }) => {
       autoPaginate(1);
     }, 8000);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

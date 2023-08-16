@@ -1,6 +1,6 @@
 import React from "react";
 
-import AnimateSection from "@/components/animate-section";
+import { MotionSection } from "@/components/animation/motion-element";
 import { H2 } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
 import PanitiaSubmissionDetailsProvider from "@/context/panitia-submission-details-provider";
@@ -48,7 +48,7 @@ export default async function TugasSectionPanitia() {
   return (
     <TugasPanitiaProvider tugas={tugas}>
       <PanitiaSubmissionDetailsProvider submission={tugasSubmissionDetail}>
-        <AnimateSection
+        <MotionSection
           className="my-12"
           initial={{ opacity: 0, y: 200 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export default async function TugasSectionPanitia() {
           <TugasDetail />
 
           <TugasSubmissionDetail />
-        </AnimateSection>
+        </MotionSection>
       </PanitiaSubmissionDetailsProvider>
     </TugasPanitiaProvider>
   );

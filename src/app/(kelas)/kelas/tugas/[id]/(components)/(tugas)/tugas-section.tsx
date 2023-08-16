@@ -1,6 +1,6 @@
 import React from "react";
 
-import AnimateSection from "@/components/animate-section";
+import { MotionSection } from "@/components/animation/motion-element";
 import Unauthenticated from "@/components/template/unauthenticated";
 import { Separator } from "@/components/ui/separator";
 import SubmissionDetailsProvider from "@/context/submission-details-provider";
@@ -17,7 +17,7 @@ export default async function TugasSection({
   params: { id: string };
 }) {
   return (
-    <AnimateSection
+    <MotionSection
       className="prose lg:prose-lg dark:prose-invert max-w-none w-full"
       initial={{ opacity: 0, y: 200 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -50,6 +50,6 @@ export default async function TugasSection({
       <div className="mt-4 w-full">
         <CommentForm />
       </div>
-    </AnimateSection>
+    </MotionSection>
   );
 }

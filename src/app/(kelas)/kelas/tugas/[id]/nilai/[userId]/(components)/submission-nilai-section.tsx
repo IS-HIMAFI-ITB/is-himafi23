@@ -14,7 +14,7 @@ import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 import React, { useContext } from "react";
 
-import AnimateSection from "@/components/animate-section";
+import { MotionSection } from "@/components/animation/motion-element";
 import { H3, H4 } from "@/components/typography";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -60,7 +60,7 @@ export default function SubmissionSection() {
   });
 
   return (
-    <AnimateSection
+    <MotionSection
       className="sticky top-28 h-max flex flex-col gap-4"
       // diganti karena ada overflow sebelumnya
       initial={{ opacity: 0 }}
@@ -200,6 +200,6 @@ export default function SubmissionSection() {
       )}
 
       {tugasSubmission ? <InputNilai /> : <p>Peserta tidak dapat dinilai</p>}
-    </AnimateSection>
+    </MotionSection>
   );
 }

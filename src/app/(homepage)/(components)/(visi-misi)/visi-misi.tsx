@@ -1,5 +1,3 @@
-"use client";
-
 import "./styles.css";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -61,6 +59,7 @@ export const VisiMisi: React.FC<VisiMisiProps> = ({ className }) => {
       autoPaginate(1);
     }, 8000);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

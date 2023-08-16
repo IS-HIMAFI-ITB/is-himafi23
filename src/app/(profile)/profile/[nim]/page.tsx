@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
-import AnimateSection from "@/components/animate-section";
 import Container from "@/components/layout/container";
+import { MotionSection } from "@/components/motion-element";
 import Unauthenticated from "@/components/template/unauthenticated";
 import UserProvider from "@/context/user-provider";
 import { prisma } from "@/prisma";
@@ -36,7 +36,7 @@ export default async function ProfilePage({
   return (
     <Container className="min-h-[calc(100vh-72.6px-4rem)] h-full flex flex-col gap-3 justify-center w-max">
       <UserProvider user={user}>
-        <AnimateSection
+        <MotionSection
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -48,9 +48,9 @@ export default async function ProfilePage({
         >
           <ProfileCard user={user} />
           <SocialMedia />
-        </AnimateSection>
+        </MotionSection>
 
-        <AnimateSection
+        <MotionSection
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -60,9 +60,9 @@ export default async function ProfilePage({
           }}
         >
           <AdditionalDetails />
-        </AnimateSection>
+        </MotionSection>
 
-        <AnimateSection
+        <MotionSection
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -72,7 +72,7 @@ export default async function ProfilePage({
           }}
         >
           <UserPosts />
-        </AnimateSection>
+        </MotionSection>
       </UserProvider>
     </Container>
   );
