@@ -1,11 +1,8 @@
-import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 
-import { authOptions } from "@/app/api/auth/auth-options";
 import { Reveal } from "@/components/animation/reveal";
 import Container from "@/components/layout/container";
 import Loading from "@/components/template/loading";
-import Unauthenticated from "@/components/template/unauthenticated";
 import { H1 } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,11 +11,7 @@ import FirstLeaderboard from "./_components/first-leaderboard";
 import SecondLeaderboard from "./_components/second-leaderboard";
 import ThirdLeaderboard from "./_components/third-leaderboard";
 
-export default async function LeaderboardPage() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) return <Unauthenticated />;
-
+export default function LeaderboardPage() {
   return (
     <Suspense
       fallback={
