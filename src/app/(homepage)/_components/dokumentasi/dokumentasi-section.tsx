@@ -9,7 +9,7 @@ import { Dokumentasi } from "./dokumentasi";
 export default function DokumentasiSection() {
   return (
     <Container
-      id="dokumentasi"
+      id="galeri"
       className="min-h-screen py-36 h-full flex justify-center"
     >
       <MotionDiv className="w-full flex flex-col items-center">
