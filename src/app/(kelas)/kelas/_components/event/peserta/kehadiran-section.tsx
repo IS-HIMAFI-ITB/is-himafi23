@@ -6,8 +6,8 @@ import { H2 } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
 import AcaraProvider from "@/context/acara-provider";
 
-import DayList from "./(day-list)/day-list";
-import DayDetails from "./(day_details)/day-details";
+import DayList from "./day-list/day-list";
+import DayDetails from "./day_details/day-details";
 import PersentaseKehadiran from "./persentase-kehadiran";
 
 export default async function KehadiranSection() {

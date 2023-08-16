@@ -5,8 +5,8 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 
-import SubmissionSection from "./(components)/submission-nilai-section";
-import TugasSection from "./(components)/tugas-nilai-section";
+import SubmissionSection from "./_components/submission-nilai-section";
+import TugasSection from "./_components/tugas-nilai-section";
 
 export default async function TugasPage() {
   return (

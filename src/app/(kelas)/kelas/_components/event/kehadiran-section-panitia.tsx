@@ -4,7 +4,6 @@ import "./editor-style.css";
 
 import { ChevronDown, PlusIcon, X } from "lucide-react";
 import moment from "moment";
-import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";

@@ -37,8 +37,8 @@ import { SubmissionQuery } from "@/types/query-type";
 import { Tugas } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { CommentForm } from "./(feedback)/comment-section";
-import FeedbackSection from "./(feedback)/feedback-section";
+import { CommentForm } from "./feedback/comment-section";
+import FeedbackSection from "./feedback/feedback-section";
 import SubmitTugasCard from "./submit-tugas-card";
 
 export default function SubmissionSection() {

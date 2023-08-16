@@ -1,7 +1,7 @@
-import DokumentasiSection from "./(components)/(dokumentasi)/dokumentasi-section";
-import HeroSection from "./(components)/(hero)/hero";
-import TimelineSection from "./(components)/(timeline)/timeline-section";
-import VisiMisiSection from "./(components)/(visi-misi)/visi-misi-section";
+import DokumentasiSection from "./_components/dokumentasi/dokumentasi-section";
+import HeroSection from "./_components/hero/hero";
+import TimelineSection from "./_components/timeline/timeline-section";
+import VisiMisiSection from "./_components/visi-misi/visi-misi-section";
 
 export default async function Home() {
   return (

@@ -1,17 +1,18 @@
 "use client";
 
-import Container from "@/components/layout/container";
-import { H1 } from "@/components/typography";
 import { useSession } from "next-auth/react";
+
+import { Reveal } from "@/components/animation/reveal";
+import Container from "@/components/layout/container";
 import Loading from "@/components/template/loading";
 import Unauthenticated from "@/components/template/unauthenticated";
+import { H1 } from "@/components/typography";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import FirstLeaderboard from "./(components)/first-leaderboard";
-import SecondLeaderboard from "./(components)/second-leaderboard";
-import ThirdLeaderboard from "./(components)/third-leaderboard";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Reveal } from "@/components/animation/reveal";
+
+import FirstLeaderboard from "./_components/first-leaderboard";
+import SecondLeaderboard from "./_components/second-leaderboard";
+import ThirdLeaderboard from "./_components/third-leaderboard";
 
 export default function LeaderboardPage() {
   const { status } = useSession();

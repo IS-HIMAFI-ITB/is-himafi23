@@ -2,7 +2,6 @@
 
 import "./editor-style.css";
 
-import { format } from "date-fns";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,

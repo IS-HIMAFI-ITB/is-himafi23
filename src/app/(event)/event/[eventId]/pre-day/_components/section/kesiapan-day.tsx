@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/card";
 import { prisma } from "@/prisma";
 
-import FormEkspektasiDay from "../(form)/form-ekspektasi-day";
+import FormKesiapanMengikutiDay from "../form/form-kesiapan-mengikuti-day";
 
-export default async function EkspektasiDay({
+export default async function KesiapanDay({
   params,
 }: {
   params: { eventId: string };
@@ -29,19 +29,21 @@ export default async function EkspektasiDay({
       <Card className="bg-background/80 backdrop-blur-sm overflow-hidden">
         <CardHeader className="bg-primary text-black p-2 px-6 mb-4">
           <CardTitle className="text-lg">
-            {`EKSPEKTASI TERHADAP ${event?.title.toUpperCase()}`}
+            {`CEK KESIAPAN MENGIKUTI ${event?.title.toUpperCase()}`}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription>
-            Halo haloo. Terakhiran nih, jawab pertanyaan-pertanyaan di bawah ini
-            dengan ekspektasi kalian terhadap {event?.title} yang akan
-            dilaksanakan yaaa..
+            Halo, semua! <br />
+            Apakah kalian sudah siap untuk mengikuti rangkaian acara{" "}
+            {event?.title}? <br />
+            Langsung jawab pertanyaan-pertanyaan berikut dengan sejujur-jujurnya
+            ya...
           </CardDescription>
         </CardContent>
       </Card>
 
-      <FormEkspektasiDay title={event?.title} />
+      <FormKesiapanMengikutiDay title={event?.title} />
     </>
   );
 }

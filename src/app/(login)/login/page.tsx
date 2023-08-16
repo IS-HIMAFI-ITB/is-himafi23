@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import hero from "@/../public/images/error-background.png";
 
-import LoginCard from "./(components)/login-card";
+import LoginCard from "./_components/login-card";
 
 export default function Home() {
   return (

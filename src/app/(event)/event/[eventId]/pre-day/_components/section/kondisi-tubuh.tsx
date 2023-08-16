@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { prisma } from "@/prisma";
 
-import FormKondisiTubuh from "../(form)/form-kondisi-tubuh";
+import FormKondisiTubuh from "../form/form-kondisi-tubuh";
 
 export default async function KondisiTubuh({
   params,

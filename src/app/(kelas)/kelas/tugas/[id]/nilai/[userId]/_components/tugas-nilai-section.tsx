@@ -3,9 +3,9 @@ import React from "react";
 import { MotionSection } from "@/components/animation/motion-element";
 import { Separator } from "@/components/ui/separator";
 
-import { FeedbackForm } from "./(feedback)/feedback-form";
-import FeedbackSection from "./(feedback)/feedback-section";
-import TugasNavigation from "./(navigation)/tugas-navigation";
+import { FeedbackForm } from "./feedback/feedback-form";
+import FeedbackSection from "./feedback/feedback-section";
+import TugasNavigation from "./navigation/tugas-navigation";
 import TugasAttachments from "./tugas-attachments";
 import TugasDetails from "./tugas-details";
 

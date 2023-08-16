@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 
+import { MotionSection } from "@/components/animation/motion-element";
 import Container from "@/components/layout/container";
-import { MotionSection } from "@/components/motion-element";
 import Unauthenticated from "@/components/template/unauthenticated";
 import UserProvider from "@/context/user-provider";
 import { prisma } from "@/prisma";
 
-import AdditionalDetails from "./(components)/(additional_details)/additional-details";
-import UserPosts from "./(components)/(posts)/user-posts";
-import ProfileCard from "./(components)/(profile_card)/profile-card";
-import SocialMedia from "./(components)/(social_media)/social-media";
+import AdditionalDetails from "./_components/additional_details/additional-details";
+import UserPosts from "./_components/posts/user-posts";
+import ProfileCard from "./_components/profile_card/profile-card";
+import SocialMedia from "./_components/social_media/social-media";
 
 export async function generateStaticParams() {
   const users = await prisma.user.findMany();

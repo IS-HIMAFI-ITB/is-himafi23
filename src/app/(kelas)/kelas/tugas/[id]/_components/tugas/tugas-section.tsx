@@ -5,9 +5,9 @@ import Unauthenticated from "@/components/template/unauthenticated";
 import { Separator } from "@/components/ui/separator";
 import SubmissionDetailsProvider from "@/context/submission-details-provider";
 
-import { CommentForm } from "./(comments)/comment-section";
-import TugasComment from "./(comments)/tugas-comment";
-import TugasNavigation from "./(navigation)/tugas-navigation";
+import { CommentForm } from "./comments/comment-section";
+import TugasComment from "./comments/tugas-comment";
+import TugasNavigation from "./navigation/tugas-navigation";
 import TugasAttachments from "./tugas-attachments";
 import TugasDetails from "./tugas-details";
 
