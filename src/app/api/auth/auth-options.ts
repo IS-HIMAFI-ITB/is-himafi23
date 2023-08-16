@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 // import { PrismaAdapter } from "@auth/prisma-adapter";
 // import { Adapter } from "next-auth/adapters";
 import { prisma } from "@/prisma";
-import { Role } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
   //adapter: PrismaAdapter(prisma) as Adapter<boolean>,
@@ -74,7 +74,7 @@ export const authOptions: AuthOptions = {
     async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
-        token.user = user;
+        token.user = user as User;
       }
       return token;
     },
