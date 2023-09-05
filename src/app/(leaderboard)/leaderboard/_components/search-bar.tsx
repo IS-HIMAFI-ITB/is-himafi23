@@ -18,11 +18,9 @@ import { useRouter } from "next/navigation";
 
 interface LeaderboardSearchProps {
   boardData: {
-    userId: string;
     name: string;
     nim: string;
-    image?: string | null;
-    score: number;
+    score: string;
   }[];
 }
 

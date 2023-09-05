@@ -8,8 +8,8 @@ export default async function Home() {
     <>
       <HeroSection />
       <VisiMisiSection />
-      <DokumentasiSection />
-      <TimelineSection />
+      {/* <DokumentasiSection /> */}
+      {/* <TimelineSection /> */}
     </>
   );
 }

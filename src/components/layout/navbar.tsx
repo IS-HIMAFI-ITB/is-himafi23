@@ -245,15 +245,15 @@ export default function Navbar({
                   <NavbarLink isMobile href="/kelas">
                     Kelas
                   </NavbarLink>
-                  <NavbarLink isMobile href="/#visi-misi">
+                  {/* <NavbarLink isMobile href="/#visi-misi">
                     Visi dan Misi
-                  </NavbarLink>
-                  <NavbarLink isMobile href="/#galeri">
+                  </NavbarLink> */}
+                  {/* <NavbarLink isMobile href="/#galeri">
                     Galeri
-                  </NavbarLink>
-                  <NavbarLink isMobile href="/#social">
+                  </NavbarLink> */}
+                  {/* <NavbarLink isMobile href="/#social">
                     Social
-                  </NavbarLink>
+                  </NavbarLink> */}
                   <NavbarLink isMobile href="/leaderboard">
                     Leaderboard
                   </NavbarLink>
@@ -288,8 +288,8 @@ export default function Navbar({
               <NavbarLink href="/">Home</NavbarLink>
               <NavbarLink href="/kelas">Kelas</NavbarLink>
               {/* <NavbarLink href="/#visi-misi">Visi dan Misi</NavbarLink> */}
-              <NavbarLink href="/#galeri">Galeri</NavbarLink>
-              <NavbarLink href="/#social">Social</NavbarLink>
+              {/* <NavbarLink href="/#galeri">Galeri</NavbarLink>
+              <NavbarLink href="/#social">Social</NavbarLink> */}
               <NavbarLink href="/leaderboard">Leaderboard</NavbarLink>
             </NavbarItems>
             <NavbarSideMenu>

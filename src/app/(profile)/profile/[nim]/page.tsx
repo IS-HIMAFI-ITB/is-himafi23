@@ -34,7 +34,7 @@ export default async function ProfilePage({
   if (!user) return notFound();
 
   return (
-    <Container className="min-h-[calc(100vh-72.6px-4rem)] h-full flex flex-col gap-3 justify-center w-max">
+    <Container className="min-h-screen h-full flex flex-col gap-3 justify-center w-full pb-12">
       <UserProvider user={user}>
         <MotionSection
           initial={{ opacity: 0, y: 100 }}
@@ -44,7 +44,7 @@ export default async function ProfilePage({
             ease: [0, 0.71, 0.2, 1.01],
             delay: 0,
           }}
-          className="flex flex-col lg:flex-row gap-4 justify-between mt-40"
+          className="flex flex-col w-full lg:flex-row gap-4 justify-between mt-40"
         >
           <ProfileCard user={user} />
           <SocialMedia />
@@ -62,7 +62,7 @@ export default async function ProfilePage({
           <AdditionalDetails />
         </MotionSection>
 
-        <MotionSection
+        {/* <MotionSection
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -72,7 +72,7 @@ export default async function ProfilePage({
           }}
         >
           <UserPosts />
-        </MotionSection>
+        </MotionSection> */}
       </UserProvider>
     </Container>
   );

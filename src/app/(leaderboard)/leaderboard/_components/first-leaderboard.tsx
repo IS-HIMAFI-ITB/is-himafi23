@@ -18,10 +18,20 @@ import { cn } from "@/lib/utils";
 import mockup from "./mockup.json";
 import LeaderboardSearch from "./search-bar";
 
-export default function FirstLeaderboard() {
+export default function FirstLeaderboard({
+  leaderboardData,
+}: {
+  leaderboardData: {
+    nim: string;
+    name: string;
+    score: string;
+  }[];
+}) {
   const { data } = useSession();
-  const profileboard = mockup.firstPhase; // ini ntar diganti pake data dari database
-  const sortedProfileboard = profileboard.sort((a, b) => b.score - a.score);
+  const profileboard = leaderboardData; // ini ntar diganti pake data dari database
+  const sortedProfileboard = profileboard.sort(
+    (a, b) => parseFloat(b.score) - parseFloat(a.score)
+  );
   const userRank =
     sortedProfileboard.findIndex((profile) => profile.nim === data?.user.nim) +
     1;
@@ -65,7 +75,7 @@ export default function FirstLeaderboard() {
       {sortedProfileboard.map((profile, index) => (
         <motion.div
           id={`${index + 2}`}
-          key={profile.userId}
+          key={profile.nim}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
@@ -91,7 +101,6 @@ export default function FirstLeaderboard() {
                         <Avatar className="w-8 h-8 hidden lg:flex">
                           <AvatarImage
                             src={
-                              profile?.image ??
                               "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
                             }
                           />
@@ -113,7 +122,7 @@ export default function FirstLeaderboard() {
                           {profile.name}
                         </p>
 
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                           <p className="text-foreground/40 text-xs md:text-base">{`@${profile.nim}`}</p>
                           <div className="md:hidden flex gap-3 items-center justify-end">
                             <p className="text-xs">Total Nilai:</p>
@@ -155,7 +164,6 @@ export default function FirstLeaderboard() {
                   <AvatarImage
                     className="bg-cover"
                     src={
-                      profile?.image ??
                       "https://uploadthing.com/f/6d7f1d22-cf67-4159-a73e-48d18741a9c7_profile.png"
                     }
                   />

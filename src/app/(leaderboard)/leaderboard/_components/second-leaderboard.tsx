@@ -29,7 +29,7 @@ export default function SecondLeaderboard() {
   return (
     <div>
       <div className="flex flex-col xs:flex-row xs:justify-between items-center xs:gap-4">
-        <LeaderboardSearch boardData={sortedProfileboard} />
+        {/* <LeaderboardSearch boardData={sortedProfileboard} /> */}
         <div className="my-4 font-semibold text-end text-sm md:text-xl flex gap-2 justify-end items-center flex-none">
           <p>Current rank: </p>
 
