@@ -8,30 +8,38 @@ export default async function sitemap() {
 
   const siswaURL = siswa.map(({ nim }) => ({
     url: `${URL}/profile/${nim}`,
+    lastModified: new Date(updatedAt).toISOString(),
   }));
-
-  const tugasURL = tugas.map(({ id }) => ({
+  
+  const tugasURL = tugas.map(({ id, updatedAt }) => ({
     url: `${URL}/tugas/${id}`,
+    lastModified: new Date(updatedAt).toISOString(),
   }));
 
   const nilaiURL = tugas.flatMap((tugas) => {
-    return siswa.map((siswa) => {
-      return {
-        url: `${URL}/kelas/tugas/${tugas.id}/nilai/${siswa.nim}`,
-      };
-    });
+    return siswa.map(({ id }) => ({
+      url: `${URL}/tugas/${tugas.id}/nilai/${id}`,
+      lastModified: new Date(updatedAt).toISOString(),
+    }));
   });
 
-  const editURL = tugas.map(({ id }) => ({
+  const editURL = tugas.map(({ id, updatedAt }) => ({
     url: `${URL}/kelas/tugas/${id}/edit`,
+    lastModified: new Date(updatedAt).toISOString(),
   }));
 
-  const routes = ["", "/kelas", "/leaderboard", "/kelas/tugas/create"].map(
-    (route) => ({
-      url: `${URL}${route}`,
-      lastModified: new Date().toISOString(),
-    })
-  );
+  const routes = [
+    "",
+    "/kelas",
+    "/kelas/tugas/create",
+    "/login",
+    "/login/verify",
+    "/login/continue",
+    "/login/unauthorized",
+  ].map((route) => ({
+    url: `${URL}${route}`,
+    lastModified: new Date().toISOString(),
+  }));
 
-  return [...routes, ...siswaURL, ...tugasURL, ...nilaiURL, ...editURL];
+  return [...routes, ...tugasURL, ...nilaiURL, ...editURL];
 }
