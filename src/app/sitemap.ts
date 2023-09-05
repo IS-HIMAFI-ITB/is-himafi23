@@ -8,9 +8,9 @@ export default async function sitemap() {
 
   const siswaURL = siswa.map(({ nim }) => ({
     url: `${URL}/profile/${nim}`,
-    lastModified: new Date(updatedAt).toISOString(),
+    lastModified: new Date().toISOString(),
   }));
-  
+
   const tugasURL = tugas.map(({ id, updatedAt }) => ({
     url: `${URL}/tugas/${id}`,
     lastModified: new Date(updatedAt).toISOString(),
@@ -19,7 +19,7 @@ export default async function sitemap() {
   const nilaiURL = tugas.flatMap((tugas) => {
     return siswa.map(({ id }) => ({
       url: `${URL}/tugas/${tugas.id}/nilai/${id}`,
-      lastModified: new Date(updatedAt).toISOString(),
+      lastModified: new Date(tugas.updatedAt).toISOString(),
     }));
   });
 
@@ -41,5 +41,5 @@ export default async function sitemap() {
     lastModified: new Date().toISOString(),
   }));
 
-  return [...routes, ...tugasURL, ...nilaiURL, ...editURL];
+  return [...routes, ...siswaURL, ...tugasURL, ...nilaiURL, ...editURL];
 }
