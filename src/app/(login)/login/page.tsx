@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import hero from "@/../public/images/error-background.png";
 
-import LoginCard from "./(components)/login-card";
+import LoginCard from "./_components/login-card";
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
         <div className="absolute dark w-full h-full bg-gradient-to-t from-background to-transparent" />
       </section>
       <div className="h-screen flex flex-col justify-center items-center md:items-start">
-        <LoginCard className="shrink md:shrink-0 md:w-[600px] md:h-screen" />
+        <LoginCard className="shrink md:shrink-0 md:w-[600px] w-[85%] md:h-screen" />
       </div>
     </section>
   );

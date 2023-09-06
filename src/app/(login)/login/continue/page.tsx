@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import hero from "@/../public/images/error-background.png";
 
-import CompleteProfile from "./(components)/complete-profile";
+import CompleteProfile from "./_components/complete-profile";
 
 export default function Home() {
   return (

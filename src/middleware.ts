@@ -1,15 +1,33 @@
 import { withAuth } from "next-auth/middleware";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
+
+import { Role } from "@prisma/client";
 
 export default withAuth(
   function middleware(req) {
     if (
       !process.env.ACCESS_TOKEN_SECRET &&
       req.nextUrl.pathname.startsWith("/api")
-    ) {
-      return new NextResponse("Access token secret is not defined", {
+    )
+      return new NextResponse("Unauthorized!", {
         status: 500,
       });
+
+    const url = req.nextUrl.clone();
+    if (req.nextUrl.pathname.startsWith("/login/verify")) {
+      if (!req.nextauth.token?.user.lastPasswordChange) {
+        url.pathname = "/login/continue";
+        return NextResponse.redirect(url);
+      }
+
+      if (req.nextauth.token.user.role === Role.PESERTA) {
+        url.pathname = "/kelas";
+        return NextResponse.redirect(url);
+      }
+
+      url.pathname = "/";
+      return NextResponse.redirect(url);
     }
   },
   {

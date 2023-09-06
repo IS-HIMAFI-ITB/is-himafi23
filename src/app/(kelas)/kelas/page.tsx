@@ -2,13 +2,13 @@ import React from "react";
 
 import Container from "@/components/layout/container";
 
-import KehadiranSection from "./(components)/(event)/(peserta)/kehadiran-section";
-import KehadiranSectionPanitia from "./(components)/(event)/kehadiran-section-panitia";
-import PapanInformasiSection from "./(components)/(informasi)/papan-informasi-section";
-import TugasSectionPanitia from "./(components)/(tugas)/(panitia)/tugas-section-panitia";
-import TugasSectionPeserta from "./(components)/(tugas)/(peserta)/tugas-section-peserta";
-import UserInfo from "./(components)/user-info";
-import ViewAs from "./(components)/view-as";
+import KehadiranSectionPanitia from "./_components/event/kehadiran-section-panitia";
+import KehadiranSection from "./_components/event/peserta/kehadiran-section";
+import PapanInformasiSection from "./_components/informasi/papan-informasi-section";
+import TugasSectionPanitia from "./_components/tugas/panitia/tugas-section-panitia";
+import TugasSectionPeserta from "./_components/tugas/peserta/tugas-section-peserta";
+import UserInfo from "./_components/user-info";
+import ViewAs from "./_components/view-as";
 
 export default async function KelasPage() {
   return (
