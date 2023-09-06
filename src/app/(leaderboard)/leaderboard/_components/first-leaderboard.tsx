@@ -105,10 +105,10 @@ export default function FirstLeaderboard({
                     index === 0 && "bg-gradient-to-l from-amber-300/10",
                     index === 1 && "bg-gradient-to-l from-slate-300/10",
                     index === 2 && "bg-gradient-to-l from-yellow-700/10 mb-4",
-                    parseFloat(profile.score) < 450 &&
+                    parseFloat(profile.score) < 525 &&
                       "bg-gradient-to-l from-destructive/10 border border-destructive",
-                    parseFloat(profile.score) > 450 ||
-                      (parseFloat(profile.score) === 450 &&
+                    parseFloat(profile.score) > 525 ||
+                      (parseFloat(profile.score) === 525 &&
                         "bg-black/40 hover:bg-slate-950/60")
                   )}
                 >
@@ -167,7 +167,7 @@ export default function FirstLeaderboard({
                               "bg-yellow-700 text-black hover:bg-yellow-800 text-lg"
                           )}
                           variant={
-                            parseFloat(profile.score) < 450
+                            parseFloat(profile.score) < 525
                               ? "destructive"
                               : "default"
                           }
