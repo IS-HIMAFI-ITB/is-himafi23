@@ -50,6 +50,10 @@ export default async function LeaderboardPage() {
     });
   });
 
+  const sortedProfileboard = data.sort(
+    (a, b) => parseFloat(b.score) - parseFloat(a.score)
+  );
+
   return (
     <Suspense
       fallback={
@@ -90,7 +94,7 @@ export default async function LeaderboardPage() {
               </TabsTrigger> */}
             </TabsList>
             <TabsContent value="1">
-              <FirstLeaderboard leaderboardData={data} />
+              <FirstLeaderboard leaderboardData={sortedProfileboard} />
             </TabsContent>
             {/* <TabsContent value="2">
               <SecondLeaderboard />

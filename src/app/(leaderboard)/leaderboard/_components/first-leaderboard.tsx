@@ -17,21 +17,33 @@ import { cn } from "@/lib/utils";
 
 import mockup from "./mockup.json";
 import LeaderboardSearch from "./search-bar";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+
+type LeaderboardData = {
+  nim: string;
+  name: string;
+  score: string;
+}[];
 
 export default function FirstLeaderboard({
   leaderboardData,
 }: {
-  leaderboardData: {
-    nim: string;
-    name: string;
-    score: string;
-  }[];
+  leaderboardData: LeaderboardData;
 }) {
   const { data } = useSession();
-  const profileboard = leaderboardData; // ini ntar diganti pake data dari database
-  const sortedProfileboard = profileboard.sort(
-    (a, b) => parseFloat(b.score) - parseFloat(a.score)
-  );
+  const { data: sortedProfileboard, isSuccess } = useQuery<
+    LeaderboardData,
+    Error
+  >({
+    queryKey: ["profileboard", "firstPhase"],
+    queryFn: () => fetch("/api/leaderboard/first").then((res) => res.json()),
+    initialData: leaderboardData,
+    refetchInterval: 1000 * 60 * 5,
+  });
+
+  if (!sortedProfileboard || sortedProfileboard.length === 0) return null;
+
   const userRank =
     sortedProfileboard.findIndex((profile) => profile.nim === data?.user.nim) +
     1;
@@ -46,7 +58,7 @@ export default function FirstLeaderboard({
           {userRank ? (
             <HoverCard>
               <HoverCardTrigger>
-                <Link href={`#${userRank}`}>
+                <Link prefetch={false} href={`#${userRank}`}>
                   <Badge
                     className={cn(
                       "text-sm",
@@ -89,10 +101,15 @@ export default function FirstLeaderboard({
               <Link href={`/profile/${profile.nim}`}>
                 <Card
                   className={cn(
-                    "mt-2 bg-black/40 backdrop-blur-md hover:bg-slate-950/60",
+                    "mt-2 bg-black/40 hover:bg-slate-950/60 backdrop-blur-md",
                     index === 0 && "bg-gradient-to-l from-amber-300/10",
                     index === 1 && "bg-gradient-to-l from-slate-300/10",
-                    index === 2 && "bg-gradient-to-l from-yellow-700/10 mb-4"
+                    index === 2 && "bg-gradient-to-l from-yellow-700/10 mb-4",
+                    parseFloat(profile.score) < 450 &&
+                      "bg-gradient-to-l from-destructive/10 border border-destructive",
+                    parseFloat(profile.score) > 450 ||
+                      (parseFloat(profile.score) === 450 &&
+                        "bg-black/40 hover:bg-slate-950/60")
                   )}
                 >
                   <CardHeader>
@@ -149,6 +166,11 @@ export default function FirstLeaderboard({
                             index === 2 &&
                               "bg-yellow-700 text-black hover:bg-yellow-800 text-lg"
                           )}
+                          variant={
+                            parseFloat(profile.score) < 450
+                              ? "destructive"
+                              : "default"
+                          }
                         >
                           {`#${index + 1}`}
                         </Badge>
