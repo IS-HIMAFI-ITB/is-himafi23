@@ -85,8 +85,7 @@ export default function SpekKegiatanSection() {
           <span className='font-bold'>Ponco</span>
           <p>
             Anggota muda HIMAFI ITB membawa ponco yang bersih, tidak berjamur,
-            tidak berjamur, dan dapat digunakan untuk melindungi diri dari
-            hujan.
+            dan dapat digunakan untuk melindungi diri dari hujan.
           </p>
         </li>
 
@@ -94,7 +93,7 @@ export default function SpekKegiatanSection() {
           <span className='font-bold'>Kantong plastik hitam 3 lembar</span>
           <p>
             Anggota muda HIMAFI ITB membawa tiga buah kantong plastik berwarna
-            hitam ukuran sedang yang bersih dan dapat digunakan.
+            hitam berukuran sedang yang bersih dan dapat digunakan.
           </p>
         </li>
 
@@ -127,8 +126,8 @@ export default function SpekKegiatanSection() {
         <li>
           <span className='font-bold'>Dua buah tenda</span>
           <p>
-            Anggota muda HIMAFI ITB membawa dua tenda yang memuat minim empat
-            orang didalamnya.
+            Anggota muda HIMAFI ITB membawa dua tenda yang dapat memuat minimal
+            empat orang di dalamnya.
           </p>
         </li>
 
@@ -141,11 +140,14 @@ export default function SpekKegiatanSection() {
       <h3 className='w-full text-left text-primary'>Tambahan</h3>
       <ol>
         <li>
-          Peserta diwajibkan datang dalam kondisi siap: perut terisi, sudah
+          Peserta diwajibkan datang dalam kondisi siap: perut terisi dan sudah
           sholat.
         </li>
 
-        <li>Peserta diwajibkan tugas-tugas dengan tenggat tanggal 30.</li>
+        <li>
+          Peserta diwajibkan menyelesaikan tugas-tugas dengan tenggat tanggal
+          30.
+        </li>
 
         <li>
           Peserta diwajibkan melakukan pendataan mobilisasi baik keberangkatan

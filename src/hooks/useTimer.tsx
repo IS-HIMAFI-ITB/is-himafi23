@@ -25,10 +25,17 @@ export default function useTimer(
       setTimespan((_timespan) => _timespan - interval);
     }, interval);
 
+    const syncTime = () => {
+      setTimespan(new Date(deadline).getTime() - Date.now());
+    };
+
+    document.addEventListener('visibilitychange', syncTime);
+
     return () => {
       clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', syncTime);
     };
-  }, [interval]);
+  }, [interval, deadline]);
 
   /* If the initial deadline value changes */
   useEffect(() => {
