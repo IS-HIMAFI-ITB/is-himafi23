@@ -31,12 +31,21 @@ export default function CountdownSection() {
         </div>
 
         <div className='mt-auto flex flex-col items-center justify-center gap-12'>
-          <Typography
-            element='h3'
-            className='text-xl font-light xs:text-2xl sm:text-3xl'
-          >
-            -6.8591812, 107.6196285
-          </Typography>
+          <div className='flex flex-col items-center justify-start gap-2'>
+            <Typography
+              element='h3'
+              className='text-md font-light xs:text-xl'
+            >
+              Titik temu
+            </Typography>
+
+            <Typography
+              element='h3'
+              className='text-xl font-light xs:text-2xl sm:text-3xl'
+            >
+              -6.8591812, 107.6196285
+            </Typography>
+          </div>
 
           <Link
             href={'/#spek-kegiatan'}
