@@ -4,7 +4,7 @@ export default function SpekKegiatanSection() {
   return (
     <article
       id='spek-kegiatan'
-      className='prose prose-invert lg:prose-lg xl:prose-xl prose-ol:mt-0 prose-h3:mt-0 prose-p:mt-2 flex min-h-screen max-w-[80ch] flex-col items-center justify-start px-16 py-32 marker:text-primary'
+      className='prose prose-invert flex min-h-screen flex-col items-center justify-start px-8 py-32 lg:prose-lg xl:prose-xl marker:text-primary prose-h3:mt-0 prose-p:mt-2 prose-ol:mt-0 xs:max-w-[80ch] xs:px-16'
     >
       <h2 className='text-balance w-full text-left text-4xl text-primary drop-shadow-glow'>
         Interaksi Lapangan 2 Intellektuelle Schule 2023
