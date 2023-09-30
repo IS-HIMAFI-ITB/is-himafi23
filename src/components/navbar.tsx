@@ -16,7 +16,7 @@ export default function Navbar() {
     };
   }, []);
 
-  if (offset > 700) {
+  if (offset >= 700) {
     return (
       <nav className='fixed top-0 z-[99] w-full bg-background py-4 transition-all ease-in-out lg:px-48'>
         <div className='flex w-full flex-col items-center justify-between gap-2 lg:flex-row'>
