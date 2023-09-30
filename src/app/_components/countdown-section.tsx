@@ -19,7 +19,7 @@ export default function CountdownSection() {
         quality={100}
       />
 
-      <div className='relative flex h-full min-h-[calc(100vh-60px)] w-max flex-col items-center justify-center gap-24 pb-12 pt-24 xs:min-h-[calc(100vh-64px)]'>
+      <div className='relative flex h-full min-h-[calc(100vh-60px)] w-max flex-col items-center justify-center gap-8 pb-12 pt-24 xs:min-h-[calc(100vh-64px)]'>
         <div className='mt-auto flex flex-col items-center justify-center gap-6'>
           <Typography
             element='h3'
