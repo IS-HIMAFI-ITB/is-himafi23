@@ -4,67 +4,49 @@
 
 @layer base {
   :root {
-    --background: 285 100% 99.2%;
-    --foreground: 0 0% 3.9%;
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
 
-    --muted: 234.5 22.4% 90.4%;
-    --muted-foreground: 223.6 7.5% 28.8%;
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
 
-    --popover: 255 50% 98.4%;
-    --popover-foreground: 240 6.9% 11.4%;
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
 
-    --card: 255 50% 98.4%;
-    --card-foreground: 240 6.9% 11.4%;
+    --primary: 43 95% 68%;
+    --primary-foreground: 43 54% 12%;
 
-    --border: 255 50% 93.4%;
-    --input: 255 50% 93.4%;
+    --secondary: 55 100% 89%;
+    --secondary-foreground: 55 16% 1%;
 
-    --primary: 212 100% 37.8%;
-    --primary-foreground: 0 0% 100%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
 
-    --secondary: 223.8 13% 39.2%;
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 25.7 84.1% 32.2%;
+    --accent: 330 100% 71%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 75.5% 41.6%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
 
-    --ring: 224.6 100% 92.4%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 35.5 91.7% 32.9%;
 
     --radius: 1rem;
-  }
 
-  .dark {
-    --background: 240 6.9% 11.4%;
-    --foreground: 255 7.4% 92.4%;
+    /* Custom colors here */
+    --yellow-lightest: 55 96% 81%;
+    --yellow-light: 54 100% 75%;
+    --yellow: 47 94% 68%;
+    --yellow-dark: 43 95% 68%;
+    --yellow-darkest: 31 98% 68%;
 
-    --muted: 223.6 7.5% 28.8%;
-    --muted-foreground: 230 11.3% 79.2%;
-
-    --popover: 240 6.9% 10.2%;
-    --popover-foreground: 255 3.6% 78.4%;
-
-    --card: 240 6.9% 10.2%;
-    --card-foreground: 255 3.6% 78.4%;
-
-    --border: 225 10% 17.8%;
-    --input: 225 10% 17.8%;
-
-    --primary: 221.7 100% 83.9%;
-    --primary-foreground: 213.7 100% 20.6%;
-
-    --secondary: 225.5 29.3% 80.6%;
-    --secondary-foreground: 222.5 22.6% 20.8%;
-
-    --accent: 48.2 73.2% 59%;
-    --accent-foreground: 49.7 100% 11.4%;
-
-    --destructive: 6.4 100% 83.5%;
-    --destructive-foreground: 357.1 100% 20.6%;
-
-    --ring: 212.4 100% 29%;
+    --blue-lightest: 202 99% 45%;
+    --blue-light: 205 98% 36%;
+    --blue: 209 95% 25%;
+    --blue-dark: 233 100% 17%;
+    --blue-darkest: 226 100% 8%;
+    --blue-accessories: 195 100% 50%;
   }
 }
 
@@ -75,13 +57,10 @@
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 *::-webkit-scrollbar {
-  width: 4px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
